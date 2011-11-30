@@ -12,6 +12,33 @@
             android:orientation="vertical"
             >
 
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&lt;  "
+
+                    />
+            <TextView
+                android:id="@+id/dateDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  &gt;"
+                />
+
+            </TableRow>
         <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

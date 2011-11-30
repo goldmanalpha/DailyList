@@ -11,12 +11,13 @@ public final class R {
     public static final class attr {
     }
     public static final class id {
+        public static final int dateDisplay=0x7f040002;
         public static final int widget30=0x7f040001;
-        public static final int widget33=0x7f040002;
-        public static final int widget34=0x7f040004;
-        public static final int widget35=0x7f040003;
-        public static final int widget37=0x7f040005;
-        public static final int widget40=0x7f040006;
+        public static final int widget33=0x7f040003;
+        public static final int widget34=0x7f040005;
+        public static final int widget35=0x7f040004;
+        public static final int widget37=0x7f040006;
+        public static final int widget40=0x7f040007;
         public static final int widget41=0x7f040000;
     }
     public static final class layout {
