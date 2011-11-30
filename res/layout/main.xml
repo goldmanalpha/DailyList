@@ -13,35 +13,38 @@
             >
 
 
-        <TableRow
+        <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
 
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="&lt;  "
-
+            <Button
+                    android:id="@+id/prevDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="&lt;  "
                     />
             <TextView
                 android:id="@+id/dateDisplay"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25px"
+                android:gravity="center_vertical"
                 android:text="Date"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="  &gt;"
-                />
+            <Button
+                    android:id="@+id/nextDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  &gt;"
+                    android:gravity="center_vertical"
+                    />
 
-            </TableRow>
+            </LinearLayout>
         <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25px"
                 android:text="@string/hello"
                 />
 
