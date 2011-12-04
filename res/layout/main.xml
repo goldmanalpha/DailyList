@@ -13,38 +13,51 @@
             >
 
 
-        <LinearLayout
+        <TableLayout
+                android:id="@+id/widget31"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                >
+            <TableRow
+                    android:id="@+id/widget33"
+                    android:layout_width="fill_parent"
+                    android:layout_height="25dip"
+                    android:orientation="horizontal"
+                    >
 
-            >
+                <TextView
+                        android:id="@+id/prevDate"
+                        android:layout_height="25dip"
+                        android:gravity="center"
+                        android:text="  &lt;  "
 
-            <Button
-                    android:id="@+id/prevDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&lt;  "
-                    />
-            <TextView
-                android:id="@+id/dateDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="25px"
-                android:gravity="center_vertical"
-                android:text="Date"
-                />
-            <Button
-                    android:id="@+id/nextDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="  &gt;"
-                    android:gravity="center_vertical"
-                    />
+                        android:clickable="true"
+                        android:onClick="prevDayClick"
+                        />
+                <TextView
+                        android:id="@+id/dateDisplay"
+                        android:layout_width="135dip"
+                        android:layout_height="25dip"
+                        android:gravity="center"
+                        android:text="Date"
+                        />
 
-            </LinearLayout>
+                <TextView
+                        android:id="@+id/nextDate"
+                        android:layout_height="25dip"
+                        android:gravity="center"
+                        android:text="  &gt;  "
+                        android:clickable="true"
+                        android:onClick="nextDayClick"
+
+                        />
+            </TableRow>
+        </TableLayout>
         <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="25px"
+                android:layout_height="25dip"
                 android:text="@string/hello"
                 />
 
@@ -57,7 +70,7 @@
             <Button
                     android:id="@+id/widget35"
                     android:layout_width="wrap_content"
-                    android:layout_height="25px"
+                    android:layout_height="25dip"
                     android:text="e"
                     >
             </Button>
