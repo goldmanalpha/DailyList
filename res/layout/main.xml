@@ -1,143 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        android:id="@+id/widget41"
+<RelativeLayout
+        android:id="@+id/mainFrame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
         >
-    <LinearLayout
-            android:id="@+id/widget30"
-            android:layout_width="fill_parent"
+
+
+    <TableLayout
+            android:id="@+id/widget31"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             >
-
-
-        <TableLayout
-                android:id="@+id/widget31"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal"
-                >
-            <TableRow
-                    android:id="@+id/widget33"
-                    android:layout_width="fill_parent"
-                    android:layout_height="25dip"
-                    android:orientation="horizontal"
-                    >
-
-                <TextView
-                        android:id="@+id/prevDate"
-                        android:layout_height="25dip"
-                        android:gravity="center"
-                        android:text="  &lt;  "
-
-                        android:clickable="true"
-                        android:onClick="prevDayClick"
-                        />
-                <TextView
-                        android:id="@+id/dateDisplay"
-                        android:layout_width="135dip"
-                        android:layout_height="25dip"
-                        android:gravity="center"
-                        android:text="Date"
-                        />
-
-                <TextView
-                        android:id="@+id/nextDate"
-                        android:layout_height="25dip"
-                        android:gravity="center"
-                        android:text="  &gt;  "
-                        android:clickable="true"
-                        android:onClick="nextDayClick"
-
-                        />
-            </TableRow>
-        </TableLayout>
-        <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="25dip"
-                android:text="@string/hello"
-                />
-
         <TableRow
                 android:id="@+id/widget33"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dip"
                 android:orientation="horizontal"
                 >
-            <Button
-                    android:id="@+id/widget35"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dip"
-                    android:text="e"
-                    >
-            </Button>
+
             <TextView
-                    android:id="@+id/widget34"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"
-                    >
-            </TextView>
+                    android:id="@+id/prevDate"
+                    android:layout_height="25dip"
+                    android:gravity="center"
+                    android:text="  &lt;  "
+
+                    android:clickable="true"
+                    android:onClick="prevDayClick"
+                    />
+            <TextView
+                    android:id="@+id/dateDisplay"
+                    android:layout_width="135dip"
+                    android:layout_height="25dip"
+                    android:gravity="center"
+                    android:text="Date"
+                    />
+
+            <TextView
+                    android:id="@+id/nextDate"
+                    android:layout_height="25dip"
+                    android:gravity="center"
+                    android:text="  &gt;  "
+                    android:clickable="true"
+                    android:onClick="nextDayClick"
+
+                    />
         </TableRow>
-        <LinearLayout
-                android:id="@+id/widget37"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-            <CheckBox
-                    android:id="@+id/widget40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-            </CheckBox>
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </TableLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" +  "
+            android:onClick="addItemClick"
+            android:clickable="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            />
+
+
+</RelativeLayout>
 
 

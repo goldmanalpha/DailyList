@@ -1,9 +1,8 @@
-package com.example;
+package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +36,11 @@ public class MainActivity extends Activity {
 
     public void prevDayClick(View v) {
         updateDisplayDate(addDays(mDisplayingDate, -1));
+
+    }
+
+    public void addItemClick(View v)
+    {
 
     }
 
