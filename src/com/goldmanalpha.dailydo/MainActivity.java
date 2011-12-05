@@ -1,6 +1,7 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ public class MainActivity extends Activity {
 
     public void addItemClick(View v)
     {
-
+           startActivity(new Intent( this, AddItemActivity.class));
     }
 
      private void updateDisplayDate(Date date) {

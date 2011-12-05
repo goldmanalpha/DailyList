@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+    <EditText
+            android:id="@+id/name"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:inputType="textShortMessage"
+            android:lines="5"
+            android:layout_width="fill_parent">
+    </EditText>
+    <Spinner
+            android:id="@+id/UnitTypeSpinner"
+            android:layout_height="wrap_content"
+            android:prompt="@string/unittypeprompt"
+            android:layout_width="fill_parent"
+            android:entries="@array/unittypelist">
+    </Spinner>
+
+    <EditText
+            android:id="@+id/description"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:layout_width="fill_parent">
+    </EditText>
+
+
+</LinearLayout>

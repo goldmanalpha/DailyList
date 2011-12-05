@@ -1,0 +1,10 @@
+<resources>
+        <string-array name="unittypelist">
+        <item>@string/unittype1</item>
+        <item>@string/unittype2</item>
+        <item>@string/unittype3</item>
+        <item>@string/unittype4</item>
+        <item>@string/unittype5</item>
+        <item>@string/unittype6</item>
+    </string-array>
+</resources>
