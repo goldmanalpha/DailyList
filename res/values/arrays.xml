@@ -1,5 +1,6 @@
 <resources>
         <string-array name="unittypelist">
+        <item>@string/unittypeprompt</item>
         <item>@string/unittype1</item>
         <item>@string/unittype2</item>
         <item>@string/unittype3</item>

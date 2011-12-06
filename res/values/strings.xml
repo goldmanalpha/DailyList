@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DailyDo</string>
+    <string name="app_name">Daily Do</string>
 
-    <string name="unittypeprompt">Unit Type</string>
+    <string name="unittypeprompt">Select Unit Type</string>
     <string name="unittype1">drops</string>
     <string name="unittype2">tsp</string>
     <string name="unittype3">time</string>
-    <string name="unittype4">timespan</string>
+    <string name="unittype4">time span</string>
     <string name="unittype5">count</string>
-    <string name="unittype6">relativeamount</string>
+    <string name="unittype6">relative amount</string>
 
 
 </resources>

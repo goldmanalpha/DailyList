@@ -2,13 +2,14 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+        >
     <EditText
             android:id="@+id/name"
             android:layout_height="wrap_content"
             android:hint="Name"
             android:inputType="textShortMessage"
-            android:lines="5"
             android:layout_width="fill_parent">
     </EditText>
     <Spinner
@@ -16,7 +17,9 @@
             android:layout_height="wrap_content"
             android:prompt="@string/unittypeprompt"
             android:layout_width="fill_parent"
-            android:entries="@array/unittypelist">
+            android:entries="@array/unittypelist"
+
+            >
     </Spinner>
 
     <EditText
