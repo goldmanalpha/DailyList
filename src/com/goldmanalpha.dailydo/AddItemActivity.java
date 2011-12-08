@@ -4,10 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.goldmanalpha.dailydo.model.DoableItem;
 
 public class AddItemActivity extends Activity {
+
+    DoableItem doableItem;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        doableItem = new DoableItem();
 
         setContentView(R.layout.additem);
 
