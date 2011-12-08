@@ -27,9 +27,52 @@
             android:layout_height="wrap_content"
             android:hint="Description"
             android:inputType="textMultiLine"
-            android:lines="5"
+            android:layout_weight="1"
+            android:gravity="top"
             android:layout_width="fill_parent">
     </EditText>
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Private"
+                />
+        <CheckBox
+                android:id="@+id/isPrivateCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            >
+        <Button
+                android:id="@+id/okButton"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="O K"
+                android:clickable="true"
+                android:onClick="okClick"
+                android:layout_marginRight="15dp"
+                android:width="75dp"
+                />
+        <Button
+                android:id="@+id/cancelButton"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Cancel"
+                android:clickable="true"
+                android:onClick="cancelClick"
+                android:width="75dp"
+                />
 
-
+    </LinearLayout>
 </LinearLayout>

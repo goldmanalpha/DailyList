@@ -33,10 +33,17 @@ public class AddItemActivity extends Activity {
 
         final Spinner unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
         String unittype = unitTypeField.getSelectedItem().toString();
+        
+        final CheckBox isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
+        boolean isPrivate = isPrivateCheckbox.isChecked();
+
+
 
     }
+    
+    
 
     public void cancelClick(View view) {
-
+        finish();
     }
 }
