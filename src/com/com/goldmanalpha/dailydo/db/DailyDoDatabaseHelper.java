@@ -3,6 +3,7 @@ package com.com.goldmanalpha.dailydo.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.goldmanalpha.dailydo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
 
         tables = new ArrayList<TableBase>();
         tables.add(new DoableItemTable());
+
     }
 
     @Override

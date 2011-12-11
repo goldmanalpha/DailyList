@@ -12,7 +12,6 @@ public class DoableItem extends DoableBase {
     UnitType unitType;
     boolean isPrivate;
     DoableValue lastValue;
-    int version;
     TeaSpoons lastTeaSpoons;
 
     public String getName() {
@@ -31,20 +30,9 @@ public class DoableItem extends DoableBase {
         this.lastTeaSpoons = lastTeaSpoons;
     }
 
-    public DoableItem(int id, int version) {
-        super(id);
-        this.version = version;
-    }
-
-    public DoableItem(int version) {
-        super();
-        this.version = version;
-    }
-
     public DoableItem() {
         super();
     }
-
 
     public String getDescription() {
         return description;
@@ -62,6 +50,7 @@ public class DoableItem extends DoableBase {
         this.unitType = unitType;
     }
 
+
     public boolean getPrivate() {
         return isPrivate;
     }
@@ -76,10 +65,6 @@ public class DoableItem extends DoableBase {
 
     public void setLastValue(DoableValue lastValue) {
         this.lastValue = lastValue;
-    }
-
-    public int getVersion() {
-        return version;
     }
 
     @Override

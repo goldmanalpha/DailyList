@@ -17,7 +17,7 @@ public class DoableBaseTest extends TestCase{
 
         b.setDateCreated(new Date());
 
-        assertEquals(d, b.getDateCreated());
+        assertEquals(d.toString(), b.getDateCreated().toString());
     }
 
     public void testCantSetDateCreatedTwice()
