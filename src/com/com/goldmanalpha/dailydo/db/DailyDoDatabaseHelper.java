@@ -1,0 +1,43 @@
+package com.com.goldmanalpha.dailydo.db;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
+
+    private static final String DATABASE_NAME = "dailydodata";
+
+    private static final int DATABASE_VERSION = 1;
+
+    private List<TableBase> tables;
+
+
+    public DailyDoDatabaseHelper(Context context)
+    {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        tables = new ArrayList<TableBase>();
+        tables.add(new DoableItemTable());
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+        for (TableBase t: tables)
+        {
+            t.onCreate(sqLiteDatabase);
+        }
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        for (TableBase t: tables)
+        {
+            t.onUpgrade(sqLiteDatabase, oldVersion, newVersion);
+        }
+    }
+}

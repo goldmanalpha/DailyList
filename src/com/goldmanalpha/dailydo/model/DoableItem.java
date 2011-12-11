@@ -7,12 +7,21 @@ import java.util.Date;
 
 public class DoableItem extends DoableBase {
 
+    String name;
     String description;
     UnitType unitType;
     boolean isPrivate;
     DoableValue lastValue;
     int version;
     TeaSpoons lastTeaSpoons;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public TeaSpoons getLastTeaSpoons() {
         return lastTeaSpoons;
@@ -53,7 +62,7 @@ public class DoableItem extends DoableBase {
         this.unitType = unitType;
     }
 
-    public boolean isPrivate() {
+    public boolean getPrivate() {
         return isPrivate;
     }
 
@@ -71,6 +80,11 @@ public class DoableItem extends DoableBase {
 
     public int getVersion() {
         return version;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ": " + name;    //To change body of overridden methods use File | Settings | File Templates.
     }
 }
 

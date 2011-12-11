@@ -1,11 +1,12 @@
 <resources>
         <string-array name="unittypelist">
         <item>@string/unittypeprompt</item>
-        <item>@string/unittype1</item>
-        <item>@string/unittype2</item>
-        <item>@string/unittype3</item>
-        <item>@string/unittype4</item>
-        <item>@string/unittype5</item>
-        <item>@string/unittype6</item>
+        <item>@string/unittypeDrops</item>
+        <item>@string/unittypeTsp</item>
+        <item>@string/unittypeTime</item>
+        <item>@string/unittypeTimeSpan2Times</item>
+        <item>@string/unittypeCheck</item>
+        <item>@string/unittypeCount</item>
+        <item>@string/unittypeRelativeAmount</item>
     </string-array>
 </resources>

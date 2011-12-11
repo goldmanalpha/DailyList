@@ -42,4 +42,10 @@ public abstract class DoableBase {
     DoableBase() {
         this(0);
     }
+
+    @Override
+    public String toString() {
+
+        return String.format("%d", id);
+    }
 }

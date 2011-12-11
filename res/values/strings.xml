@@ -3,12 +3,13 @@
     <string name="app_name">Daily Do</string>
 
     <string name="unittypeprompt">Select Unit Type</string>
-    <string name="unittype1">drops</string>
-    <string name="unittype2">tsp</string>
-    <string name="unittype3">time</string>
-    <string name="unittype4">time span</string>
-    <string name="unittype5">count</string>
-    <string name="unittype6">relative amount</string>
+    <string name="unittypeDrops">drops</string>
+    <string name="unittypeTsp">tsp</string>
+    <string name="unittypeTime">time</string>
+    <string name="unittypeTimeSpan2Times">from-to time</string>
+    <string name="unittypeCheck">check(box)</string>
+    <string name="unittypeCount">count</string>
+    <string name="unittypeRelativeAmount">relative amount</string>
 
 
 </resources>

@@ -34,12 +34,13 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int unittype1=0x7f040002;
-        public static final int unittype2=0x7f040003;
-        public static final int unittype3=0x7f040004;
-        public static final int unittype4=0x7f040005;
-        public static final int unittype5=0x7f040006;
-        public static final int unittype6=0x7f040007;
+        public static final int unittypeCheck=0x7f040006;
+        public static final int unittypeCount=0x7f040007;
+        public static final int unittypeDrops=0x7f040002;
+        public static final int unittypeRelativeAmount=0x7f040008;
+        public static final int unittypeTime=0x7f040004;
+        public static final int unittypeTimeSpan2Times=0x7f040005;
+        public static final int unittypeTsp=0x7f040003;
         public static final int unittypeprompt=0x7f040001;
     }
 }
