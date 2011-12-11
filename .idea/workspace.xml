@@ -10,18 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2228550d-88ca-42eb-90a8-f743cbe2b892" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/ConverterTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/Converter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTableAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableAdapterBase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/DoableBaseTest.java" afterPath="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/DoableBaseTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DailyDoDatabaseHelper.java" afterPath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DailyDoDatabaseHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTable.java" afterPath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableBase.java" afterPath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/ConverterTest.java" afterPath="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/ConverterTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/Converter.java" afterPath="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/Converter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java" afterPath="$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableItem.java" afterPath="$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/UnitType.java" afterPath="$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/UnitType.java" />
     </list>
     <ignored path="Hello.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,157 +74,7 @@
     <favorites_list name="Hello" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.53867924">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="DailyDoDatabaseHelper.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DailyDoDatabaseHelper.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="25" column="0" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/MainActivity.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="50" column="8" selection-start="1122" selection-end="1189" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="AddItemActivity.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="61" column="45" selection-start="2106" selection-end="2106" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="additem.xml" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/res/layout/additem.xml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="57" column="52" selection-start="2031" selection-end="2031" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="4" column="18" selection-start="116" selection-end="116" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TableAdapterBase.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableAdapterBase.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="11" column="22" selection-start="329" selection-end="329" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DoableBaseTest.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/DoableBaseTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="20" column="64" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DoableItemTableAdapter.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTableAdapter.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="13" selection-start="176" selection-end="176" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Converter.java" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/Converter.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="24" column="0" selection-start="651" selection-end="651" vertical-scroll-proportion="0.35836178">
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#433#451#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="DoableItemTable.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTable.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="27" column="25" selection-start="850" selection-end="850" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ConverterTest.java" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/ConverterTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="15" column="0" selection-start="391" selection-end="391" vertical-scroll-proportion="0.46031746">
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TableBase.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableBase.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="61" column="0" selection-start="1650" selection-end="1650" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DoableItem.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableItem.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="51" column="4" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="UnitType.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/UnitType.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="4" column="43" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -258,12 +99,12 @@
         <option value="$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableItem.java" />
         <option value="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DailyDoDatabaseHelper.java" />
         <option value="$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/UnitType.java" />
-        <option value="$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java" />
         <option value="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableAdapterBase.java" />
         <option value="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTableAdapter.java" />
         <option value="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/DoableBaseTest.java" />
-        <option value="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/ConverterTest.java" />
         <option value="$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/Converter.java" />
+        <option value="$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java" />
+        <option value="$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/ConverterTest.java" />
       </list>
     </option>
   </component>
@@ -338,162 +179,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dailydo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="goldmanalpha.dailydo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hello" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gen" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dailydo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -530,7 +215,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
-  <component name="RunManager" selected="Android Tests.Tests">
+  <component name="RunManager" selected="Android Application.Hello">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
@@ -764,7 +449,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -779,14 +464,14 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953683" sideWeight="0.736" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39939255" sideWeight="0.736" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19514047" sideWeight="0.6032" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3968" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22475323" sideWeight="0.6464" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24981017" sideWeight="0.9392" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3536" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21943812" sideWeight="0.5856" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -846,56 +531,12 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/additem.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="52" selection-start="2031" selection-end="2031" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="4" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DailyDoDatabaseHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/goldmanalpha/dailydo/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="45" selection-start="1847" selection-end="1860" vertical-scroll-proportion="0.6025974">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/UnitType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="43" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="61" column="0" selection-start="1650" selection-end="1650" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="45" selection-start="2106" selection-end="2106" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -940,13 +581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/android-sdks/platforms/android-7/android.jar!/android/content/res/Resources.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="0" selection-start="7800" selection-end="7800" vertical-scroll-proportion="0.6518771">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/android-sdks/platforms/android-7/android.jar!/android/app/Instrumentation.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="154" column="0" selection-start="8111" selection-end="8111" vertical-scroll-proportion="8.877133">
@@ -954,22 +588,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/android-sdks/platforms/android-7/android.jar!/android/content/res/Resources.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="126" column="0" selection-start="7800" selection-end="7800" vertical-scroll-proportion="0.7197802">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="8" selection-start="1122" selection-end="1189" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/android-sdks/platforms/android-7/android.jar!/android/test/mock/MockContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="0" selection-start="2671" selection-end="2671" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="62" selection-start="1813" selection-end="1813" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/Converter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="0" selection-start="694" selection-end="694" vertical-scroll-proportion="0.43269232">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#465#483#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/src/com/goldmanalpha/dailydo/ConverterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="391" selection-end="391" vertical-scroll-proportion="0.46031746">
+        <state line="8" column="35" selection-start="278" selection-end="278" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/Converter.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/additem.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="651" selection-end="651" vertical-scroll-proportion="0.35836178">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#433#451#0" expanded="true" />
-          </folding>
+        <state line="57" column="52" selection-start="2031" selection-end="2031" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/UnitType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="43" selection-start="122" selection-end="122" vertical-scroll-proportion="0.18037136">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="4" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>

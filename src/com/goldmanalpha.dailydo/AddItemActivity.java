@@ -52,7 +52,7 @@ public class AddItemActivity extends Activity {
             item.setDescription(descriptionField.getText().toString());
 
             final Spinner unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
-            item.setUnitType(Converter.stringToUnitType(unitTypeField.getSelectedItem().toString()));
+            item.setUnitType(Converter.stringToUnitType(this, unitTypeField.getSelectedItem().toString()));
 
             final CheckBox isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
             item.setPrivate(isPrivateCheckbox.isChecked());

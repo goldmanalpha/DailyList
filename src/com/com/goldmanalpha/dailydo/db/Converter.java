@@ -1,6 +1,7 @@
 package com.com.goldmanalpha.dailydo.db;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import com.goldmanalpha.dailydo.R;
 import com.goldmanalpha.dailydo.model.UnitType;
@@ -14,27 +15,28 @@ public final class Converter {
     private static final Resources r = Resources.getSystem();
     private static final HashMap<String, UnitType> unitTypeMap = new HashMap<String, UnitType>();
     private static String unitTypeUnset;
+    private static boolean unitTypeInitialized;
 
-    static {
-        InitUnitType();
-        unitTypeUnset = r.getString(R.string.unittypeprompt);
+    private static final void InitUnitType(Context context) {
+
+        if (unitTypeInitialized)
+            return;
+
+        unitTypeMap.put(context.getString(R.string.unittypeprompt), UnitType.unset);
+        unitTypeMap.put(context.getString(R.string.unittypeDrops), UnitType.drops);
+        unitTypeMap.put(context.getString(R.string.unittypeTsp), UnitType.tsp);
+        unitTypeMap.put(context.getString(R.string.unittypeTime), UnitType.time);
+        unitTypeMap.put(context.getString(R.string.unittypeTimeSpan2Times), UnitType.timeSpan);
+        unitTypeMap.put(context.getString(R.string.unittypeCheck), UnitType.check);
+        unitTypeMap.put(context.getString(R.string.unittypeCount), UnitType.count);
+        unitTypeMap.put(context.getString(R.string.unittypeRelativeAmount), UnitType.relativeAmount);
+        unitTypeUnset = context.getString(R.string.unittypeprompt);
     }
 
-    private static final void InitUnitType() {
+    public static final UnitType stringToUnitType(Context context, String unitType) {
 
-        unitTypeMap.put(r.getString(R.string.unittypeprompt), UnitType.unset);
-        unitTypeMap.put(r.getString(R.string.unittypeDrops), UnitType.drops);
-        unitTypeMap.put(r.getString(R.string.unittypeTsp), UnitType.tsp);
-        unitTypeMap.put(r.getString(R.string.unittypeTime), UnitType.time);
-        unitTypeMap.put(r.getString(R.string.unittypeTimeSpan2Times), UnitType.timeSpan);
-        unitTypeMap.put(r.getString(R.string.unittypeCheck), UnitType.check);
-        unitTypeMap.put(r.getString(R.string.unittypeCount), UnitType.count);
-        unitTypeMap.put(r.getString(R.string.unittypeRelativeAmount), UnitType.relativeAmount);
-
-    }
-
-    public static final UnitType stringToUnitType(String unitType) {
-
+        InitUnitType(context);
+        
         if (unitTypeMap.containsKey(unitType)) {
             return unitTypeMap.get(unitType);
         }
@@ -42,7 +44,9 @@ public final class Converter {
         return UnitType.unset;
     }
 
-    public static final String unitTypeToString(UnitType unitType) {
+    public static final String unitTypeToString(Context context, UnitType unitType) {
+        InitUnitType(context);
+        
         return MapLookup(unitTypeMap, unitType, unitTypeUnset);
     }
 
