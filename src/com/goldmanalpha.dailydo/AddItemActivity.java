@@ -60,8 +60,13 @@ public class AddItemActivity extends Activity {
 
             if (item.getName().trim().length() > 0 && item.getUnitType() != UnitType.unset) {
 
-                DoableItemTableAdapter adapter = new DoableItemTableAdapter(this);
-                adapter.save(item);
+                doableItemTableAdapter  = new DoableItemTableAdapter(this);
+                doableItemTableAdapter.save(item);
+                doableItemTableAdapter.close();
+
+
+                Toast toast = Toast.makeText(this, item.getName() +  " saved.", Toast.LENGTH_LONG);
+                toast.show();
 
                 finish();
             } else {

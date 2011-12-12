@@ -16,19 +16,10 @@ public class DoableItemTable extends TableBase {
     protected String databaseCreateSql() {
         return super.databaseCreateSql().replace("?", TableName)
                 + "name text not null, "
+                + "unitType text not null, "
                 + "description text null, "
                 + "private integer"
                 + ");";
-    }
-
-
-    public void onUpgrade(SQLiteDatabase database, int oldVersion,
-                          int newVersion) {
-        super.onUpgrade(database, oldVersion, newVersion);
-
-
-        database.execSQL("DROP TABLE IF EXISTS todo");
-        onCreate(database);
     }
 
 

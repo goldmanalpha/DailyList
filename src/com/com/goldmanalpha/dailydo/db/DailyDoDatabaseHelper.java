@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
 
-    private static final String DATABASE_NAME = "dailydodata";
+    private static final String DATABASE_NAME = "dailydodata.db";
 
     private static final int DATABASE_VERSION = 1;
 

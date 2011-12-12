@@ -19,6 +19,7 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
         ContentValues values = super.createContentValues(object);
 
         values.put("name", object.getName());
+        values.put("unitType", object.getUnitType().name());
         values.put("description", object.getDescription());
         values.put("private", object.getPrivate());
 

@@ -25,18 +25,18 @@ public abstract class TableAdapterBase<T> {
 
     private void open() throws SQLException {
 
-        if (opened)
-            return ;
-
-        dbHelper = new DailyDoDatabaseHelper(context);
-        db = dbHelper.getWritableDatabase();
-        opened = true;
+        if (!opened) {
+            dbHelper = new DailyDoDatabaseHelper(context);
+            db = dbHelper.getWritableDatabase();
+            opened = true;
+        }
     }
 
     public void close() {
-        dbHelper.close();
+        if (opened) {
+            dbHelper.close();
+        }
     }
-
 
 
     //returns id or -1 if fail
@@ -48,20 +48,15 @@ public abstract class TableAdapterBase<T> {
 
         open();
 
-        if (b.getId() == 0)
-        {
+        if (b.getId() == 0) {
             retVal = db.insert(tableName, null, values);
-        }
-        else
-        {
+        } else {
             int rows = db.update(tableName, values, "id = " + b.getId(), null);
-            if (rows == 0)
-            {
+            if (rows == 0) {
                 throw new IndexOutOfBoundsException("Unexpected no rows affected for update of: " + object.toString());
             }
 
-            if (rows > 1)
-            {
+            if (rows > 1) {
                 throw new IndexOutOfBoundsException("Unexpected " + rows + " rows affected for update of: " + object.toString());
             }
 
