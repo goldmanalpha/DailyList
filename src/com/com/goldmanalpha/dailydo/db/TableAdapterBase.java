@@ -8,13 +8,14 @@ import com.goldmanalpha.dailydo.model.DoableBase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public abstract class TableAdapterBase<T> {
 
 
     private Context context;
-    private SQLiteDatabase db;
-    private String tableName;
+    protected SQLiteDatabase db;
+    protected String tableName;
     DailyDoDatabaseHelper dbHelper;
     private boolean opened;
 
@@ -23,7 +24,7 @@ public abstract class TableAdapterBase<T> {
         this.tableName = tableName;
     }
 
-    private void open() throws SQLException {
+    protected void open() throws SQLException {
 
         if (!opened) {
             dbHelper = new DailyDoDatabaseHelper(context);
@@ -35,6 +36,7 @@ public abstract class TableAdapterBase<T> {
     public void close() {
         if (opened) {
             dbHelper.close();
+            opened = false;
         }
     }
 
@@ -81,4 +83,5 @@ public abstract class TableAdapterBase<T> {
 
         return values;
     }
+
 }
