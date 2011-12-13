@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
+import android.widget.*;
+import com.com.goldmanalpha.androidutility.ui.SimpleTaggingCursorAdapter;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 
 import java.text.SimpleDateFormat;
@@ -46,11 +45,53 @@ public class MainActivity extends Activity {
 
         ListView myList=(ListView)findViewById(R.id.main_list);
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(myList.getContext(),
+        SimpleTaggingCursorAdapter adapter = new SimpleTaggingCursorAdapter(myList.getContext(),
                 R.layout.main_list_item, cursor, from, to);
 
         myList.setAdapter(adapter);
+
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                
+                
+                // When clicked, show a toast with the TextView text
+                Toast.makeText(getApplicationContext(), 
+                        ((TextView) view).getText(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
+
+
+   public void nameClick(View view)
+   {
+
+       View v = view;
+
+       while (((View) v.getParent()).getId() != R.id.main_list)
+       {
+           v = (View) v.getParent();
+       }
+
+
+       Object tag = v.getTag();
+
+       
+       Toast.makeText(getApplicationContext(),
+               tag.toString() + ((TextView) view).getText(),
+               Toast.LENGTH_SHORT).show();
+       
+   }
+    
+   public void unit_type_click(View v)
+   {
+       Toast.makeText(getApplicationContext(), ((TextView) v).getText(),
+               Toast.LENGTH_SHORT).show();
+
+   }
 
     public void nextDayClick(View v) {
         updateDisplayDate(addDays(mDisplayingDate, 1));
