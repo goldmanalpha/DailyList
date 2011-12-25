@@ -18,7 +18,6 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
         this.context = context;
     }
 
-
     @Override
     protected ContentValues createContentValues(DoableItem object) {
         ContentValues values = super.createContentValues(object);

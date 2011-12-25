@@ -68,7 +68,16 @@ public class MainActivity extends Activity {
 
    public void nameClick(View view)
    {
+       int id = DoableItemId(view);
 
+       Toast.makeText(getApplicationContext(),
+               "" + id + ((TextView) view).getText(),
+               Toast.LENGTH_SHORT).show();
+       
+   }
+    
+   int DoableItemId(View view)
+   {
        View v = view;
 
        while (((View) v.getParent()).getId() != R.id.main_list)
@@ -79,19 +88,47 @@ public class MainActivity extends Activity {
 
        Object tag = v.getTag();
 
-       
-       Toast.makeText(getApplicationContext(),
-               tag.toString() + ((TextView) view).getText(),
-               Toast.LENGTH_SHORT).show();
-       
+        return Integer.parseInt(tag.toString());
    }
+    
     
    public void unit_type_click(View v)
    {
-       Toast.makeText(getApplicationContext(), ((TextView) v).getText(),
+       int id = DoableItemId(v);
+
+       Toast.makeText(getApplicationContext(),
+               "" + id + " " + ((TextView) v).getText(),
                Toast.LENGTH_SHORT).show();
 
    }
+    
+    public void add_click(View v)
+    {
+        TextView tv = (TextView) v;
+        
+        
+        switch (tv.getId())
+        {
+            case R.id.big_minus:
+                break;
+            case R.id.big_plus:
+                break;
+            case R.id.plus:
+                break;
+            case R.id.minus:
+                break;
+            default:
+                Toast.makeText(getApplicationContext(),
+                        "Unexpected source for add_click", Toast.LENGTH_LONG)
+                        .show();
+        }
+
+        Toast.makeText(getApplicationContext(),
+                "Add: " + tv.getText(), Toast.LENGTH_LONG)
+                .show();
+
+
+    }
 
     public void nextDayClick(View v) {
         updateDisplayDate(addDays(mDisplayingDate, 1));

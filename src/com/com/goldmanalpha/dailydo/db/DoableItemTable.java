@@ -13,6 +13,7 @@ public class DoableItemTable extends TableBase {
     public static final String TableName="DoableItem";
 
     // Database creation SQL statement
+    @Override
     protected String databaseCreateSql() {
         return super.databaseCreateSql().replace("?", TableName)
                 + "name text not null, "
@@ -21,6 +22,7 @@ public class DoableItemTable extends TableBase {
                 + "private integer"
                 + ");";
     }
+
 
 
 }

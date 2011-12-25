@@ -12,7 +12,7 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "dailydodata.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     private List<TableBase> tables;
 
@@ -23,6 +23,7 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
 
         tables = new ArrayList<TableBase>();
         tables.add(new DoableItemTable());
+        tables.add(new DoableItemValueTable());
 
     }
 
