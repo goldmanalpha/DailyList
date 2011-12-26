@@ -14,7 +14,7 @@ public class DoableItemValueTableAdapter extends TableAdapterBase<DoableValue> {
     Context context;
 
     public DoableItemValueTableAdapter(Context context) {
-        super(context, DoableItemTable.TableName);
+        super(context, DoableItemValueTable.TableName);
         this.context = context;
     }
 
@@ -63,18 +63,18 @@ public class DoableItemValueTableAdapter extends TableAdapterBase<DoableValue> {
 
         Cursor cursor = db.rawQuery(
                 "select "
-                        + " values.id as _id, values.id, values.description, "
-                        + " values.fromTime, values.toTime, values.amount, "
+                        + " vals.id as _id, vals.id, vals.description, "
+                        + " vals.fromTime, vals.toTime, vals.amount, "
 
-                        + " values.dateCreated, values.dateModified, "
+                        + " vals.dateCreated, vals.dateModified, "
 
                         + " items.id as items_id, items.name as items_name, items.unitType, items.private"
 
                         + " from " + DoableItemTable.TableName + " as items "
-                        + " left outer join " + this.tableName + " as values "
-                        + " on values.itemId = items.id "
-                        + " and appliesToDate = '?'"
-                        + " order by values.dateCreated"
+                        + " left outer join " + this.tableName + " as vals "
+                        + " on vals.itemId = items.id "
+                        + " and appliesToDate = ?"
+                        + " order by vals.dateCreated"
 
                 , new String[]{super.DateToTimeStamp(date)});
 

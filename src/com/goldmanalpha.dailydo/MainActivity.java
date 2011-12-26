@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-import com.com.goldmanalpha.androidutility.ui.SimpleTaggingCursorAdapter;
-import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 
 import java.text.SimpleDateFormat;
@@ -38,10 +36,15 @@ public class MainActivity extends Activity {
     SimpleCursorAdapter adapter;
 
     private void SetupList2(Date date) {
-        Cursor cursor = doableItemValueTableAdapter.getItems(date);
+        cursor = doableItemValueTableAdapter.getItems(date);
         adapter.changeCursor(cursor);
     }
 
+    ListView myList;
+    Cursor cursor;
+    int valueIdColumnIndex;
+    int itemIdColumnIndex;
+    
     private void SetupList(Date date) {
 
         if (setupDate) {
@@ -50,8 +53,11 @@ public class MainActivity extends Activity {
         }
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
-        Cursor cursor = doableItemValueTableAdapter.getItems(date);
+        cursor = doableItemValueTableAdapter.getItems(date);
 
+        valueIdColumnIndex =cursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
+        itemIdColumnIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
+        
         startManagingCursor(cursor);
 
         String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
@@ -59,7 +65,7 @@ public class MainActivity extends Activity {
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type};
 
-        ListView myList = (ListView) findViewById(R.id.main_list);
+        myList = (ListView) findViewById(R.id.main_list);
 
         final int nameColIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
 
@@ -70,25 +76,11 @@ public class MainActivity extends Activity {
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
-
-
-
             public boolean setViewValue(View aView, Cursor aCursor, int aColumnIndex) {
 
                 if (aColumnIndex == nameColIndex) {
                     //attach the keys to the parent
-                    ValueIdentfier ids = new ValueIdentfier();
-
-                    ids.ValueId = aCursor.getInt(
-                            aCursor.getColumnIndex(DoableItemValueTableAdapter.ColId));
-
-                    ids.ItemId = aCursor.getInt(
-                            aCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId));
-
-                    View parentRow = ListRow(aView);
-
-
-                    parentRow.setTag(ids);
+                    ValueIdentifier ids = new ValueIdentifier();
 
                 }
                 //todo: use to set formatted time into time field
@@ -103,13 +95,11 @@ public class MainActivity extends Activity {
             }
         });
 
-
         myList.setAdapter(adapter);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
 
                 // When clicked, show a toast with the TextView text
                 Toast.makeText(getApplicationContext(),
@@ -121,44 +111,51 @@ public class MainActivity extends Activity {
 
     }
 
-    class ValueIdentfier {
+    class ValueIdentifier {
         public int ValueId;
         public int ItemId;
+
+        @Override
+        public String toString()
+        {
+
+            return "ItemId: " + ItemId + " ValueId: " + ValueId;
+        }
+    }
+    
+    public ValueIdentifier GetValueIds(View view)
+    {
+        if (cursor.moveToPosition(myList.getPositionForView(view)))
+        {
+            
+            ValueIdentifier vi = new ValueIdentifier();
+            
+            vi.ValueId = cursor.getInt(valueIdColumnIndex );
+            vi.ItemId = cursor.getInt(itemIdColumnIndex);
+            
+            return vi;
+        }
+
+        return null;
     }
 
     public void nameClick(View view) {
-        int id = DoableItemId(view);
+        ValueIdentifier ids =  GetValueIds(view);
 
         Toast.makeText(getApplicationContext(),
-                "" + id + ((TextView) view).getText(),
+                ids.toString() + " " + ((TextView) view).getText(),
                 Toast.LENGTH_SHORT).show();
 
     }
 
-    int DoableItemId(View view) {
-        View v = ListRow(view);
 
-        Object tag = v.getTag();
-
-        return Integer.parseInt(tag.toString());
-    }
-
-    View ListRow(View view) {
-        View v = view;
-
-        while (((View) v.getParent()).getId() != R.id.main_list) {
-            v = (View) v.getParent();
-        }
-
-        return v;
-    }
 
 
     public void unit_type_click(View v) {
-        int id = DoableItemId(v);
+        ValueIdentifier ids =  GetValueIds(v);
 
         Toast.makeText(getApplicationContext(),
-                "" + id + " " + ((TextView) v).getText(),
+                ids.toString() + " " + ((TextView) v).getText(),
                 Toast.LENGTH_SHORT).show();
 
     }
