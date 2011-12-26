@@ -28,12 +28,7 @@ public abstract class TableBase {
     }
 
     public void onCreate(SQLiteDatabase database) {
-        try {
             database.execSQL(databaseCreateSql());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-        }
     }
 
     public void onUpgrade(SQLiteDatabase database, int oldVersion,

@@ -34,6 +34,8 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
         {
             t.onCreate(sqLiteDatabase);
         }
+
+        this.onUpgrade(sqLiteDatabase, 0, DATABASE_VERSION);
     }
 
     @Override

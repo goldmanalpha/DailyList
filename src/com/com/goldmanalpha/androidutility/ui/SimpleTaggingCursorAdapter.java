@@ -23,4 +23,5 @@ public class SimpleTaggingCursorAdapter extends SimpleCursorAdapter {
 
         return v;
     }
+
 }

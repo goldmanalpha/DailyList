@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.androidutility.ui.SimpleTaggingCursorAdapter;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
+import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,7 +18,7 @@ public class MainActivity extends Activity {
 
     private TextView mDateDisplay;
     Date mDisplayingDate;
-    DoableItemTableAdapter doableItemTableAdapter;
+    DoableItemValueTableAdapter doableItemValueTableAdapter;
 
     /**
      * Called when the activity is first created.
@@ -26,7 +27,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        SetupList();
 
         mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 
@@ -34,29 +34,85 @@ public class MainActivity extends Activity {
 
     }
 
-    private void SetupList() {
-        doableItemTableAdapter = new DoableItemTableAdapter(this);
-        Cursor cursor = doableItemTableAdapter.getItems();
+    boolean setupDate = false;
+    SimpleCursorAdapter adapter;
+
+    private void SetupList2(Date date) {
+        Cursor cursor = doableItemValueTableAdapter.getItems(date);
+        adapter.changeCursor(cursor);
+    }
+
+    private void SetupList(Date date) {
+
+        if (setupDate) {
+            SetupList2(date);
+            return;
+        }
+
+        doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
+        Cursor cursor = doableItemValueTableAdapter.getItems(date);
 
         startManagingCursor(cursor);
 
-        String[] from = new String[]{DoableItemTableAdapter.ColName, DoableItemTableAdapter.ColUnitType};
-        int [] to = new int[]{R.id.list_name, R.id.list_unit_type};
+        String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
+                DoableItemValueTableAdapter.ColUnitType};
 
-        ListView myList=(ListView)findViewById(R.id.main_list);
+        int[] to = new int[]{R.id.list_name, R.id.list_unit_type};
 
-        SimpleTaggingCursorAdapter adapter = new SimpleTaggingCursorAdapter(myList.getContext(),
+        ListView myList = (ListView) findViewById(R.id.main_list);
+
+        final int nameColIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
+
+        adapter = new SimpleCursorAdapter(myList.getContext(),
                 R.layout.main_list_item, cursor, from, to);
+
+
+
+        adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+
+
+
+
+            public boolean setViewValue(View aView, Cursor aCursor, int aColumnIndex) {
+
+                if (aColumnIndex == nameColIndex) {
+                    //attach the keys to the parent
+                    ValueIdentfier ids = new ValueIdentfier();
+
+                    ids.ValueId = aCursor.getInt(
+                            aCursor.getColumnIndex(DoableItemValueTableAdapter.ColId));
+
+                    ids.ItemId = aCursor.getInt(
+                            aCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId));
+
+                    View parentRow = ListRow(aView);
+
+
+                    parentRow.setTag(ids);
+
+                }
+                //todo: use to set formatted time into time field
+                /*if (aColumnIndex == 2) {
+                    String createDate = aCursor.getString(aColumnIndex);
+                    TextView textView = (TextView) aView;
+                    textView.setText("Create date: " + MyFormatterHelper.formatDate(getApplicationContext(), createDate));
+                    return true;
+                }*/
+
+                return false;
+            }
+        });
+
 
         myList.setAdapter(adapter);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                
-                
+
+
                 // When clicked, show a toast with the TextView text
-                Toast.makeText(getApplicationContext(), 
+                Toast.makeText(getApplicationContext(),
                         ((TextView) view).getText(),
                         Toast.LENGTH_SHORT).show();
             }
@@ -65,50 +121,53 @@ public class MainActivity extends Activity {
 
     }
 
+    class ValueIdentfier {
+        public int ValueId;
+        public int ItemId;
+    }
 
-   public void nameClick(View view)
-   {
-       int id = DoableItemId(view);
+    public void nameClick(View view) {
+        int id = DoableItemId(view);
 
-       Toast.makeText(getApplicationContext(),
-               "" + id + ((TextView) view).getText(),
-               Toast.LENGTH_SHORT).show();
-       
-   }
-    
-   int DoableItemId(View view)
-   {
-       View v = view;
+        Toast.makeText(getApplicationContext(),
+                "" + id + ((TextView) view).getText(),
+                Toast.LENGTH_SHORT).show();
 
-       while (((View) v.getParent()).getId() != R.id.main_list)
-       {
-           v = (View) v.getParent();
-       }
+    }
 
+    int DoableItemId(View view) {
+        View v = ListRow(view);
 
-       Object tag = v.getTag();
+        Object tag = v.getTag();
 
         return Integer.parseInt(tag.toString());
-   }
-    
-    
-   public void unit_type_click(View v)
-   {
-       int id = DoableItemId(v);
+    }
 
-       Toast.makeText(getApplicationContext(),
-               "" + id + " " + ((TextView) v).getText(),
-               Toast.LENGTH_SHORT).show();
+    View ListRow(View view) {
+        View v = view;
 
-   }
-    
-    public void add_click(View v)
-    {
+        while (((View) v.getParent()).getId() != R.id.main_list) {
+            v = (View) v.getParent();
+        }
+
+        return v;
+    }
+
+
+    public void unit_type_click(View v) {
+        int id = DoableItemId(v);
+
+        Toast.makeText(getApplicationContext(),
+                "" + id + " " + ((TextView) v).getText(),
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void add_click(View v) {
         TextView tv = (TextView) v;
-        
-        
-        switch (tv.getId())
-        {
+
+
+        switch (tv.getId()) {
             case R.id.big_minus:
                 break;
             case R.id.big_plus:
@@ -150,6 +209,8 @@ public class MainActivity extends Activity {
         mDisplayingDate = date;
         SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
         mDateDisplay.setText(format.format(date));
+
+        SetupList(new Date(date.getYear(), date.getMonth(), date.getDay()));
     }
 
     Date addDays(Date date, int days) {

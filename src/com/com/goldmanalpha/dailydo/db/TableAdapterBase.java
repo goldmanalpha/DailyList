@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import com.goldmanalpha.dailydo.model.DoableBase;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -71,7 +72,6 @@ public abstract class TableAdapterBase<T> {
         ContentValues values = new ContentValues();
 
         DoableBase b = (DoableBase) object;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         //YYYY-MM-DD HH:MM:SS.SSS
 
         if (b.getId() > 0) {
@@ -79,9 +79,34 @@ public abstract class TableAdapterBase<T> {
             values.put("id", b.getId());
         }
 
-        values.put("dateModified", format.format(new Date()));
+        values.put("dateModified", DateToTimeStamp(new Date()));
 
         return values;
     }
+    
+    protected String DateToTimeStamp(Date d)
+    {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
+        return format.format(d);
+    }
+
+    public Integer TimeToInt(Time t)
+    {
+        return t.getHours() * 10000 + t.getMinutes() * 100 + t.getSeconds();
+    }
+    
+    public Time IntToTime(Integer time)
+    {
+        Integer seconds = time % 100;
+
+        time = (time - seconds) / 100;
+        
+        Integer minutes = time % 100;
+        Integer hours = (time - minutes) / 100;
+        
+        Time t = new Time(hours, minutes, seconds);
+        
+        return t;
+    }
 }

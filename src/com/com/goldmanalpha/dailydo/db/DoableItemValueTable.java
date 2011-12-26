@@ -1,29 +1,30 @@
 package com.com.goldmanalpha.dailydo.db;
 
-public class DoableItemValueTable extends TableBase
-{
-    public static final String TableName="DoableItemValue";
+public class DoableItemValueTable extends TableBase {
+    public static final String TableName = "DoableItemValue";
 
     @Override
     protected String databaseCreateSql() {
         return super.databaseCreateSql().replace("?", TableName)
-                + "unitType text not null, "
                 + "description text null, "
-                + "fromTime integer"
-                + "toTime integer"
-                + "amount integer"
+                + "fromTime integer, "
+                + "toTime integer, "
+                + "amount integer, "
+                + "appliesToDate TIMESTAMP NOT NULL, "
+                + "itemId integer NOT NULL"
                 + ");";
     }
 
     @Override
-    protected String databaseUpgradeSql(int newVersion)
-    {
-             if (newVersion == 3)
-             {
-                 return databaseCreateSql();
-             }
+    protected String databaseUpgradeSql(int newVersion) {
 
-            return null;
+        if (newVersion == 4) {
+
+            String sql4 = "CREATE INDEX idx_item_date ON DoableItemValue (appliesToDate);";
+
+            return sql4;
+        }
+        return null;
     }
 
 }
