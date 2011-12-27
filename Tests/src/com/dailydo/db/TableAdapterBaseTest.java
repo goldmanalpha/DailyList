@@ -3,6 +3,7 @@ package com.dailydo.db;
 import android.content.Context;
 import android.test.ActivityTestCase;
 import com.com.goldmanalpha.dailydo.db.TableAdapterBase;
+import com.goldmanalpha.dailydo.model.DoableItem;
 import junit.framework.Test;
 import junit.framework.TestCase;
 
@@ -11,11 +12,16 @@ import java.sql.Time;
 public class TableAdapterBaseTest extends TestCase {
 
 
-    public class TableAdapterBaseInstance extends TableAdapterBase<Object>
+    public class TableAdapterBaseInstance extends TableAdapterBase<DoableItem>
     {
 
         public TableAdapterBaseInstance() {
             super(null, "any table name");
+        }
+
+        @Override
+        public DoableItem get(int id) {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
     }
     
@@ -36,7 +42,7 @@ public class TableAdapterBaseTest extends TestCase {
 
         Time result = target.IntToTime(82515);
 
-        assertEquals((int)8, (int)result.getHours());
+        assertEquals((int) 8, (int) result.getHours());
         assertEquals((int)25, (int)result.getMinutes());
         assertEquals((int)15, (int)result.getSeconds());
 

@@ -61,6 +61,16 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:clickable="false"
+
+                />
+
+        <TextView android:id="@+id/amount2"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:clickable="false"
+                  android:layout_marginLeft="5dp"
                 />
 
         <TextView android:id="@+id/plus"

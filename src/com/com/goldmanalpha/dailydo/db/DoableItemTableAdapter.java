@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import com.goldmanalpha.dailydo.model.DoableItem;
+import com.goldmanalpha.dailydo.model.DoableValue;
+import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +27,8 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
         values.put("name", object.getName());
         values.put("unitType", object.getUnitType().name());
         values.put("description", object.getDescription());
-        values.put("private", object.getPrivate());
+        values.put("private",
+                object.getPrivate() ? 1 : 0);
 
         return values;
     }
@@ -51,6 +54,32 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
                         + " from " + this.tableName, new String[]{});
 
         return cursor;
+    }
+    
+    @Override
+    public DoableItem get(int id)
+    {
+        DoableItem item = new DoableItem();
+        
+        Cursor c = getSingle(id);
+        
+        if (c.moveToFirst())
+        {
+            item = new DoableItem(c.getInt(c.getColumnIndex("id")));
+
+            super.setCommonValues(item, c);
+            
+            item.setName(c.getString(c.getColumnIndex("name")));
+            item.setUnitType(UnitType.valueOf(c.getString(c.getColumnIndex("unitType"))));
+            item.setDescription(c.getString(c.getColumnIndex("description")));
+            item.setPrivate(
+                    c.getInt(c.getColumnIndex("private")) == 0 ? Boolean.FALSE : Boolean.TRUE
+                    );
+  
+        }
+
+        return item;
+        
     }
 }
 

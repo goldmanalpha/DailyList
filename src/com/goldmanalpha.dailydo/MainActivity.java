@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
+import com.goldmanalpha.androidutility.DayOnlyDate;
+import com.goldmanalpha.dailydo.model.DoableValue;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,16 +31,18 @@ public class MainActivity extends Activity {
 
         mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 
-        updateDisplayDate(new Date());
+        updateDisplayDate(new DayOnlyDate());
 
     }
 
     boolean setupDate = false;
-    SimpleCursorAdapter adapter;
+    SimpleCursorAdapter listCursorAdapter;
 
     private void SetupList2(Date date) {
         cursor = doableItemValueTableAdapter.getItems(date);
-        adapter.changeCursor(cursor);
+        startManagingCursor(cursor);
+
+        listCursorAdapter.changeCursor(cursor);
     }
 
     ListView myList;
@@ -52,6 +57,8 @@ public class MainActivity extends Activity {
             return;
         }
 
+        setupDate = true;
+
         doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
         cursor = doableItemValueTableAdapter.getItems(date);
 
@@ -61,28 +68,30 @@ public class MainActivity extends Activity {
         startManagingCursor(cursor);
 
         String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
-                DoableItemValueTableAdapter.ColUnitType};
+                DoableItemValueTableAdapter.ColUnitType,
+                DoableItemValueTableAdapter.ColAmount
+        };
 
-        int[] to = new int[]{R.id.list_name, R.id.list_unit_type};
+        int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
+                R.id.amount
+                };
 
         myList = (ListView) findViewById(R.id.main_list);
 
         final int nameColIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
 
-        adapter = new SimpleCursorAdapter(myList.getContext(),
+        listCursorAdapter = new SimpleCursorAdapter(myList.getContext(),
                 R.layout.main_list_item, cursor, from, to);
 
-
-
-        adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+        listCursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
             public boolean setViewValue(View aView, Cursor aCursor, int aColumnIndex) {
 
                 if (aColumnIndex == nameColIndex) {
-                    //attach the keys to the parent
-                    ValueIdentifier ids = new ValueIdentifier();
+
 
                 }
+
                 //todo: use to set formatted time into time field
                 /*if (aColumnIndex == 2) {
                     String createDate = aCursor.getString(aColumnIndex);
@@ -95,7 +104,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        myList.setAdapter(adapter);
+        myList.setAdapter(listCursorAdapter);
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
@@ -127,12 +136,12 @@ public class MainActivity extends Activity {
     {
         if (cursor.moveToPosition(myList.getPositionForView(view)))
         {
-            
+
             ValueIdentifier vi = new ValueIdentifier();
             
             vi.ValueId = cursor.getInt(valueIdColumnIndex );
             vi.ItemId = cursor.getInt(itemIdColumnIndex);
-            
+
             return vi;
         }
 
@@ -160,28 +169,54 @@ public class MainActivity extends Activity {
 
     }
 
-    public void add_click(View v) {
+    public void add_click(View v) throws ParseException {
         TextView tv = (TextView) v;
 
-
+        int addAmount = 0;
+        
         switch (tv.getId()) {
             case R.id.big_minus:
+                addAmount = -5;
                 break;
             case R.id.big_plus:
+                addAmount = +5;
                 break;
             case R.id.plus:
+                addAmount = 1;
                 break;
             case R.id.minus:
+                addAmount = -1;
                 break;
             default:
                 Toast.makeText(getApplicationContext(),
                         "Unexpected source for add_click", Toast.LENGTH_LONG)
                         .show();
         }
+        
+        if (addAmount != 0)
+        {
+            ValueIdentifier ids = GetValueIds(v);
 
-        Toast.makeText(getApplicationContext(),
-                "Add: " + tv.getText(), Toast.LENGTH_LONG)
-                .show();
+            DoableValue value =  doableItemValueTableAdapter
+                    .get(ids.ValueId);
+
+            if (value.getDoableItemId() == 0)
+            {
+                value.setDoableItemId(ids.ItemId);
+            }
+
+            //todo use tsp of main item and set to 64ths?!
+            //todo: check unit type to see if its a time, etc.
+
+            value.setAmount(value.getAmount() + addAmount);
+            value.setAppliesToDate(this.mDisplayingDate);
+
+
+            doableItemValueTableAdapter.save(value);
+
+            cursor.requery();
+        }
+
 
 
     }
@@ -207,7 +242,7 @@ public class MainActivity extends Activity {
         SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
         mDateDisplay.setText(format.format(date));
 
-        SetupList(new Date(date.getYear(), date.getMonth(), date.getDay()));
+        SetupList(new DayOnlyDate(date));
     }
 
     Date addDays(Date date, int days) {
@@ -216,5 +251,6 @@ public class MainActivity extends Activity {
         c.add(Calendar.DATE, days);  // number of days to add
         return c.getTime();  // dt is now the new date
     }
+
 
 }

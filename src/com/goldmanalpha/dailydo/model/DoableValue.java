@@ -1,29 +1,38 @@
 package com.goldmanalpha.dailydo.model;
 
+import android.content.Context;
+import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
+
 import java.sql.Time;
 import java.util.Date;
 
 public class DoableValue extends DoableBase{
     private String description;
 
-    //tsp saved in 64ths (which is half the min I can measure)
-    private UnitType unitType;
-
     //used as start or only time
     private Time fromTime;
     private Time toTime;
 
-    private Integer amount;
+    private Integer amount = 0;
 
     private Date appliesToDate;
-    private Integer doableItemId;
+    private Integer doableItemId = 0;
+
+    public DoableValue()
+    {
+    }
+
+    public DoableValue(int id)
+    {
+        super(id);
+    }
 
     public Date getAppliesToDate() {
         return appliesToDate;
     }
 
     public void setAppliesToDate(Date appliesToDate) {
-        this.appliesToDate = appliesToDate;
+        this.appliesToDate = new Date(appliesToDate.getYear(), appliesToDate.getMonth(), appliesToDate.getDate());
     }
 
     public String getDescription() {
@@ -34,13 +43,6 @@ public class DoableValue extends DoableBase{
         this.description = description;
     }
 
-    public UnitType getUnitType() {
-        return unitType;
-    }
-
-    public void setUnitType(UnitType unitType) {
-        this.unitType = unitType;
-    }
 
     public Time getFromTime() {
         return fromTime;
@@ -73,4 +75,16 @@ public class DoableValue extends DoableBase{
     public void setDoableItemId(Integer doableItemId) {
         this.doableItemId = doableItemId;
     }
+
+
+    DoableItem item;
+    public DoableItem getItem(Context context) {
+        if (item == null)
+        {
+            item = new DoableItemTableAdapter(context).get(doableItemId);
+        }
+
+        return item;
+    }
+
 }

@@ -11,8 +11,14 @@ public class DoableItem extends DoableBase {
     String description;
     UnitType unitType;
     boolean isPrivate;
+
     DoableValue lastValue;
     TeaSpoons lastTeaSpoons;
+
+    public DoableItem(int id) {
+        //To change body of created methods use File | Settings | File Templates.
+        super(id);
+    }
 
     public String getName() {
         return name;
