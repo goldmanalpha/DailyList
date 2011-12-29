@@ -13,10 +13,20 @@ public class DoableValue extends DoableBase{
     private Time fromTime;
     private Time toTime;
 
-    private Integer amount = 0;
+    private Float amount = 0f;
 
     private Date appliesToDate;
     private Integer doableItemId = 0;
+
+    public TeaSpoons getTeaspoons() {
+        return teaspoons;
+    }
+
+    public void setTeaspoons(TeaSpoons teaspoons) {
+        this.teaspoons = teaspoons;
+    }
+
+    private TeaSpoons teaspoons = TeaSpoons.unset;
 
     public DoableValue()
     {
@@ -60,11 +70,11 @@ public class DoableValue extends DoableBase{
         this.toTime = toTime;
     }
 
-    public Integer getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 

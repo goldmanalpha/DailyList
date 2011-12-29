@@ -18,7 +18,6 @@
             android:prompt="@string/unittypeprompt"
             android:layout_width="fill_parent"
             android:entries="@array/unittypelist"
-
             >
     </Spinner>
 

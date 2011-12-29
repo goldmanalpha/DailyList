@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 import com.goldmanalpha.androidutility.DayOnlyDate;
+import com.goldmanalpha.dailydo.model.DoableBase;
 import com.goldmanalpha.dailydo.model.DoableValue;
 
 import java.text.ParseException;
@@ -26,6 +27,9 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        DoableBase.setContext(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 

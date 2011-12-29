@@ -1,5 +1,5 @@
 <resources>
-        <string-array name="unittypelist">
+    <string-array name="unittypelist">
         <item>@string/unittypeprompt</item>
         <item>@string/unittypeDrops</item>
         <item>@string/unittypeTsp</item>
@@ -8,5 +8,12 @@
         <item>@string/unittypeCheck</item>
         <item>@string/unittypeCount</item>
         <item>@string/unittypeRelativeAmount</item>
+    </string-array>
+    <string-array name="tsptype">
+        <item>@string/tsp32</item>
+        <item>@string/tspSixteenth</item>
+        <item>@string/tspEighth</item>
+        <item>@string/tspQtr</item>
+        <item>@string/tspFull</item>
     </string-array>
 </resources>

@@ -11,5 +11,10 @@
     <string name="unittypeCount">count</string>
     <string name="unittypeRelativeAmount">relative amount</string>
 
+    <string name="tspFull">full tsp</string>
+    <string name="tspQtr">qtr tsp</string>
+    <string name="tspEighth">1/8 tsp</string>
+    <string name="tspSixteenth">1/16 tsp</string>
+    <string name="tsp32">1/32 tsp</string>
 
 </resources>

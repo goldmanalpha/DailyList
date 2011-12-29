@@ -9,6 +9,7 @@ package com.goldmanalpha.dailydo;
 
 public final class R {
     public static final class array {
+        public static final int tsptype=0x7f030001;
         public static final int unittypelist=0x7f030000;
     }
     public static final class attr {
@@ -46,6 +47,11 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int tsp32=0x7f04000d;
+        public static final int tspEighth=0x7f04000b;
+        public static final int tspFull=0x7f040009;
+        public static final int tspQtr=0x7f04000a;
+        public static final int tspSixteenth=0x7f04000c;
         public static final int unittypeCheck=0x7f040006;
         public static final int unittypeCount=0x7f040007;
         public static final int unittypeDrops=0x7f040002;

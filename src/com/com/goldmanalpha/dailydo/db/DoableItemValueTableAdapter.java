@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.DoableValue;
+import com.goldmanalpha.dailydo.model.TeaSpoons;
 import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.text.ParseException;
@@ -18,6 +19,22 @@ public class DoableItemValueTableAdapter
     public DoableItemValueTableAdapter(Context context) {
         super(context, DoableItemValueTable.TableName);
         this.context = context;
+    }
+
+    @Override
+    public long save(DoableValue object)
+    {
+        long id = super.save(object);
+
+        DoableItem item = object.getItem(context);
+
+        item.setLastValue(object);
+
+        DoableItemTableAdapter itemAdapter = new DoableItemTableAdapter(context);
+
+        itemAdapter.save(item);
+
+        return  id;
     }
 
     @Override
@@ -69,15 +86,19 @@ public class DoableItemValueTableAdapter
                 "select "
                         + " vals.id as _id, vals.id, vals.description, "
                         + " vals.fromTime, vals.toTime, vals.amount, "
+                        + " vals.teaspoons, "
 
                         + " vals.dateCreated, vals.dateModified, "
 
-                        + " items.id as items_id, items.name as items_name, items.unitType, items.private"
+                        + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
+                        + " lastVal.teaspoons lastTeaspoons "
 
                         + " from " + DoableItemTable.TableName + " as items "
                         + " left outer join " + this.tableName + " as vals "
                         + " on vals.itemId = items.id "
                         + " and appliesToDate = ?"
+                        + " left outer join " + this.tableName + " as lastVal "
+                        + " on items.lastValueId = lastVal.id "
                         + " order by vals.dateCreated desc"
 
                 , new String[]{super.DateToTimeStamp(date)});
@@ -99,13 +120,17 @@ public class DoableItemValueTableAdapter
             super.setCommonValues(val, c);
 
 
-            val.setAmount(c.getInt(c.getColumnIndex("amount")));
+            val.setAmount(c.getFloat(c.getColumnIndex("amount")));
             val.setAppliesToDate(simpleDateFormat.parse(c.getString(c.getColumnIndex("appliesToDate"))));
 
             val.setFromTime(IntToTime(c.getInt(c.getColumnIndex("fromTime"))));
             val.setToTime(IntToTime(c.getInt(c.getColumnIndex("toTime"))));
 
             val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
+            
+            val.setTeaspoons(
+                    TeaSpoons.valueOf(
+                    c.getString(c.getColumnIndex("teaspoons"))));
 
 
         }

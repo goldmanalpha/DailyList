@@ -9,7 +9,8 @@ public class DoableItemValueTable extends TableBase {
                 + "description text null, "
                 + "fromTime integer, "
                 + "toTime integer, "
-                + "amount integer, "
+                + "amount integer, "   //int affinity but can be float
+                + "teaspoons text null" //tsp, tsp32 etc.
                 + "appliesToDate TIMESTAMP NOT NULL, "
                 + "itemId integer NOT NULL"
                 + ");";

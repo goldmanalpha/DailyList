@@ -1,0 +1,44 @@
+4 support spinner for tsp
+	test last tsp -- coded, but untested...
+	del db & start over
+
+	
+
+4 support time and timespan
+
+4 support description
+
+2 support multiple
+
+1 show edit date
+
+
+
+
+
+
+
+digest format
+
+support categories
+
+multiple per day?  sort order...  bind list to objects to keep order...
+
+
+code db tests with test db name and del @ end??
+
+save item update when saving data
+	save lastValueId to DoableItem
+	lazy load prev item in items?
+
+
+low priority: 
+	convert to objects and update in place in order to preserve sort -- or what?
+
+
+bug: select row throws error
+
+
+move table base and adapter base to the general db package
+
+delete db to get rid of values.unitType
