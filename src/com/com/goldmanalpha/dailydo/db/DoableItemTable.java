@@ -19,8 +19,7 @@ public class DoableItemTable extends TableBase {
                 + "name text not null, "
                 + "unitType text not null, "
                 + "description text null, "
-                + "private integer, "
-                + "lastValueId integer null"
+                + "private integer "
                 + ");";
     }
 

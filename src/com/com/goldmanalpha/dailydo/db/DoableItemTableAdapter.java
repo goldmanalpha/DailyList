@@ -29,7 +29,6 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
         values.put("description", object.getDescription());
         values.put("private",
                 object.getPrivate() ? 1 : 0);
-        values.put("lastValueId", object.getLastValueId());
 
         return values;
     }
@@ -51,7 +50,7 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
         Cursor cursor = db.rawQuery(
                 "select "
-                        + " id as _id, id, name, unitType, description, private, lastValueId, dateCreated, dateModified"
+                        + " id as _id, id, name, unitType, description, private, dateCreated, dateModified"
                         + " from " + this.tableName, new String[]{});
 
         return cursor;
@@ -76,9 +75,6 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
             item.setPrivate(
                     c.getInt(c.getColumnIndex("private")) == 0 ? Boolean.FALSE : Boolean.TRUE
                     );
-            
-            item.setLastValueId(c.getInt(c.getColumnIndex("lastValueId")));
-  
         }
 
         return item;

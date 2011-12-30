@@ -2,8 +2,10 @@ package com.goldmanalpha.dailydo.model;
 
 import android.content.Context;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
+import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 
 import java.sql.Time;
+import java.text.ParseException;
 import java.util.Date;
 
 public class DoableValue extends DoableBase{
@@ -17,6 +19,9 @@ public class DoableValue extends DoableBase{
 
     private Date appliesToDate;
     private Integer doableItemId = 0;
+    /*int previousValueId = 0;
+    DoableValue previousValue;
+*/
 
     public TeaSpoons getTeaspoons() {
         return teaspoons;
@@ -97,4 +102,44 @@ public class DoableValue extends DoableBase{
         return item;
     }
 
+
+/*
+    public DoableValue getPreviousValue(Context context) throws ParseException {
+
+        if (previousValueId != 0 && previousValue == null)
+        {
+            previousValue = new DoableItemValueTableAdapter(context).get(previousValueId);
+        }
+
+        return previousValue == null ? this : previousValue;
+    }
+
+
+    public int getPreviousValueId() {
+        return previousValueId;
+    }
+
+    public void setPreviousValueId(int previousValueId) {
+        this.previousValueId = previousValueId;
+
+        if (previousValue != null && previousValue.id != previousValueId)
+        {
+            previousValue = null;
+        }
+    }
+
+
+    public void setPreviousValue(DoableValue previousValue) {
+        this.previousValue = previousValue;
+
+        if (previousValue != null)
+        {
+            previousValueId = previousValue.id;
+        }
+        else
+        {
+            previousValueId = 0;
+        }
+    }
+    */
 }

@@ -16,10 +16,7 @@ public class DoableItem extends DoableBase {
     UnitType unitType;
     boolean isPrivate;
 
-    DoableValue lastValue;
-    TeaSpoons lastTeaSpoons;
 
-    int lastValueId = 0;
 
     public DoableItem(int id) {
         //To change body of created methods use File | Settings | File Templates.
@@ -34,17 +31,8 @@ public class DoableItem extends DoableBase {
         this.name = name;
     }
 
-    public TeaSpoons getLastTeaSpoons() {
-        return lastTeaSpoons;
-    }
-
-    public void setLastTeaSpoons(TeaSpoons lastTeaSpoons) {
-        this.lastTeaSpoons = lastTeaSpoons;
-    }
-
     public DoableItem() {
         super();
-        lastValueId = 0;
     }
 
     public String getDescription() {
@@ -72,42 +60,7 @@ public class DoableItem extends DoableBase {
         isPrivate = aPrivate;
     }
 
-    public int getLastValueId() {
-        return lastValueId;
-    }
 
-    public void setLastValueId(int lastValueId) {
-        this.lastValueId = lastValueId;
-
-        if (lastValue != null && lastValue.id != lastValueId)
-        {
-            lastValue = null;
-        }
-    }
-
-
-    public DoableValue getLastValue(Context context) throws ParseException {
-
-        if (lastValueId != 0 && lastValue == null)
-        {
-               lastValue = new DoableItemValueTableAdapter(context).get(lastValueId);
-        }
-
-        return lastValue;
-    }
-
-    public void setLastValue(DoableValue lastValue) {
-        this.lastValue = lastValue;
-
-        if (lastValue != null)
-        {
-            lastValueId = lastValue.id;
-        }
-        else
-        {
-            lastValueId = 0;
-        }
-    }
 
     @Override
     public String toString() {

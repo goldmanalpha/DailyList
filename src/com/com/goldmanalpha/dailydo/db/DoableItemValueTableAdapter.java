@@ -11,7 +11,7 @@ import com.goldmanalpha.dailydo.model.UnitType;
 import java.text.ParseException;
 import java.util.Date;
 
-public class DoableItemValueTableAdapter 
+public class DoableItemValueTableAdapter
         extends TableAdapterBase<DoableValue> {
 
     Context context;
@@ -22,19 +22,9 @@ public class DoableItemValueTableAdapter
     }
 
     @Override
-    public long save(DoableValue object)
-    {
+    public long save(DoableValue object) {
         long id = super.save(object);
-
-        DoableItem item = object.getItem(context);
-
-        item.setLastValue(object);
-
-        DoableItemTableAdapter itemAdapter = new DoableItemTableAdapter(context);
-
-        itemAdapter.save(item);
-
-        return  id;
+        return id;
     }
 
     @Override
@@ -47,22 +37,27 @@ public class DoableItemValueTableAdapter
         values.put("description", object.getDescription());
 
         if (object.getItem(context).getUnitType() != UnitType.time
-                && object.getItem(context).getUnitType() != UnitType.timeSpan)
-        {
+                && object.getItem(context).getUnitType() != UnitType.timeSpan) {
             values.putNull("fromTime");
             values.putNull("toTime");
 
             values.put("amount", object.getAmount());
-        }
-        else
-        {
+        } else {
             values.putNull("amount");
-            values.put("fromTime", TimeToInt(object.getFromTime()) );
+            values.put("fromTime", TimeToInt(object.getFromTime()));
             values.put("toTime", TimeToInt(object.getToTime()));
         }
+
+        values.put("teaspoons", object.getTeaspoons().toString());
+
+        //todo: handle case of item being added out of order :(
+        //probably only if appliesToDate < current date
+        //need to open the next item and save it...
+
+        values.put("previousValueId", getPreviousId(object.getDoableItemId(), object.getAppliesToDate()));
+
         return values;
     }
-
 
     public static final String ColId = "id";
     public static final String ColItemId = "items_id";
@@ -76,6 +71,39 @@ public class DoableItemValueTableAdapter
     public static final String ColDateCreated = "dateCreated";
     public static final String ColDateModified = "dateModified";
 
+    public int getPreviousId(int itemId, Date date) {
+        Cursor c = db.rawQuery(
+                "select max(dateCreated) as maxDate from " + this.tableName
+                        + " where itemId = ? "
+                        + " and appliesToDate < ?"
+                        + " order by dateCreated desc",
+                new String[]{"" + itemId, super.DateToTimeStamp(date)});
+
+        if (c.moveToFirst()) {
+
+            String lastDate = c.getString(c.getColumnIndex("maxDate"));
+
+            c.close();
+
+            if (lastDate != null) {
+                Cursor c2 = db.rawQuery(
+                        "select id from " + this.tableName
+                                + " where dateCreated = ? "
+                                + " and itemId = ?",
+                        new String[]{lastDate, "" + itemId});
+
+                c2.moveToFirst();
+
+                int id = c2.getInt(0);
+
+                c2.close();
+
+                return id;
+            }
+        }
+
+        return 0;
+    }
 
     //returns a cursor of doable items:
     public Cursor getItems(Date date) {
@@ -91,29 +119,32 @@ public class DoableItemValueTableAdapter
                         + " vals.dateCreated, vals.dateModified, "
 
                         + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
-                        + " lastVal.teaspoons lastTeaspoons "
+                        + " coalesce(lastVal.teaspoons, vals.teaspoons) lastTeaspoons, "
+                        + " coalesce(lastVal.amount, vals.amount) lastAmount, "
+                        + " coalesce(lastVal.fromTime, vals.fromTime) lastFromTime, "
+                        + " coalesce(lastVal.toTime, vals.toTime) lastToTime, "
+                        + " coalesce(lastVal.appliesToDate, vals.appliesToDate) lastDate "
 
                         + " from " + DoableItemTable.TableName + " as items "
                         + " left outer join " + this.tableName + " as vals "
                         + " on vals.itemId = items.id "
-                        + " and appliesToDate = ?"
+                        + " and vals.appliesToDate = ?"
                         + " left outer join " + this.tableName + " as lastVal "
-                        + " on items.lastValueId = lastVal.id "
+                        + " on vals.previousValueId = lastVal.id "
                         + " order by vals.dateCreated desc"
 
                 , new String[]{super.DateToTimeStamp(date)});
 
         return cursor;
     }
-    
+
     @Override
     public DoableValue get(int id) throws ParseException {
         Cursor c = getSingle(id);
 
         DoableValue val = new DoableValue();
 
-        if (c.moveToFirst())
-        {
+        if (c.moveToFirst()) {
 
             val = new DoableValue(c.getInt(c.getColumnIndex("id")));
 
@@ -127,10 +158,10 @@ public class DoableItemValueTableAdapter
             val.setToTime(IntToTime(c.getInt(c.getColumnIndex("toTime"))));
 
             val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
-            
+
             val.setTeaspoons(
                     TeaSpoons.valueOf(
-                    c.getString(c.getColumnIndex("teaspoons"))));
+                            c.getString(c.getColumnIndex("teaspoons"))));
 
 
         }
