@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 import com.goldmanalpha.androidutility.DayOnlyDate;
+import com.goldmanalpha.androidutility.EnumHelper;
+import com.goldmanalpha.androidutility.PickOneList;
 import com.goldmanalpha.dailydo.model.DoableBase;
 import com.goldmanalpha.dailydo.model.DoableValue;
 import com.goldmanalpha.dailydo.model.TeaSpoons;
@@ -99,21 +101,16 @@ public class MainActivity extends Activity {
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
 
-                        if (columnIndex == teaspoonColIdx)
-                        {
+                        if (columnIndex == teaspoonColIdx) {
                             TextView tv = ((TextView) view);
 
-                            if (!cursor.getString(unitTypeColIdx).equals(usesTeaspoonsType))
-                            {
+                            if (!cursor.getString(unitTypeColIdx).equals(usesTeaspoonsType)) {
                                 tv.setText("");
                                 return true;
-                            }
-                            else
-                            {
-                                if (cursor.getString(teaspoonColIdx) == null)
-                                {
+                            } else {
+                                if (cursor.getString(teaspoonColIdx) == null) {
                                     //default:
-                                    tv.setText(TeaSpoons.eighth.toString());
+                                    tv.setText(defaultTeaspoons.toString());
 
                                     return true;
                                 }
@@ -138,6 +135,8 @@ public class MainActivity extends Activity {
 
 
     }
+
+    public final static TeaSpoons defaultTeaspoons = TeaSpoons.eighth;
 
     class ValueIdentifier {
         public int ValueId;
@@ -183,6 +182,66 @@ public class MainActivity extends Activity {
 
     }
 
+
+    int teaspoonsClickValueId;
+
+    public void teaspoons_click(View v) {
+
+        teaspoonsClickValueId = this.GetValueIds(v).ValueId;
+
+        Intent intent = new Intent(this, PickOneList.class);
+
+        intent.putExtra(PickOneList.Title, "Pick Unit Teaspoon Size");
+
+        intent.putExtra(PickOneList.SelectedItem, ((TextView) v).getText());
+
+        intent.putExtra(PickOneList.Choices,
+                EnumHelper.EnumNameToStringArray(TeaSpoons.values(), 1));
+
+
+        startActivityForResult(intent, IntentRequestCodes.TeaspoonSelection);
+    }
+
+    class IntentRequestCodes {
+        public static final int TeaspoonSelection = 1;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
+
+
+        if (resultCode == RESULT_OK &&
+                requestCode == IntentRequestCodes.TeaspoonSelection
+                ) {
+            try {
+
+                String setToTeaspoons = data.getStringExtra(PickOneList.SelectedItem);
+
+                    DoableValue value = doableItemValueTableAdapter
+                            .get(teaspoonsClickValueId);
+
+
+                    if (!value.getTeaspoons().toString().equals(setToTeaspoons)) {
+                        value.setTeaspoons(TeaSpoons.valueOf(setToTeaspoons));
+
+                        doableItemValueTableAdapter.save(value);
+                    }
+
+                SetupList(new DayOnlyDate(this.mDisplayingDate));
+
+            } catch (ParseException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+                Toast.makeText(this, "Error saving tsp: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+
+    }
+
+
     public void add_click(View v) throws ParseException {
         TextView tv = (TextView) v;
 
@@ -215,6 +274,12 @@ public class MainActivity extends Activity {
 
             if (value.getDoableItemId() == 0) {
                 value.setDoableItemId(ids.ItemId);
+            }
+
+            //todo: move this into the class
+            //if its tsp, make sure there's a default set
+            if (value.getTeaspoons() == TeaSpoons.unset) {
+                value.setTeaspoons(defaultTeaspoons);
             }
 
             //todo use tsp of main item and set to 64ths?!

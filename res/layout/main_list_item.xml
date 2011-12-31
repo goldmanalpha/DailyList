@@ -27,11 +27,12 @@
               android:textSize="16sp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:clickable="true"
-              android:onClick="unit_type_click"
               android:layout_marginLeft="5dp"
               android:layout_toRightOf="@id/list_unit_type"
               android:layout_below="@id/list_name"
+              android:clickable="true"
+              android:onClick="teaspoons_click"
+
             />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

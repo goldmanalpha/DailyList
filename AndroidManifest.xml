@@ -14,5 +14,7 @@
         </activity>
         <activity android:name=".AddItemActivity" android:label="Add Item"/>
 
+        <activity android:name="com.goldmanalpha.androidutility.PickOneList"
+                android:label="Pick One"/>
     </application>
 </manifest> 
