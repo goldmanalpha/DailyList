@@ -58,6 +58,10 @@ public class MainActivity extends Activity {
     int valueIdColumnIndex;
     int itemIdColumnIndex;
 
+    int teaspoonColIdx;
+    int lastTeaspoonColIdx;
+
+
     private void SetupList(Date date) {
 
         if (setupDate) {
@@ -78,14 +82,18 @@ public class MainActivity extends Activity {
         String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
                 DoableItemValueTableAdapter.ColUnitType,
                 DoableItemValueTableAdapter.ColAmount,
-                DoableItemValueTableAdapter.ColTeaspoons
+                DoableItemValueTableAdapter.ColTeaspoons,
+                DoableItemValueTableAdapter.ColLastAppliesToDate,
+                DoableItemValueTableAdapter.ColLastAmount
         };
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
-                R.id.amount, R.id.list_teaspoons
+                R.id.amount, R.id.list_teaspoons,
+                R.id.list_lastDate, R.id.list_lastAmount
         };
 
-        final int teaspoonColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
+        teaspoonColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
+        lastTeaspoonColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
         final int unitTypeColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
         final String usesTeaspoonsType = UnitType.tsp.toString();
 
@@ -108,12 +116,10 @@ public class MainActivity extends Activity {
                                 tv.setText("");
                                 return true;
                             } else {
-                                if (cursor.getString(teaspoonColIdx) == null) {
-                                    //default:
-                                    tv.setText(defaultTeaspoons.toString());
 
+                                tv.setText(getTeaspoonsForCursorPosition(cursor));
                                     return true;
-                                }
+
                             }
                         }
 
@@ -218,15 +224,15 @@ public class MainActivity extends Activity {
 
                 String setToTeaspoons = data.getStringExtra(PickOneList.SelectedItem);
 
-                    DoableValue value = doableItemValueTableAdapter
-                            .get(teaspoonsClickValueId);
+                DoableValue value = doableItemValueTableAdapter
+                        .get(teaspoonsClickValueId);
 
 
-                    if (!value.getTeaspoons().toString().equals(setToTeaspoons)) {
-                        value.setTeaspoons(TeaSpoons.valueOf(setToTeaspoons));
+                if (!value.getTeaspoons().toString().equals(setToTeaspoons)) {
+                    value.setTeaspoons(TeaSpoons.valueOf(setToTeaspoons));
 
-                        doableItemValueTableAdapter.save(value);
-                    }
+                    doableItemValueTableAdapter.save(value);
+                }
 
                 SetupList(new DayOnlyDate(this.mDisplayingDate));
 
@@ -241,6 +247,28 @@ public class MainActivity extends Activity {
 
     }
 
+
+    String getTeaspoonsForCursorPosition(Cursor c) {
+
+
+        String setTeaspoons = c.getString(this.teaspoonColIdx);
+        String lastTeaspoons = c.getString(this.lastTeaspoonColIdx);
+
+        String unset = TeaSpoons.unset.toString();
+
+        if (setTeaspoons == null || unset.equals(setTeaspoons)) {
+            if (lastTeaspoons != null && !unset.equals(lastTeaspoons)) {
+                return lastTeaspoons;
+
+            }
+        } else {
+            return setTeaspoons;
+        }
+
+
+        return defaultTeaspoons.toString();
+
+    }
 
     public void add_click(View v) throws ParseException {
         TextView tv = (TextView) v;

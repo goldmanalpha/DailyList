@@ -12,7 +12,7 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "dailydodata.db";
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 7;
 
     private List<TableBase> tables;
 

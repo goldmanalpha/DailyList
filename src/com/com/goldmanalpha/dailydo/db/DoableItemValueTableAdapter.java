@@ -67,6 +67,10 @@ public class DoableItemValueTableAdapter
     public static final String ColAmount = "amount";
     public static final String ColTeaspoons = "teaspoons";
 
+    public static final String ColLastTeaspoons = "lastTeaspoons";
+    public static final String ColLastAmount = "lastAmount";
+    public static final String ColLastAppliesToDate = "lastAppliesToDate";
+
     public static final String ColDescription = "description";
     public static final String ColPrivate = "private";
     public static final String ColDateCreated = "dateCreated";
@@ -120,11 +124,11 @@ public class DoableItemValueTableAdapter
                         + " vals.dateCreated, vals.dateModified, "
 
                         + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
-                        + " coalesce(lastVal.teaspoons, vals.teaspoons) lastTeaspoons, "
-                        + " coalesce(lastVal.amount, vals.amount) lastAmount, "
-                        + " coalesce(lastVal.fromTime, vals.fromTime) lastFromTime, "
-                        + " coalesce(lastVal.toTime, vals.toTime) lastToTime, "
-                        + " coalesce(lastVal.appliesToDate, vals.appliesToDate) lastDate "
+                        + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
+                        + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
+                        + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
+                        + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
+                        + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate "
 
                         + " from " + DoableItemTable.TableName + " as items "
                         + " left outer join " + this.tableName + " as vals "
@@ -132,6 +136,14 @@ public class DoableItemValueTableAdapter
                         + " and vals.appliesToDate = ?"
                         + " left outer join " + this.tableName + " as lastVal "
                         + " on vals.previousValueId = lastVal.id "
+
+                        + " left outer join ViewItemValueMax as valueMaxJunction "
+                        + " on items.id = valueMaxJunction.itemId "
+
+                        + " left outer join " + this.tableName + " as latestVal "
+                        + " on valueMaxJunction.valueId = latestVal.id "
+
+
                         + " order by vals.dateCreated desc"
 
                 , new String[]{super.DateToTimeStamp(date)});

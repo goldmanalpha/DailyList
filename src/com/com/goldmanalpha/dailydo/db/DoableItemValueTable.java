@@ -27,6 +27,16 @@ public class DoableItemValueTable extends TableBase {
 
             return sql4;
         }
+
+        if (newVersion == 7)
+        {
+            //sad assumption that max(id) will be last id holds 99% of the time
+            String sql6= "CREATE VIEW ViewItemValueMax AS "
+                    + " Select itemId, max(id) as valueId from " + TableName
+                    + " group by itemId; "  ;
+            return sql6;
+        }
+
         return null;
     }
 
