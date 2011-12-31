@@ -54,7 +54,7 @@ public final class Converter {
     static final <K, V> K MapLookup(HashMap<K, V> map, V value, K unsetValue) {
 
         for (Map.Entry<K, V> entry : map.entrySet()) {
-            if (entry.getValue() == value)
+            if (entry.getValue().equals(value))
                 return entry.getKey();
         }
 

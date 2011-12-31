@@ -65,6 +65,7 @@ public class DoableItemValueTableAdapter
     public static final String ColItemName = "items_name";
     public static final String ColUnitType = "unitType";
     public static final String ColAmount = "amount";
+    public static final String ColTeaspoons = "teaspoons";
 
     public static final String ColDescription = "description";
     public static final String ColPrivate = "private";

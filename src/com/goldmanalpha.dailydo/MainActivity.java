@@ -10,6 +10,8 @@ import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 import com.goldmanalpha.androidutility.DayOnlyDate;
 import com.goldmanalpha.dailydo.model.DoableBase;
 import com.goldmanalpha.dailydo.model.DoableValue;
+import com.goldmanalpha.dailydo.model.TeaSpoons;
+import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +55,7 @@ public class MainActivity extends Activity {
     Cursor cursor;
     int valueIdColumnIndex;
     int itemIdColumnIndex;
-    
+
     private void SetupList(Date date) {
 
         if (setupDate) {
@@ -66,49 +68,62 @@ public class MainActivity extends Activity {
         doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
         cursor = doableItemValueTableAdapter.getItems(date);
 
-        valueIdColumnIndex =cursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
+        valueIdColumnIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
-        
+
         startManagingCursor(cursor);
 
         String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
                 DoableItemValueTableAdapter.ColUnitType,
-                DoableItemValueTableAdapter.ColAmount
+                DoableItemValueTableAdapter.ColAmount,
+                DoableItemValueTableAdapter.ColTeaspoons
         };
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
-                R.id.amount
-                };
+                R.id.amount, R.id.list_teaspoons
+        };
+
+        final int teaspoonColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
+        final int unitTypeColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
+        final String usesTeaspoonsType = UnitType.tsp.toString();
 
         myList = (ListView) findViewById(R.id.main_list);
-
-        final int nameColIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
 
         listCursorAdapter = new SimpleCursorAdapter(myList.getContext(),
                 R.layout.main_list_item, cursor, from, to);
 
-        listCursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-
-            public boolean setViewValue(View aView, Cursor aCursor, int aColumnIndex) {
-
-                if (aColumnIndex == nameColIndex) {
-
-
-                }
-
-                //todo: use to set formatted time into time field
-                /*if (aColumnIndex == 2) {
-                    String createDate = aCursor.getString(aColumnIndex);
-                    TextView textView = (TextView) aView;
-                    textView.setText("Create date: " + MyFormatterHelper.formatDate(getApplicationContext(), createDate));
-                    return true;
-                }*/
-
-                return false;
-            }
-        });
-
         myList.setAdapter(listCursorAdapter);
+
+        listCursorAdapter.setViewBinder(
+                new SimpleCursorAdapter.ViewBinder() {
+                    public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+
+
+                        if (columnIndex == teaspoonColIdx)
+                        {
+                            TextView tv = ((TextView) view);
+
+                            if (!cursor.getString(unitTypeColIdx).equals(usesTeaspoonsType))
+                            {
+                                tv.setText("");
+                                return true;
+                            }
+                            else
+                            {
+                                if (cursor.getString(teaspoonColIdx) == null)
+                                {
+                                    //default:
+                                    tv.setText(TeaSpoons.eighth.toString());
+
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                }
+        );
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
@@ -129,21 +144,18 @@ public class MainActivity extends Activity {
         public int ItemId;
 
         @Override
-        public String toString()
-        {
+        public String toString() {
 
             return "ItemId: " + ItemId + " ValueId: " + ValueId;
         }
     }
-    
-    public ValueIdentifier GetValueIds(View view)
-    {
-        if (cursor.moveToPosition(myList.getPositionForView(view)))
-        {
+
+    public ValueIdentifier GetValueIds(View view) {
+        if (cursor.moveToPosition(myList.getPositionForView(view))) {
 
             ValueIdentifier vi = new ValueIdentifier();
-            
-            vi.ValueId = cursor.getInt(valueIdColumnIndex );
+
+            vi.ValueId = cursor.getInt(valueIdColumnIndex);
             vi.ItemId = cursor.getInt(itemIdColumnIndex);
 
             return vi;
@@ -153,7 +165,7 @@ public class MainActivity extends Activity {
     }
 
     public void nameClick(View view) {
-        ValueIdentifier ids =  GetValueIds(view);
+        ValueIdentifier ids = GetValueIds(view);
 
         Toast.makeText(getApplicationContext(),
                 ids.toString() + " " + ((TextView) view).getText(),
@@ -162,10 +174,8 @@ public class MainActivity extends Activity {
     }
 
 
-
-
     public void unit_type_click(View v) {
-        ValueIdentifier ids =  GetValueIds(v);
+        ValueIdentifier ids = GetValueIds(v);
 
         Toast.makeText(getApplicationContext(),
                 ids.toString() + " " + ((TextView) v).getText(),
@@ -177,7 +187,7 @@ public class MainActivity extends Activity {
         TextView tv = (TextView) v;
 
         int addAmount = 0;
-        
+
         switch (tv.getId()) {
             case R.id.big_minus:
                 addAmount = -5;
@@ -196,16 +206,14 @@ public class MainActivity extends Activity {
                         "Unexpected source for add_click", Toast.LENGTH_LONG)
                         .show();
         }
-        
-        if (addAmount != 0)
-        {
+
+        if (addAmount != 0) {
             ValueIdentifier ids = GetValueIds(v);
 
-            DoableValue value =  doableItemValueTableAdapter
+            DoableValue value = doableItemValueTableAdapter
                     .get(ids.ValueId);
 
-            if (value.getDoableItemId() == 0)
-            {
+            if (value.getDoableItemId() == 0) {
                 value.setDoableItemId(ids.ItemId);
             }
 
@@ -220,7 +228,6 @@ public class MainActivity extends Activity {
 
             cursor.requery();
         }
-
 
 
     }
