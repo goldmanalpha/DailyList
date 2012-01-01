@@ -26,6 +26,9 @@ public class MainActivity extends Activity {
     Date mDisplayingDate;
     DoableItemValueTableAdapter doableItemValueTableAdapter;
 
+    private static final SimpleDateFormat shortMonthDateFormat = new SimpleDateFormat("MMM-dd");
+
+
     /**
      * Called when the activity is first created.
      */
@@ -47,20 +50,21 @@ public class MainActivity extends Activity {
     SimpleCursorAdapter listCursorAdapter;
 
     private void SetupList2(Date date) {
-        cursor = doableItemValueTableAdapter.getItems(date);
-        startManagingCursor(cursor);
+        cachedCursor = doableItemValueTableAdapter.getItems(date);
+        startManagingCursor(cachedCursor);
 
-        listCursorAdapter.changeCursor(cursor);
+        listCursorAdapter.changeCursor(cachedCursor);
     }
 
     ListView myList;
-    Cursor cursor;
+    Cursor cachedCursor;
     int valueIdColumnIndex;
     int itemIdColumnIndex;
 
     int teaspoonColIdx;
     int lastTeaspoonColIdx;
-
+    int unitTypeColIdx;
+    final String usesTeaspoonsType = UnitType.tsp.toString();
 
     private void SetupList(Date date) {
 
@@ -72,35 +76,41 @@ public class MainActivity extends Activity {
         setupDate = true;
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
-        cursor = doableItemValueTableAdapter.getItems(date);
+        cachedCursor = doableItemValueTableAdapter.getItems(date);
 
-        valueIdColumnIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
-        itemIdColumnIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
+        valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
+        itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
 
-        startManagingCursor(cursor);
+        startManagingCursor(cachedCursor);
 
         String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
                 DoableItemValueTableAdapter.ColUnitType,
                 DoableItemValueTableAdapter.ColAmount,
                 DoableItemValueTableAdapter.ColTeaspoons,
                 DoableItemValueTableAdapter.ColLastAppliesToDate,
-                DoableItemValueTableAdapter.ColLastAmount
+                DoableItemValueTableAdapter.ColLastAmount,
+                DoableItemValueTableAdapter.ColLastTeaspoons
         };
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
                 R.id.amount, R.id.list_teaspoons,
-                R.id.list_lastDate, R.id.list_lastAmount
+                R.id.list_lastDate, R.id.list_lastAmount,
+                R.id.list_lastTeaspoons
         };
 
-        teaspoonColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
-        lastTeaspoonColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
-        final int unitTypeColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
-        final String usesTeaspoonsType = UnitType.tsp.toString();
+        teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
+        lastTeaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
+        unitTypeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
+        final int lastAppliesToDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastAppliesToDate);
+
+        final int lastTeaspoonsColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
+
+
 
         myList = (ListView) findViewById(R.id.main_list);
 
         listCursorAdapter = new SimpleCursorAdapter(myList.getContext(),
-                R.layout.main_list_item, cursor, from, to);
+                R.layout.main_list_item, cachedCursor, from, to);
 
         myList.setAdapter(listCursorAdapter);
 
@@ -112,14 +122,46 @@ public class MainActivity extends Activity {
                         if (columnIndex == teaspoonColIdx) {
                             TextView tv = ((TextView) view);
 
-                            if (!cursor.getString(unitTypeColIdx).equals(usesTeaspoonsType)) {
+                            if (!IsTeaspoons(cursor)) {
                                 tv.setText("");
                                 return true;
                             } else {
 
                                 tv.setText(getTeaspoonsForCursorPosition(cursor));
-                                    return true;
+                                return true;
+                            }
+                        }
 
+                        if (columnIndex == lastTeaspoonsColIdx) {
+                            TextView tv = ((TextView) view);
+
+                            if (!IsTeaspoons(cursor)) {
+                                tv.setText("");
+                                return true;
+                            }
+                        }
+
+                        if (columnIndex == lastAppliesToDateColIdx) {
+                            //format the date
+
+                            String lastAppliesToDate = cursor.getString(columnIndex);
+
+                            if (lastAppliesToDate == null)
+                            {
+                                return true;
+                            }
+
+                            try {
+                                Date d = DoableItemValueTableAdapter.simpleDateFormat.parse(lastAppliesToDate);
+
+                                TextView tv = (TextView) view;
+
+                                tv.setText(shortMonthDateFormat.format(d));
+
+                                return true;
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                             }
                         }
 
@@ -132,14 +174,22 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                // When clicked, show a toast with the TextView text
-                Toast.makeText(getApplicationContext(),
-                        ((TextView) view).getText(),
-                        Toast.LENGTH_SHORT).show();
+                if (view instanceof TextView) {
+
+                    // When clicked, show a toast with the TextView text
+                    Toast.makeText(getApplicationContext(),
+                            ((TextView) view).getText(),
+                            Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
+    }
 
+    boolean IsTeaspoons(Cursor cursor) {
 
+        return cursor.getString(unitTypeColIdx).equals(usesTeaspoonsType);
     }
 
     public final static TeaSpoons defaultTeaspoons = TeaSpoons.eighth;
@@ -155,13 +205,14 @@ public class MainActivity extends Activity {
         }
     }
 
+    //beneficial side effect - sets cachedCursor to proper position
     public ValueIdentifier GetValueIds(View view) {
-        if (cursor.moveToPosition(myList.getPositionForView(view))) {
+        if (cachedCursor.moveToPosition(myList.getPositionForView(view))) {
 
             ValueIdentifier vi = new ValueIdentifier();
 
-            vi.ValueId = cursor.getInt(valueIdColumnIndex);
-            vi.ItemId = cursor.getInt(itemIdColumnIndex);
+            vi.ValueId = cachedCursor.getInt(valueIdColumnIndex);
+            vi.ItemId = cachedCursor.getInt(itemIdColumnIndex);
 
             return vi;
         }
@@ -300,26 +351,37 @@ public class MainActivity extends Activity {
             DoableValue value = doableItemValueTableAdapter
                     .get(ids.ValueId);
 
+            //its a new value:
             if (value.getDoableItemId() == 0) {
                 value.setDoableItemId(ids.ItemId);
             }
 
-            //todo: move this into the class
-            //if its tsp, make sure there's a default set
-            if (value.getTeaspoons() == TeaSpoons.unset) {
-                value.setTeaspoons(defaultTeaspoons);
+            //if its tsp, make sure there's a tsp type set
+            if (value.getTeaspoons() == TeaSpoons.unset && IsTeaspoons(cachedCursor)) {
+                value.setTeaspoons(
+                        TeaSpoons.valueOf(
+                        this.getTeaspoonsForCursorPosition(cachedCursor)));
             }
 
-            //todo use tsp of main item and set to 64ths?!
-            //todo: check unit type to see if its a time, etc.
 
-            value.setAmount(value.getAmount() + addAmount);
+            if (value.getId() == 0)
+            {
+                //its a new value, start with last value used
+                value.setAmount(cachedCursor.getFloat(cachedCursor.getColumnIndex(
+                        DoableItemValueTableAdapter.ColLastAmount)));
+            }
+            else
+            {
+                value.setAmount(value.getAmount() + addAmount);
+            }
+
             value.setAppliesToDate(this.mDisplayingDate);
 
 
             doableItemValueTableAdapter.save(value);
 
-            cursor.requery();
+
+            cachedCursor.requery();
         }
 
 

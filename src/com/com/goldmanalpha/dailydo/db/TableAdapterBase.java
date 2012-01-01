@@ -103,7 +103,7 @@ public abstract class TableAdapterBase<T extends  DoableBase> {
         return cursor;
     }
 
-    protected final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     protected String DateToTimeStamp(Date d)
     {

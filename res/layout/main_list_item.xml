@@ -7,7 +7,7 @@
     <TextView android:id="@+id/list_name"
               android:textSize="16sp"
               android:textStyle="bold"
-              android:layout_width="wrap_content"
+              android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:clickable="true"
               android:onClick="nameClick"
@@ -35,32 +35,55 @@
 
             />
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:layout_alignParentRight="true"
+                      android:layout_alignRight="@id/list_name"
+                >
 
     <TextView android:id="@+id/list_lastDate"
-              android:textSize="16sp"
+              android:textSize="12sp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginLeft="15dp"
-              android:layout_toRightOf="@id/list_teaspoons"
-              android:layout_below="@id/list_name"
               android:clickable="true"
               android:onClick="unit_type_click"
 
             />
 
-<TextView android:id="@+id/list_lastAmount"
-              android:textSize="16sp"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="15dp"
-              android:layout_toRightOf="@id/list_lastDate"
-              android:layout_below="@id/list_name"
-              android:clickable="true"
-              android:onClick="unit_type_click"
-
-            />
+        <TextView android:id="@+id/list_dateColon"
+                  android:textSize="12sp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:clickable="true"
+                  android:onClick="unit_type_click"
+                  android:text=": "
+                />
 
 
+        <TextView android:id="@+id/list_lastAmount"
+                  android:textSize="12sp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:clickable="true"
+                  android:onClick="unit_type_click"
+
+                />
+
+        <TextView android:id="@+id/list_lastTeaspoons"
+                  android:textSize="12sp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:clickable="true"
+                  android:onClick="unit_type_click"
+                  android:layout_marginLeft="2dp"
+                  android:singleLine="true"
+                  android:ellipsize="none"
+                  android:maxWidth="20dp"
+                />
+    </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -98,8 +121,8 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:clickable="false"
-                  android:minWidth= "25dp"
-                   android:gravity="center_vertical|right"
+                  android:minWidth="25dp"
+                  android:gravity="center_vertical|right"
                 />
 
         <TextView android:id="@+id/amount2"
