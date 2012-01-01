@@ -7,57 +7,51 @@
         android:orientation="vertical"
         >
 
-
-    <TableLayout
-            android:id="@+id/widget31"
-            android:layout_width="wrap_content"
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
             >
-        <TableRow
-                android:id="@+id/widget33"
-                android:layout_width="fill_parent"
-                android:layout_height="25dip"
-                android:orientation="horizontal"
-                >
 
-            <TextView
-                    android:id="@+id/prevDate"
-                    android:layout_height="25dip"
-                    android:gravity="center"
-                    android:text="  &lt;  "
+        <TextView
+                android:id="@+id/dateDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-                    android:clickable="true"
-                    android:onClick="prevDayClick"
-                    />
-            <TextView
-                    android:id="@+id/dateDisplay"
-                    android:layout_width="135dip"
-                    android:layout_height="25dip"
-                    android:gravity="center"
-                    android:text="Date"
-                    />
+                android:text="Date"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                />
 
-            <TextView
-                    android:id="@+id/nextDate"
-                    android:layout_height="25dip"
-                    android:gravity="center"
-                    android:text="  &gt;  "
-                    android:clickable="true"
-                    android:onClick="nextDayClick"
+        <TextView
+                android:id="@+id/prevDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  &lt; &lt;  "
+                android:clickable="true"
+                android:onClick="prevDayClick"
+                android:layout_gravity="right"
 
-                    />
-        </TableRow>
-    </TableLayout>
+                />
+
+
+        <TextView
+                android:id="@+id/nextDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="  &gt; &gt;  "
+                android:clickable="true"
+                android:onClick="nextDayClick"
+
+                />
+    </LinearLayout>
     <ListView
-        android:id="@+id/main_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        />
+            android:id="@+id/main_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            />
 
     <TextView
             android:layout_width="wrap_content"

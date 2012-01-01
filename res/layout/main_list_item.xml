@@ -94,26 +94,6 @@
             >
 
 
-        <TextView android:id="@+id/big_minus"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="add_click"
-                  android:text="&lt;&lt;  "
-                />
-
-        <TextView android:id="@+id/minus"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="add_click"
-                  android:text="-"
-                />
-
 
         <TextView android:id="@+id/amount"
                   android:textSize="16sp"
@@ -134,6 +114,27 @@
                   android:layout_marginLeft="5dp"
                 />
 
+
+        <TextView android:id="@+id/big_minus"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:clickable="true"
+                  android:onClick="add_click"
+                  android:text="  &lt;&lt; "
+                />
+
+        <TextView android:id="@+id/minus"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:clickable="true"
+                  android:onClick="add_click"
+                  android:text=" -  "
+                />
+
         <TextView android:id="@+id/plus"
                   android:textSize="16sp"
                   android:textStyle="bold"
@@ -141,7 +142,7 @@
                   android:layout_height="wrap_content"
                   android:clickable="true"
                   android:onClick="add_click"
-                  android:text="+   "
+                  android:text="  +   "
                 />
 
         <TextView android:id="@+id/big_plus"
@@ -151,7 +152,7 @@
                   android:layout_height="wrap_content"
                   android:clickable="true"
                   android:onClick="add_click"
-                  android:text=">>"
+                  android:text=">> "
                 />
 
     </LinearLayout>
