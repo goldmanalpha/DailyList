@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
                                 tv.setShadowLayer(0,0,0, Color.BLACK);
 
 
-                            if (timesToShowDate < 2) {
+
                                 //hide dash if we don't have 2 dates
                                 int dashId = 0;
 
@@ -187,9 +187,12 @@ public class MainActivity extends Activity {
                                     TextView dashView = (TextView)
                                             ((ViewGroup) tv.getParent()).findViewById(dashId);
 
-                                    dashView.setText("");
+                                    if (timesToShowDate < 2)
+                                        dashView.setText("");
+                                    else
+                                        dashView.setText(" - ");
                                 }
-                            }
+
 
                             boolean hasValue = hasValue(cursor);
                             boolean fromShows = (columnIndex == lastFromTimedColumnIndex
