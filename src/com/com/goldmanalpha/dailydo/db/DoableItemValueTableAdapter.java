@@ -117,6 +117,9 @@ public class DoableItemValueTableAdapter
     public static final String ColFromTime = "fromTime";
     public static final String ColLastFromTime = "lastFromTime";
 
+    public static final String ColToTime = "toTime";
+    public static final String ColLastToTime = "lastToTime";
+
 
     public void recalcDisplayOrder() {
         open();
