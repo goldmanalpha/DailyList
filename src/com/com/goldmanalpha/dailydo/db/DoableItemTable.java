@@ -23,8 +23,20 @@ public class DoableItemTable extends TableBase {
                 + ");";
     }
 
+    @Override
+    protected String databaseUpgradeSql(int newVersion) {
 
+        if (newVersion == 10)
+        {
+            //on changing days, the order of the columns will be recalculated??
+            String sql = "Alter Table " + TableName
+                    + " add column displayOrder int;";
 
+            return sql;
+        }
+
+        return null;
+    }
 }
 
 

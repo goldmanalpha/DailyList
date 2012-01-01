@@ -9,7 +9,9 @@ import com.goldmanalpha.dailydo.model.TeaSpoons;
 import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DoableItemValueTableAdapter
         extends TableAdapterBase<DoableValue> {
@@ -26,6 +28,7 @@ public class DoableItemValueTableAdapter
         long id = super.save(object);
         return id;
     }
+
 
     @Override
     protected ContentValues createContentValues(DoableValue object) {
@@ -114,40 +117,86 @@ public class DoableItemValueTableAdapter
     public static final String ColFromTime = "fromTime";
     public static final String ColLastFromTime = "lastFromTime";
 
+
+    public void recalcDisplayOrder() {
+        open();
+
+        String sql = "select i.id, m.valueId, i.displayOrder "
+                + " from DoableItem i left outer join ViewItemValueMax m  "
+                + " on m.itemId = i.id order by nullif(i.id, m.itemId),  m.valueId desc ;";
+
+        Cursor c = db.rawQuery(sql, new String[]{});
+
+        int order = 0;
+
+        List<DoableItem> items = new ArrayList<DoableItem>();
+
+        if (c.moveToFirst())
+        {
+            do{
+                if (c.getInt(2) != order)
+                {
+
+                    DoableItem item = new DoableItem(c.getInt(0));
+                    item.setDisplayOrder(order);
+                    items.add(item);
+                }
+
+                order++;
+            }while (c.moveToNext());
+        }
+
+        c.close();
+
+        if (!items.isEmpty())
+        {
+            DoableItemTableAdapter adapter = new DoableItemTableAdapter(context);
+
+            for(int i = 0; i< items.size(); i++)
+            {
+
+                    DoableItem item = items.get(i);
+
+                    adapter.updateOrder(item.getId(), item.getDisplayOrder());
+            }
+        }
+    }
+
     //returns a cursor of doable items:
     public Cursor getItems(Date date) {
 
         open();
 
-        String sql ="select "
-                        + " vals.id as _id, vals.id, vals.description, "
-                        + " vals.fromTime, vals.toTime, vals.amount, "
-                        + " vals.teaspoons, "
+        String sql = "select "
+                + " vals.id as _id, vals.id, vals.description, "
+                + " vals.fromTime, vals.toTime, vals.amount, "
+                + " vals.teaspoons, "
 
-                        + " vals.dateCreated, vals.dateModified, "
+                + " vals.dateCreated, vals.dateModified, "
 
-                        + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
-                        + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
-                        + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
-                        + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
-                        + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
-                        + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate "
+                + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
+                + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
+                + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
+                + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
+                + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
+                + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate "
 
-                        + " from " + DoableItemTable.TableName + " as items "
-                        + " left outer join " + this.tableName + " as vals "
-                        + " on vals.itemId = items.id "
-                        + " and vals.appliesToDate = ?"
-                        + " left outer join " + this.tableName + " as lastVal "
-                        + " on vals.previousValueId = lastVal.id "
+                + " from " + DoableItemTable.TableName + " as items "
+                + " left outer join " + this.tableName + " as vals "
+                + " on vals.itemId = items.id "
+                + " and vals.appliesToDate = ?"
+                + " left outer join " + this.tableName + " as lastVal "
+                + " on vals.previousValueId = lastVal.id "
 
-                        + " left outer join ViewItemValueMax as valueMaxJunction "
-                        + " on items.id = valueMaxJunction.itemId "
+                + " left outer join ViewItemValueMax as valueMaxJunction "
+                + " on items.id = valueMaxJunction.itemId "
 
-                        + " left outer join " + this.tableName + " as latestVal "
-                        + " on valueMaxJunction.valueId = latestVal.id "
+                + " left outer join " + this.tableName + " as latestVal "
+                + " on valueMaxJunction.valueId = latestVal.id "
 
+                + " order by items.displayOrder";
 
-                        + " order by vals.dateCreated desc";
+        // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
 
         Cursor cursor = db.rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
 

@@ -16,6 +16,16 @@ public class DoableItem extends DoableBase {
     UnitType unitType;
     boolean isPrivate;
 
+    int displayOrder = 0;
+
+    public int getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(int displayOrder) {
+        this.displayOrder = displayOrder;
+    }
+
 
 
     public DoableItem(int id) {

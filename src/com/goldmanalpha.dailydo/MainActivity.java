@@ -472,14 +472,15 @@ public class MainActivity extends Activity {
     }
 
     public void nextDayClick(View v) {
-        updateDisplayDate(addDays(mDisplayingDate, 1));
 
+        doableItemValueTableAdapter.recalcDisplayOrder();
+        updateDisplayDate(addDays(mDisplayingDate, 1));
     }
 
 
     public void prevDayClick(View v) {
+        doableItemValueTableAdapter.recalcDisplayOrder();
         updateDisplayDate(addDays(mDisplayingDate, -1));
-
     }
 
     public void addItemClick(View v) {

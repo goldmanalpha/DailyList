@@ -20,6 +20,26 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
         this.context = context;
     }
 
+    public void updateOrder(int id, int order) {
+
+        open();
+
+        ContentValues values = new ContentValues();
+        values.put("displayOrder", order);
+
+        int rows = db.update(DoableItemTable.TableName, values, "id = " + id, null);
+
+        if (rows == 0) {
+            throw new IndexOutOfBoundsException("Unexpected no rows affected for order update of: " + DoableItemTable.TableName);
+        }
+
+        if (rows > 1) {
+            throw new IndexOutOfBoundsException("Unexpected " + rows + " rows affected for update of: " + DoableItemTable.TableName);
+        }
+
+    }
+
+
     @Override
     protected ContentValues createContentValues(DoableItem object) {
         ContentValues values = super.createContentValues(object);
@@ -29,6 +49,8 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
         values.put("description", object.getDescription());
         values.put("private",
                 object.getPrivate() ? 1 : 0);
+
+        values.put("displayOrder", object.getDisplayOrder());
 
         return values;
     }
@@ -50,35 +72,35 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
         Cursor cursor = db.rawQuery(
                 "select "
-                        + " id as _id, id, name, unitType, description, private, dateCreated, dateModified"
+                        + " id as _id, id, name, unitType, description, private, dateCreated, dateModified, displayOrder"
                         + " from " + this.tableName, new String[]{});
 
         return cursor;
     }
-    
+
     @Override
-    public DoableItem get(int id)
-    {
+    public DoableItem get(int id) {
         DoableItem item = new DoableItem();
-        
+
         Cursor c = getSingle(id);
-        
-        if (c.moveToFirst())
-        {
+
+        if (c.moveToFirst()) {
             item = new DoableItem(c.getInt(c.getColumnIndex("id")));
 
             super.setCommonValues(item, c);
-            
+
             item.setName(c.getString(c.getColumnIndex("name")));
             item.setUnitType(UnitType.valueOf(c.getString(c.getColumnIndex("unitType"))));
             item.setDescription(c.getString(c.getColumnIndex("description")));
             item.setPrivate(
                     c.getInt(c.getColumnIndex("private")) == 0 ? Boolean.FALSE : Boolean.TRUE
-                    );
+            );
+
+            item.setDisplayOrder(c.getInt(c.getColumnIndex("displayOrder")));
         }
 
         return item;
-        
+
     }
 }
 
