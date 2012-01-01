@@ -59,22 +59,6 @@ public class DoableItemValueTableAdapter
         return values;
     }
 
-    public static final String ColId = "id";
-    public static final String ColItemId = "items_id";
-
-    public static final String ColItemName = "items_name";
-    public static final String ColUnitType = "unitType";
-    public static final String ColAmount = "amount";
-    public static final String ColTeaspoons = "teaspoons";
-
-    public static final String ColLastTeaspoons = "lastTeaspoons";
-    public static final String ColLastAmount = "lastAmount";
-    public static final String ColLastAppliesToDate = "lastAppliesToDate";
-
-    public static final String ColDescription = "description";
-    public static final String ColPrivate = "private";
-    public static final String ColDateCreated = "dateCreated";
-    public static final String ColDateModified = "dateModified";
 
     public int getPreviousId(int itemId, Date date) {
         Cursor c = db.rawQuery(
@@ -110,13 +94,32 @@ public class DoableItemValueTableAdapter
         return 0;
     }
 
+    public static final String ColId = "id";
+    public static final String ColItemId = "items_id";
+
+    public static final String ColItemName = "items_name";
+    public static final String ColUnitType = "unitType";
+    public static final String ColAmount = "amount";
+    public static final String ColTeaspoons = "teaspoons";
+
+    public static final String ColLastTeaspoons = "lastTeaspoons";
+    public static final String ColLastAmount = "lastAmount";
+    public static final String ColLastAppliesToDate = "lastAppliesToDate";
+
+    public static final String ColDescription = "description";
+    public static final String ColPrivate = "private";
+    public static final String ColDateCreated = "dateCreated";
+    public static final String ColDateModified = "dateModified";
+
+    public static final String ColFromTime = "fromTime";
+    public static final String ColLastFromTime = "lastFromTime";
+
     //returns a cursor of doable items:
     public Cursor getItems(Date date) {
 
         open();
 
-        Cursor cursor = db.rawQuery(
-                "select "
+        String sql ="select "
                         + " vals.id as _id, vals.id, vals.description, "
                         + " vals.fromTime, vals.toTime, vals.amount, "
                         + " vals.teaspoons, "
@@ -144,9 +147,9 @@ public class DoableItemValueTableAdapter
                         + " on valueMaxJunction.valueId = latestVal.id "
 
 
-                        + " order by vals.dateCreated desc"
+                        + " order by vals.dateCreated desc";
 
-                , new String[]{super.DateToTimeStamp(date)});
+        Cursor cursor = db.rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
 
         return cursor;
     }

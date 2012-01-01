@@ -112,6 +112,13 @@ public abstract class TableAdapterBase<T extends  DoableBase> {
 
     public Integer TimeToInt(Time t)
     {
+        if (t == null)
+        {
+            //null time is only for defaults
+            Date now = new Date();
+            t = new Time(now.getHours(), 0, 0);
+        }
+
         return t.getHours() * 10000 + t.getMinutes() * 100 + t.getSeconds();
     }
     

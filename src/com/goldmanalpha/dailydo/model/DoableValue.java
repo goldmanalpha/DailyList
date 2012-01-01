@@ -8,7 +8,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.util.Date;
 
-public class DoableValue extends DoableBase{
+public class DoableValue extends DoableBase {
     private String description;
 
     //used as start or only time
@@ -33,12 +33,10 @@ public class DoableValue extends DoableBase{
 
     private TeaSpoons teaspoons = TeaSpoons.unset;
 
-    public DoableValue()
-    {
+    public DoableValue() {
     }
 
-    public DoableValue(int id)
-    {
+    public DoableValue(int id) {
         super(id);
     }
 
@@ -60,6 +58,7 @@ public class DoableValue extends DoableBase{
 
 
     public Time getFromTime() {
+
         return fromTime;
     }
 
@@ -93,9 +92,9 @@ public class DoableValue extends DoableBase{
 
 
     DoableItem item;
+
     public DoableItem getItem(Context context) {
-        if (item == null)
-        {
+        if (item == null) {
             item = new DoableItemTableAdapter(context).get(doableItemId);
         }
 
