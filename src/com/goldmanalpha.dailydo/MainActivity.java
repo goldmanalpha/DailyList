@@ -88,8 +88,7 @@ public class MainActivity extends Activity {
 
             case (MenuItems.Backup):
                 Toast.makeText(this, "Backing up", Toast.LENGTH_LONG).show();
-                BackupHelper helper = new BackupHelper();
-                helper.backup(path, "dailydodata.db");
+                startService(new Intent(this, BackupService.class));
                 break;
 
             case MenuItems.EmailDb:
@@ -109,6 +108,7 @@ public class MainActivity extends Activity {
 
             case (MenuItems.Quit):
                 Toast.makeText(this, "Bye.", Toast.LENGTH_SHORT).show();
+                startService(new Intent(this, BackupService.class));
                 finish();
                 break;
         }

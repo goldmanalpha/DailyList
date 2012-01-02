@@ -3,6 +3,8 @@ package com.goldmanalpha.dailydo;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.widget.Toast;
+import com.goldmanalpha.androidutility.BackupHelper;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,10 +22,18 @@ public class BackupService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);    //To change body of overridden methods use File | Settings | File Templates.
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
 
+        String path = "data/data/" + this.getPackageName() + "/databases/";
 
+        BackupHelper helper = new BackupHelper();
+        helper.backup(path, "dailydodata.db");
+
+        Toast.makeText(this, "DailyDo Backed Up", Toast.LENGTH_SHORT).show();
+
+        stopSelf();
+
+        return START_NOT_STICKY;
     }
 }
