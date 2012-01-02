@@ -1,5 +1,3 @@
-Backup!
-
 1 click thru item to item details
 
 2 support value description
@@ -28,6 +26,9 @@ Backup!
 
 2 insert time button in value description
 
+
+about page with backup info?
+use backupmgr to backup data to cloud
 
 multiple per day?  sort order...  bind list to objects to keep order...
 

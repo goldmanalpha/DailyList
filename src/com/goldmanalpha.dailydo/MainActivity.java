@@ -4,20 +4,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Path;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
-import com.goldmanalpha.androidutility.DateHelper;
-import com.goldmanalpha.androidutility.DayOnlyDate;
-import com.goldmanalpha.androidutility.EnumHelper;
-import com.goldmanalpha.androidutility.PickOneList;
+import com.goldmanalpha.androidutility.*;
 import com.goldmanalpha.dailydo.model.DoableBase;
 import com.goldmanalpha.dailydo.model.DoableValue;
 import com.goldmanalpha.dailydo.model.TeaSpoons;
 import com.goldmanalpha.dailydo.model.UnitType;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,6 +55,65 @@ public class MainActivity extends Activity {
 
         updateDisplayDate(new DayOnlyDate());
 
+    }
+
+    static final class MenuItems {
+        public static final int AddItem = 0;
+        public static final int Backup = 1;
+        public static final int Quit = 2;
+        public static final int EmailDb = 3;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        //group, item, order, title
+        menu.add(0, MenuItems.AddItem, 0, "Add Item");
+        menu.add(0, MenuItems.Backup, 0, "Backup");
+        menu.add(0, MenuItems.Quit, 0, "Quit");
+        menu.add(0, MenuItems.EmailDb, 0, "Email DB");
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        String path = "data/data/" + this.getPackageName() + "/databases/";
+
+        switch (item.getItemId()) {
+            case (MenuItems.AddItem):
+                startActivity(new Intent(this, AddItemActivity.class));
+                break;
+
+            case (MenuItems.Backup):
+                Toast.makeText(this, "Backing up", Toast.LENGTH_LONG).show();
+                BackupHelper helper = new BackupHelper();
+                helper.backup(path, "dailydodata.db");
+                break;
+
+            case MenuItems.EmailDb:
+
+                Intent email = new Intent(Intent.ACTION_SEND);
+                //email.putExtra(Intent.EXTRA_EMAIL, recipients);
+                email.putExtra(Intent.EXTRA_TEXT, "data attached");
+                email.putExtra(Intent.EXTRA_SUBJECT, "DailyDo Data");
+                email.setType("message/rfc822");
+
+                email.putExtra(android.content.Intent.EXTRA_STREAM,
+                        Uri.parse("file://" + path + "/dailydodata.db"));
+
+                startActivity(email);
+
+                break;
+
+            case (MenuItems.Quit):
+                Toast.makeText(this, "Bye.", Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+        }
+
+        return false;
     }
 
     boolean setupDate = false;
@@ -153,8 +215,7 @@ public class MainActivity extends Activity {
                             int timesToShowDate = timesToShowDate(cursor);
 
                             if (timesToShowDate > 1 &&
-                                    (columnIndex == fromTimeColumnIndex || columnIndex == toTimeColumnIndex))
-                            {
+                                    (columnIndex == fromTimeColumnIndex || columnIndex == toTimeColumnIndex)) {
                                 int itemId = cursor.getInt(itemIdColumnIndex);
 
                                 boolean editFirst = !usesTime1Map.containsKey(itemId) || usesTime1Map.get(itemId);
@@ -164,34 +225,32 @@ public class MainActivity extends Activity {
                                         )
                                     tv.setShadowLayer(3, 3, 3, Color.GREEN);
                                 else
-                                    tv.setShadowLayer(0,0,0, Color.BLACK);
+                                    tv.setShadowLayer(0, 0, 0, Color.BLACK);
+                            } else
+                                tv.setShadowLayer(0, 0, 0, Color.BLACK);
+
+
+                            //hide dash if we don't have 2 dates
+                            int dashId = 0;
+
+                            if (columnIndex == fromTimeColumnIndex) {
+                                dashId = R.id.list_time_separator;
                             }
-                            else
-                                tv.setShadowLayer(0,0,0, Color.BLACK);
 
+                            if (columnIndex == lastFromTimedColumnIndex) {
+                                dashId = R.id.list_lastTimeSeparator;
+                            }
 
+                            if (dashId != 0) {
 
-                                //hide dash if we don't have 2 dates
-                                int dashId = 0;
+                                TextView dashView = (TextView)
+                                        ((ViewGroup) tv.getParent()).findViewById(dashId);
 
-                                if (columnIndex == fromTimeColumnIndex) {
-                                    dashId = R.id.list_time_separator;
-                                }
-
-                                if (columnIndex == lastFromTimedColumnIndex) {
-                                    dashId = R.id.list_lastTimeSeparator;
-                                }
-
-                                if (dashId != 0) {
-
-                                    TextView dashView = (TextView)
-                                            ((ViewGroup) tv.getParent()).findViewById(dashId);
-
-                                    if (timesToShowDate < 2)
-                                        dashView.setText("");
-                                    else
-                                        dashView.setText(" - ");
-                                }
+                                if (timesToShowDate < 2)
+                                    dashView.setText("");
+                                else
+                                    dashView.setText(" - ");
+                            }
 
 
                             boolean hasValue = hasValue(cursor);
@@ -591,9 +650,6 @@ public class MainActivity extends Activity {
         updateDisplayDate(addDays(mDisplayingDate, -1));
     }
 
-    public void addItemClick(View v) {
-        startActivity(new Intent(this, AddItemActivity.class));
-    }
 
     private void updateDisplayDate(Date date) {
 
