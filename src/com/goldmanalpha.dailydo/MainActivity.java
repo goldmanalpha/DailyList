@@ -111,9 +111,11 @@ public class MainActivity extends Activity {
                 startService(new Intent(this, BackupService.class));
                 finish();
                 break;
+            default:
+                return false;
         }
 
-        return false;
+        return true;
     }
 
     boolean setupDate = false;
@@ -402,10 +404,10 @@ public class MainActivity extends Activity {
     public void nameClick(View view) {
         ValueIdentifier ids = GetValueIds(view);
 
-        Toast.makeText(getApplicationContext(),
-                ids.toString() + " " + ((TextView) view).getText(),
-                Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AddItemActivity.class);
+        intent.putExtra("itemId", ids.ItemId);
 
+        startActivity(intent);
     }
 
 

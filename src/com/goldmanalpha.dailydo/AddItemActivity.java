@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.Converter;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
+import com.goldmanalpha.androidutility.ArrayHelper;
+import com.goldmanalpha.androidutility.EnumHelper;
 import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.UnitType;
 
@@ -18,19 +20,41 @@ public class AddItemActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         doableItemTableAdapter = new DoableItemTableAdapter(this);
-
         doableItem = new DoableItem();
 
         setContentView(R.layout.additem);
+        findFieldsInUi();
 
-        Spinner s = (Spinner) findViewById(R.id.UnitTypeSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, unitTypes);
 
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(
-                this, R.array.unittypelist, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
 
-        s.setAdapter(adapter);
+        unitTypeField.setAdapter(adapter);
+
+        if (getIntent().hasExtra("itemId")) {
+            loadItem(getIntent().getIntExtra("itemId", 0));
+        }
+    }
+
+    static final String[] unitTypes = EnumHelper.EnumNameToStringArray(UnitType.values());
+
+
+    void loadItem(int itemId) {
+        doableItem = doableItemTableAdapter.get(itemId);
+
+        nameField.setText(doableItem.getName());
+        descriptionField.setText(doableItem.getDescription());
+
+        int index = ArrayHelper.IndexOf(unitTypes, doableItem.getUnitType().toString());
+
+        if (index > -1)
+        {
+            unitTypeField.setSelection(index);
+        }
+
+        isPrivateCheckbox.setChecked(doableItem.getPrivate());
     }
 
     @Override
@@ -39,33 +63,47 @@ public class AddItemActivity extends Activity {
         super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+
+    EditText nameField;
+    EditText descriptionField;
+    Spinner unitTypeField;
+    CheckBox isPrivateCheckbox;
+
+
+    void findFieldsInUi()
+    {
+        nameField = (EditText) findViewById(R.id.name);
+        descriptionField = (EditText) findViewById(R.id.description);
+        unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
+        isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
+
+
+    }
+
     public void okClick(View view) {
 
 
         try {
-            DoableItem item = new DoableItem();
+            DoableItem item = doableItem;
 
-            final EditText nameField = (EditText) findViewById(R.id.name);
+
             item.setName(nameField.getText().toString());
 
-            final EditText descriptionField = (EditText) findViewById(R.id.description);
             item.setDescription(descriptionField.getText().toString());
 
-            final Spinner unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
             item.setUnitType(Converter.stringToUnitType(this, unitTypeField.getSelectedItem().toString()));
 
-            final CheckBox isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
             item.setPrivate(isPrivateCheckbox.isChecked());
 
 
             if (item.getName().trim().length() > 0 && item.getUnitType() != UnitType.unset) {
 
-                doableItemTableAdapter  = new DoableItemTableAdapter(this);
+                doableItemTableAdapter = new DoableItemTableAdapter(this);
                 doableItemTableAdapter.save(item);
                 doableItemTableAdapter.close();
 
 
-                Toast toast = Toast.makeText(this, item.getName() +  " saved.", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, item.getName() + " saved.", Toast.LENGTH_LONG);
                 toast.show();
 
                 finish();
