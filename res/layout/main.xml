@@ -5,6 +5,8 @@
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
+        android:layout_weight="1"
+
         >
 
     <LinearLayout
@@ -59,8 +61,6 @@
             android:text=" +  "
             android:onClick="addItemClick"
             android:clickable="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             />
 
 

@@ -1,16 +1,12 @@
-full screen height
-
+Backup!
 
 1 click thru item to item details
 
-4 support value description
-	insert time button..
+2 support value description
 
 2 support multiple
-	1 show edit time
+	1 show creation time
 	use creation time
-
-2 support hide item -- doesn't show if no data...	
 
 10 digest format
 	need to refactor main screen to share ui
@@ -18,7 +14,8 @@ full screen height
 	need to show dates in the list...
 
 
-Backup!
+
+2 support hide item -- doesn't show if no data...	
 
 
 2 detail insert numbers
@@ -28,6 +25,9 @@ Backup!
 6 support item category 
 	add category
 	select category
+
+2 insert time button in value description
+
 
 multiple per day?  sort order...  bind list to objects to keep order...
 
