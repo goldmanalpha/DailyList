@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.goldmanalpha.dailydo"
-      android:versionCode="1"
-      android:versionName="1.0"
+          package="com.goldmanalpha.dailydo"
+          android:versionCode="1"
+          android:versionName="1.0"
         >
-    <application android:label="@string/app_name" >
+    <application android:label="@string/app_name">
+        <meta-data android:name="com.google.android.backup.api_key"
+                   android:value="AEdPqrEAAAAIaBI_sS-UhzYCOYC7L6Giyg1Hzmqk02CoyOOtFg"/>
         <activity android:name=".MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".AddItemActivity" android:label="Add Item"/>
 
         <activity android:name="com.goldmanalpha.androidutility.PickOneList"
-                android:label="Pick One"/>
+                  android:label="Pick One"/>
     </application>
 </manifest> 

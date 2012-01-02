@@ -1,26 +1,33 @@
-4 support spinner for tsp
-	test last tsp -- coded, but untested...
-	del db & start over
+full screen height
 
-	
 
-4 support time and timespan
+1 click thru item to item details
 
-4 support description
+4 support value description
+	insert time button..
 
 2 support multiple
+	1 show edit time
+	use creation time
 
-1 show edit date
+2 support hide item -- doesn't show if no data...	
+
+10 digest format
+	need to refactor main screen to share ui
+	or just use a different query showing multiple dates and show more << >> and only show items with values
+	need to show dates in the list...
 
 
+Backup!
 
 
+2 detail insert numbers
+	very common to need a number list as a guide...
 
 
-
-digest format
-
-support categories
+6 support item category 
+	add category
+	select category
 
 multiple per day?  sort order...  bind list to objects to keep order...
 
