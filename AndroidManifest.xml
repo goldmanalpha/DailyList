@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".AddItemActivity" android:label="Add Item"/>
 
+        <activity android:name=".EditDescriptionActivity" android:label="Description"/>
+
         <activity android:name="com.goldmanalpha.androidutility.PickOneList"
                   android:label="Pick One"/>
 

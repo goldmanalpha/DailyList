@@ -76,6 +76,22 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    public void list_description_click(View v) {
+        ValueIdentifier ids = this.GetValueIds(v);
+
+        if (ids.ValueId == 0) {
+            Toast.makeText(this, "Need to set value before description", Toast.LENGTH_SHORT)
+                    .show();
+
+        } else {
+            Intent intent = new Intent(this, EditDescriptionActivity.class);
+
+            intent.putExtra(EditDescriptionActivity.ExtraValueId, ids.ValueId);
+
+            startActivity(intent);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -138,6 +154,7 @@ public class MainActivity extends Activity {
     int toTimeColumnIndex;
     int lastFromTimedColumnIndex;
     int lastToTimeColumnIndex;
+    int descriptionColumnIndex;
 
     int teaspoonColIdx;
     int lastTeaspoonColIdx;
@@ -158,6 +175,7 @@ public class MainActivity extends Activity {
 
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
+        descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
 
         startManagingCursor(cachedCursor);
 
@@ -171,14 +189,16 @@ public class MainActivity extends Activity {
                 DoableItemValueTableAdapter.ColFromTime,
                 DoableItemValueTableAdapter.ColLastFromTime,
                 DoableItemValueTableAdapter.ColToTime,
-                DoableItemValueTableAdapter.ColLastToTime
+                DoableItemValueTableAdapter.ColLastToTime,
+                DoableItemValueTableAdapter.ColDescription
         };
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
                 R.id.amount, R.id.list_teaspoons,
                 R.id.list_lastDate, R.id.list_lastAmount,
                 R.id.list_lastTeaspoons, R.id.list_time1_value,
-                R.id.list_lastTime1, R.id.list_time2_value, R.id.list_lastTime2
+                R.id.list_lastTime1, R.id.list_time2_value, R.id.list_lastTime2,
+                R.id.list_description
         };
 
         teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
@@ -204,6 +224,19 @@ public class MainActivity extends Activity {
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
                         boolean returnValue = false;
+
+                        if (columnIndex == descriptionColumnIndex) {
+                            String description = cachedCursor.getString(columnIndex);
+                            if (description != null && description.trim().length() > 0) {
+                                ((TextView) view).setShadowLayer(3, 3, 3, Color.BLUE);
+
+                            } else {
+                                ((TextView) view).setShadowLayer(0, 0, 0, Color.BLACK);
+                            }
+
+                            returnValue = true;
+                        }
+
                         if (columnIndex == fromTimeColumnIndex
                                 || columnIndex == lastFromTimedColumnIndex
                                 || columnIndex == toTimeColumnIndex
