@@ -1,5 +1,3 @@
-2 support value description
-
 2 support multiple
 	1 show creation time
 	use creation time

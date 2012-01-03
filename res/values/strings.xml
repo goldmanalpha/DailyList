@@ -17,4 +17,11 @@
     <string name="tspSixteenth">1/16 tsp</string>
     <string name="tsp32">1/32 tsp</string>
 
+    <string name="confirm_delete_title">Delete?</string>
+    <string name="confirm_delete">Sure you want to delete?</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>

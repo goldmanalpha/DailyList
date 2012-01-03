@@ -1,6 +1,7 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 import com.goldmanalpha.androidutility.*;
 import com.goldmanalpha.dailydo.model.DoableBase;
@@ -62,6 +64,7 @@ public class MainActivity extends Activity {
         public static final int Backup = 1;
         public static final int Quit = 2;
         public static final int EmailDb = 3;
+        public static final int DeleteDb = 4;
     }
 
     @Override
@@ -72,6 +75,7 @@ public class MainActivity extends Activity {
         menu.add(0, MenuItems.Backup, 0, "Backup");
         menu.add(0, MenuItems.Quit, 0, "Quit");
         menu.add(0, MenuItems.EmailDb, 0, "Email DB");
+        menu.add(0, MenuItems.DeleteDb, 0, "DELETE DB");
 
         return true;
     }
@@ -98,6 +102,37 @@ public class MainActivity extends Activity {
         String path = "data/data/" + this.getPackageName() + "/databases/";
 
         switch (item.getItemId()) {
+            case MenuItems.DeleteDb:
+                DeleteConfirmationDialog dlg = new DeleteConfirmationDialog(this,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                if (id == DialogInterface.BUTTON_POSITIVE) {
+                                    //backup?!
+
+                                    String path = "data/data/" + getPackageName() + "/databases/";
+
+                                    BackupHelper helper = new BackupHelper();
+                                    helper.backup(path, DailyDoDatabaseHelper.DATABASE_NAME, "preDelete.");
+
+                                    //delete
+
+                                    File f = new File(
+                                            "data/data/" + getPackageName() + "/databases/"
+                                                    + DailyDoDatabaseHelper.DATABASE_NAME);
+
+                                    f.delete();
+
+                                    finish();
+
+
+                                }
+                            }
+                        });
+
+                dlg.show();
+
+                break;
             case (MenuItems.AddItem):
                 startActivity(new Intent(this, AddItemActivity.class));
                 break;
@@ -226,11 +261,20 @@ public class MainActivity extends Activity {
                         boolean returnValue = false;
 
                         if (columnIndex == descriptionColumnIndex) {
+                            TextView tv = ((TextView) view);
+
                             String description = cachedCursor.getString(columnIndex);
                             if (description != null && description.trim().length() > 0) {
-                                ((TextView) view).setShadowLayer(3, 3, 3, Color.BLUE);
+                                tv.setShadowLayer(3, 3, 3, Color.BLUE);
+                                tv.setText("d");
 
                             } else {
+                                int id = cachedCursor.getInt(valueIdColumnIndex);
+
+                                if (id == 0) {
+                                    ((TextView) view).setText("");
+                                }
+
                                 ((TextView) view).setShadowLayer(0, 0, 0, Color.BLACK);
                             }
 

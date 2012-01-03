@@ -16,13 +16,13 @@ public class BackupHelper {
 
 
     //path must have proper ending slash
-    public void backup(String path, String fileName)
+    public void backup(String path, String fileName, String prefix)
     {
                 String datePrefix = new SimpleDateFormat("yyyyMMdd.HHmm").format(new Date());
                 FileHelper helper = new FileHelper();
 
                 String backupSuffix = ".backup." + fileName;
-                String backupPath = path + datePrefix + backupSuffix ;
+                String backupPath = path + prefix + datePrefix + backupSuffix ;
                 File backupFile = new File(backupPath);
 
                 if (!backupFile.exists()) {
