@@ -15,15 +15,15 @@ import java.util.Date;
 import java.util.List;
 
 
-
-public abstract class TableAdapterBase<T extends  DoableBase> {
+public abstract class TableAdapterBase<T extends DoableBase> {
 
 
     private Context context;
-    protected SQLiteDatabase db;
+    protected static SQLiteDatabase db;
+    static DailyDoDatabaseHelper dbHelper;
+    private static boolean opened;
+
     protected String tableName;
-    DailyDoDatabaseHelper dbHelper;
-    private boolean opened;
 
     public TableAdapterBase(Context context, String tableName) {
         this.context = context;
@@ -88,11 +88,10 @@ public abstract class TableAdapterBase<T extends  DoableBase> {
 
         return values;
     }
-    
+
     public abstract T get(int id) throws ParseException;
 
-    protected Cursor getSingle(int id)
-    {
+    protected Cursor getSingle(int id) {
         open();
 
         Cursor cursor = db.rawQuery("select * from "
@@ -105,15 +104,12 @@ public abstract class TableAdapterBase<T extends  DoableBase> {
 
     public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    protected String DateToTimeStamp(Date d)
-    {
+    protected String DateToTimeStamp(Date d) {
         return simpleDateFormat.format(d);
     }
 
-    public Integer TimeToInt(Time t)
-    {
-        if (t == null)
-        {
+    public Integer TimeToInt(Time t) {
+        if (t == null) {
             //null time is only for defaults
             Date now = new Date();
             t = new Time(now.getHours(), 0, 0);
@@ -121,18 +117,17 @@ public abstract class TableAdapterBase<T extends  DoableBase> {
 
         return t.getHours() * 10000 + t.getMinutes() * 100 + t.getSeconds();
     }
-    
-    public Time IntToTime(Integer time)
-    {
+
+    public Time IntToTime(Integer time) {
         Integer seconds = time % 100;
 
         time = (time - seconds) / 100;
-        
+
         Integer minutes = time % 100;
         Integer hours = (time - minutes) / 100;
-        
+
         Time t = new Time(hours, minutes, seconds);
-        
+
         return t;
     }
 

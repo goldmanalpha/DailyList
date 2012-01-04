@@ -99,6 +99,7 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
             item.setDisplayOrder(c.getInt(c.getColumnIndex("displayOrder")));
         }
 
+        c.close();
         return item;
 
     }

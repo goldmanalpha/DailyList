@@ -227,6 +227,8 @@ public class DoableItemValueTableAdapter
 
             val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
 
+            val.setDescription(c.getString(c.getColumnIndex(ColDescription)));
+
             val.setTeaspoons(
                     TeaSpoons.valueOf(
                             c.getString(c.getColumnIndex("teaspoons"))));
@@ -234,6 +236,7 @@ public class DoableItemValueTableAdapter
 
         }
 
+        c.close();
 
         return val;
     }

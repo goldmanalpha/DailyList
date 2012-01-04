@@ -134,6 +134,7 @@ public class MainActivity extends Activity {
 
                 break;
             case (MenuItems.AddItem):
+                cachedCursor.close();
                 startActivity(new Intent(this, AddItemActivity.class));
                 break;
 
@@ -169,10 +170,18 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+
+        SetupList2(mDisplayingDate);
+    }
+
     boolean setupDate = false;
     SimpleCursorAdapter listCursorAdapter;
 
     private void SetupList2(Date date) {
+        cachedCursor.close();
         cachedCursor = doableItemValueTableAdapter.getItems(date);
         startManagingCursor(cachedCursor);
 
@@ -263,16 +272,21 @@ public class MainActivity extends Activity {
                         if (columnIndex == descriptionColumnIndex) {
                             TextView tv = ((TextView) view);
 
-                            String description = cachedCursor.getString(columnIndex);
+                            String description = cursor.getString(columnIndex);
+
                             if (description != null && description.trim().length() > 0) {
                                 tv.setShadowLayer(3, 3, 3, Color.BLUE);
                                 tv.setText("d");
 
                             } else {
-                                int id = cachedCursor.getInt(valueIdColumnIndex);
+                                int id = cursor.getInt(valueIdColumnIndex);
 
                                 if (id == 0) {
                                     ((TextView) view).setText("");
+                                }
+                                else
+                                {
+                                    ((TextView) view).setText("d");
                                 }
 
                                 ((TextView) view).setShadowLayer(0, 0, 0, Color.BLACK);
@@ -463,8 +477,14 @@ public class MainActivity extends Activity {
         GetValueIds(view);
     }
 
+    ValueIdentifier lastValueId;
+
     //beneficial side effect - sets cachedCursor to proper position
     public ValueIdentifier GetValueIds(View view) {
+
+        if (view == null)
+            return lastValueId;
+
         if (cachedCursor.moveToPosition(myList.getPositionForView(view))) {
 
             ValueIdentifier vi = new ValueIdentifier();
@@ -472,10 +492,11 @@ public class MainActivity extends Activity {
             vi.ValueId = cachedCursor.getInt(valueIdColumnIndex);
             vi.ItemId = cachedCursor.getInt(itemIdColumnIndex);
 
+            lastValueId = vi;
             return vi;
         }
 
-        return null;
+        return (lastValueId = null);
     }
 
     public void nameClick(View view) {
@@ -498,11 +519,26 @@ public class MainActivity extends Activity {
     }
 
 
-    int teaspoonsClickValueId;
+    DoableValue teaspoonsClickValue;
 
     public void teaspoons_click(View v) {
 
-        teaspoonsClickValueId = this.GetValueIds(v).ValueId;
+        //setup the value, because the intent will close the cursor
+        try {
+            teaspoonsClickValue = doableItemValueTableAdapter
+                    .get(this.GetValueIds(v).ValueId);
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+            Toast.makeText(this, "Error loading value for tsp change: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+            return;
+        }
+
+
+//in case it was an unset/new value:
+        SetDefaultsForNewValue(teaspoonsClickValue);
+
 
         Intent intent = new Intent(this, PickOneList.class);
 
@@ -529,33 +565,51 @@ public class MainActivity extends Activity {
         if (resultCode == RESULT_OK &&
                 requestCode == IntentRequestCodes.TeaspoonSelection
                 ) {
-            try {
 
-                String setToTeaspoons = data.getStringExtra(PickOneList.SelectedItem);
-
-                DoableValue value = doableItemValueTableAdapter
-                        .get(teaspoonsClickValueId);
+            String setToTeaspoons = data.getStringExtra(PickOneList.SelectedItem);
 
 
-                if (!value.getTeaspoons().toString().equals(setToTeaspoons)) {
-                    value.setTeaspoons(TeaSpoons.valueOf(setToTeaspoons));
+            if (!teaspoonsClickValue.getTeaspoons().toString().equals(setToTeaspoons)) {
 
-                    doableItemValueTableAdapter.save(value);
+                teaspoonsClickValue.setTeaspoons(TeaSpoons.valueOf(setToTeaspoons));
+
+                doableItemValueTableAdapter.save(teaspoonsClickValue);
+            }
+
+            SetupList(new DayOnlyDate(this.mDisplayingDate));
+
+        }
+    }
+
+    //for a new doable value, this will set defaults enough to save
+    //need to have called GetIds prior to this call
+    void SetDefaultsForNewValue(DoableValue value) {
+
+        if (value.getId() != 0)
+            return;
+
+
+        value.setAppliesToDate(mDisplayingDate);
+
+        value.setDoableItemId(GetValueIds(null).ItemId);
+
+        int timesToShow = timesToShowDate(cachedCursor);
+
+        if (value.getId() == 0) {
+            if (timesToShow > 0) {
+
+                int sqlFromTime = cachedCursor.getInt(lastFromTimedColumnIndex);
+                value.setFromTime(doableItemValueTableAdapter.IntToTime(sqlFromTime));
+
+                if (timesToShow > 1) {
+                    int sqlToTime = cachedCursor.getInt(lastToTimeColumnIndex);
+                    value.setToTime(doableItemValueTableAdapter.IntToTime(sqlToTime));
                 }
 
-                SetupList(new DayOnlyDate(this.mDisplayingDate));
-
-            } catch (ParseException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-
-                Toast.makeText(this, "Error saving tsp: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         }
-
-
     }
-
 
     String getTeaspoonsForCursorPosition(Cursor c) {
 
@@ -579,7 +633,9 @@ public class MainActivity extends Activity {
 
     }
 
-    public void time1_click(View v) {
+    public void time1_click
+            (View
+                     v) {
 
         moveCursorToCurrentRow(v);
 
@@ -595,7 +651,9 @@ public class MainActivity extends Activity {
 
     }
 
-    public void time2_click(View v) {
+    public void time2_click
+            (View
+                     v) {
 
         TextView otherTv = (TextView) ((ViewGroup) v.getParent()).findViewById(R.id.list_time1_value);
         otherTv.setShadowLayer(0, 0, 0, Color.RED);
@@ -608,7 +666,9 @@ public class MainActivity extends Activity {
 
     }
 
-    public void add_click(View v) throws ParseException {
+    public void add_click
+            (View
+                     v) throws ParseException {
         ValueIdentifier ids = GetValueIds(v);
         TextView tv = (TextView) v;
 
@@ -717,20 +777,26 @@ public class MainActivity extends Activity {
 
     }
 
-    public void nextDayClick(View v) {
+    public void nextDayClick
+            (View
+                     v) {
 
         doableItemValueTableAdapter.recalcDisplayOrder();
         updateDisplayDate(addDays(mDisplayingDate, 1));
     }
 
 
-    public void prevDayClick(View v) {
+    public void prevDayClick
+            (View
+                     v) {
         doableItemValueTableAdapter.recalcDisplayOrder();
         updateDisplayDate(addDays(mDisplayingDate, -1));
     }
 
 
-    private void updateDisplayDate(Date date) {
+    private void updateDisplayDate
+            (Date
+                     date) {
 
         mDisplayingDate = date;
         SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
@@ -739,7 +805,9 @@ public class MainActivity extends Activity {
         SetupList(new DayOnlyDate(date));
     }
 
-    Date addDays(Date date, int days) {
+    Date addDays
+            (Date
+                     date, int days) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, days);  // number of days to add

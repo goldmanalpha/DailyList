@@ -2,9 +2,7 @@ package com.goldmanalpha.dailydo;
 
 import android.test.ActivityTestCase;
 import android.test.mock.MockContext;
-import com.com.goldmanalpha.dailydo.db.Converter;
 import com.goldmanalpha.dailydo.model.UnitType;
-import junit.framework.TestCase;
 
 public class ConverterTest extends ActivityTestCase{
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-import com.com.goldmanalpha.dailydo.db.Converter;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.goldmanalpha.androidutility.ArrayHelper;
 import com.goldmanalpha.androidutility.EnumHelper;
@@ -26,8 +25,8 @@ public class AddItemActivity extends Activity {
         findFieldsInUi();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, unitTypes);
-
+                this, android.R.layout.simple_spinner_item,
+                EnumHelper.EnumNameToStringArray(UnitType.values()));
 
         adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
 
@@ -91,7 +90,7 @@ public class AddItemActivity extends Activity {
 
             item.setDescription(descriptionField.getText().toString());
 
-            item.setUnitType(Converter.stringToUnitType(this, unitTypeField.getSelectedItem().toString()));
+            item.setUnitType(UnitType.valueOf(unitTypeField.getSelectedItem().toString()));
 
             item.setPrivate(isPrivateCheckbox.isChecked());
 
