@@ -3,6 +3,7 @@
           package="com.goldmanalpha.dailydo"
           android:versionCode="1"
           android:versionName="1.0"
+          android:debuggable="true"
         >
     
     <supports-screens android:resizeable="true"

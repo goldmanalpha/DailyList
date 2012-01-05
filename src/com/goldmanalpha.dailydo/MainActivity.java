@@ -59,23 +59,31 @@ public class MainActivity extends Activity {
 
     }
 
+    boolean showPrivate = true;
+
     static final class MenuItems {
         public static final int AddItem = 0;
         public static final int Backup = 1;
         public static final int Quit = 2;
         public static final int EmailDb = 3;
         public static final int DeleteDb = 4;
+        public static final int PublicPrivateSwitch = 5;
     }
+
+    MenuItem PublicPrivateMenuItem;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         //group, item, order, title
         menu.add(0, MenuItems.AddItem, 0, "Add Item");
-        menu.add(0, MenuItems.Backup, 0, "Backup");
+        menu.add(1, MenuItems.Backup, 0, "Backup");
         menu.add(0, MenuItems.Quit, 0, "Quit");
-        menu.add(0, MenuItems.EmailDb, 0, "Email DB");
-        menu.add(0, MenuItems.DeleteDb, 0, "DELETE DB");
+        menu.add(1, MenuItems.EmailDb, 0, "Email DB");
+        menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
+
+        PublicPrivateMenuItem =
+                menu.add(0, MenuItems.PublicPrivateSwitch, 0, "Pub Only");
 
         return true;
     }
@@ -102,6 +110,11 @@ public class MainActivity extends Activity {
         String path = "data/data/" + this.getPackageName() + "/databases/";
 
         switch (item.getItemId()) {
+            case MenuItems.PublicPrivateSwitch:
+                this.showPrivate = !this.showPrivate;
+                PublicPrivateMenuItem.setTitle(this.showPrivate ? "Pub Only" : "Show Private");
+                this.SetupList2(mDisplayingDate);
+                break;
             case MenuItems.DeleteDb:
                 DeleteConfirmationDialog dlg = new DeleteConfirmationDialog(this,
                         new DialogInterface.OnClickListener() {
@@ -182,7 +195,7 @@ public class MainActivity extends Activity {
 
     private void SetupList2(Date date) {
         cachedCursor.close();
-        cachedCursor = doableItemValueTableAdapter.getItems(date);
+        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate);
         startManagingCursor(cachedCursor);
 
         listCursorAdapter.changeCursor(cachedCursor);
@@ -215,7 +228,7 @@ public class MainActivity extends Activity {
         setupDate = true;
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
-        cachedCursor = doableItemValueTableAdapter.getItems(date);
+        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate);
 
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);

@@ -166,7 +166,7 @@ public class DoableItemValueTableAdapter
     }
 
     //returns a cursor of doable items:
-    public Cursor getItems(Date date) {
+    public Cursor getItems(Date date, boolean  showPrivate) {
 
         open();
 
@@ -196,6 +196,8 @@ public class DoableItemValueTableAdapter
 
                 + " left outer join " + this.tableName + " as latestVal "
                 + " on valueMaxJunction.valueId = latestVal.id "
+
+                + (showPrivate ? "" : " where items.private = 0")
 
                 + " order by items.displayOrder";
 
