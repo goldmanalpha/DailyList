@@ -46,7 +46,6 @@ public abstract class TableAdapterBase<T extends DoableBase> {
         }
     }
 
-
     //returns id or -1 if fail
     public long save(T object) {
 

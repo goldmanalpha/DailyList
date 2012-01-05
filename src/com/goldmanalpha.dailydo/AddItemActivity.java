@@ -56,13 +56,6 @@ public class AddItemActivity extends Activity {
         isPrivateCheckbox.setChecked(doableItem.getPrivate());
     }
 
-    @Override
-    protected void onDestroy() {
-        doableItemTableAdapter.close();
-        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
-    }
-
-
     EditText nameField;
     EditText descriptionField;
     Spinner unitTypeField;
@@ -99,7 +92,7 @@ public class AddItemActivity extends Activity {
 
                 doableItemTableAdapter = new DoableItemTableAdapter(this);
                 doableItemTableAdapter.save(item);
-                doableItemTableAdapter.close();
+                //doableItemTableAdapter.close();
 
 
                 Toast toast = Toast.makeText(this, item.getName() + " saved.", Toast.LENGTH_LONG);

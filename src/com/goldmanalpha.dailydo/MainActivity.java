@@ -172,9 +172,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
-
         SetupList2(mDisplayingDate);
+
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     boolean setupDate = false;
@@ -771,7 +771,8 @@ public class MainActivity extends Activity {
             doableItemValueTableAdapter.save(value);
 
 
-            cachedCursor.requery();
+            SetupList2(mDisplayingDate);
+
         }
 
 
@@ -815,4 +816,11 @@ public class MainActivity extends Activity {
     }
 
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+
+        doableItemValueTableAdapter.close();
+    }
 }
