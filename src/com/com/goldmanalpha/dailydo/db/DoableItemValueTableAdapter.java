@@ -3,10 +3,7 @@ package com.com.goldmanalpha.dailydo.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import com.goldmanalpha.dailydo.model.DoableItem;
-import com.goldmanalpha.dailydo.model.DoableValue;
-import com.goldmanalpha.dailydo.model.TeaSpoons;
-import com.goldmanalpha.dailydo.model.UnitType;
+import com.goldmanalpha.dailydo.model.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -134,11 +131,9 @@ public class DoableItemValueTableAdapter
 
         List<DoableItem> items = new ArrayList<DoableItem>();
 
-        if (c.moveToFirst())
-        {
-            do{
-                if (c.getInt(2) != order)
-                {
+        if (c.moveToFirst()) {
+            do {
+                if (c.getInt(2) != order) {
 
                     DoableItem item = new DoableItem(c.getInt(0));
                     item.setDisplayOrder(order);
@@ -146,29 +141,38 @@ public class DoableItemValueTableAdapter
                 }
 
                 order++;
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
 
         c.close();
 
-        if (!items.isEmpty())
-        {
+        if (!items.isEmpty()) {
             DoableItemTableAdapter adapter = new DoableItemTableAdapter(context);
 
-            for(int i = 0; i< items.size(); i++)
-            {
+            for (int i = 0; i < items.size(); i++) {
 
-                    DoableItem item = items.get(i);
+                DoableItem item = items.get(i);
 
-                    adapter.updateOrder(item.getId(), item.getDisplayOrder());
+                adapter.updateOrder(item.getId(), item.getDisplayOrder());
             }
         }
     }
 
     //returns a cursor of doable items:
-    public Cursor getItems(Date date, boolean  showPrivate) {
+    public Cursor getItems(Date date, boolean showPrivate, int categoryId) {
 
         open();
+
+        String categorySql = "";
+
+        if (categoryId == SimpleLookup.UNSET_ID) {
+            categorySql = " and (categoryId = 0 or categoryId is null)";
+        } else {
+            if (categoryId != SimpleLookup.ALL_ID) {
+                categorySql = " and categoryId = " + categoryId;
+            }
+
+        }
 
         String sql = "select "
                 + " vals.id as _id, vals.id, vals.description, "
@@ -197,7 +201,11 @@ public class DoableItemValueTableAdapter
                 + " left outer join " + this.tableName + " as latestVal "
                 + " on valueMaxJunction.valueId = latestVal.id "
 
-                + (showPrivate ? "" : " where items.private = 0")
+                + " where 1 = 1"
+
+                + (showPrivate ? "" : " and items.private = 0")
+
+                + categorySql
 
                 + " order by items.displayOrder";
 

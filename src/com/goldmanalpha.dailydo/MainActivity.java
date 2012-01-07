@@ -13,13 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.android.internal.util.Predicate;
 import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
+import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 import com.goldmanalpha.androidutility.*;
-import com.goldmanalpha.dailydo.model.DoableBase;
-import com.goldmanalpha.dailydo.model.DoableValue;
-import com.goldmanalpha.dailydo.model.TeaSpoons;
-import com.goldmanalpha.dailydo.model.UnitType;
+import com.goldmanalpha.dailydo.model.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -56,6 +56,8 @@ public class MainActivity extends Activity {
         mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 
         updateDisplayDate(new DayOnlyDate());
+
+        setupCategories();
 
     }
 
@@ -183,8 +185,69 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    LookupTableAdapter       categoryTableAdapter ;
+    int selectedCategoryId = SimpleLookup.ALL_ID;
+
+    private void setupCategories() {
+        //To change body of created methods use File | Settings | File Templates.
+
+        categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter(this);
+
+        final List<SimpleLookup> categories = categoryTableAdapter.list();
+
+        SimpleLookup addItem = new SimpleLookup(SimpleLookup.ALL_ID);
+        addItem.setName("All Categories");
+        categories.add(0, addItem);
+
+        addItem = new SimpleLookup(SimpleLookup.UNSET_ID);
+        addItem.setName("No Category");
+        categories.add(1, addItem);
+
+        ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
+                this, android.R.layout.simple_spinner_item,
+                categories);
+
+        adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
+
+        Spinner categoryField = (Spinner)findViewById(R.id.categorySpinner);
+
+        categoryField.setAdapter(adapter);
+
+        SimpleLookup[] lookupArray = new SimpleLookup[3];
+
+        //todo: save last category on close
+        int selectedPosition = ArrayHelper.IndexOfP(
+                categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
+            public boolean apply(SimpleLookup simpleLookup) {
+                return simpleLookup.getId() == MainActivity.this.selectedCategoryId;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        categoryField.setSelection(selectedPosition);
+
+        categoryField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+                selectedCategoryId =
+                        ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
+
+                MainActivity.this.SetupList2(mDisplayingDate);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    }
+
     @Override
     protected void onResume() {
+
+        setupCategories();
+
         SetupList2(mDisplayingDate);
 
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
@@ -193,9 +256,9 @@ public class MainActivity extends Activity {
     boolean setupDate = false;
     SimpleCursorAdapter listCursorAdapter;
 
-    private void SetupList2(Date date) {
+    public void SetupList2(Date date) {
         cachedCursor.close();
-        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate);
+        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, selectedCategoryId);
         startManagingCursor(cachedCursor);
 
         listCursorAdapter.changeCursor(cachedCursor);
@@ -228,7 +291,7 @@ public class MainActivity extends Activity {
         setupDate = true;
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
-        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate);
+        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, SimpleLookup.ALL_ID);
 
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
@@ -296,9 +359,7 @@ public class MainActivity extends Activity {
 
                                 if (id == 0) {
                                     ((TextView) view).setText("");
-                                }
-                                else
-                                {
+                                } else {
                                     ((TextView) view).setText("d");
                                 }
 
@@ -827,7 +888,6 @@ public class MainActivity extends Activity {
         c.add(Calendar.DATE, days);  // number of days to add
         return c.getTime();  // dt is now the new date
     }
-
 
 
     @Override

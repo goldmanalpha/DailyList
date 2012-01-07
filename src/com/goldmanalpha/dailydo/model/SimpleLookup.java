@@ -4,6 +4,9 @@ public class SimpleLookup extends DoableBase {
     String name;
     String description;
 
+    public static final int ALL_ID = -2;
+    public static final int UNSET_ID = -1;
+
     public SimpleLookup(int id) {
         super(id);
     }

@@ -23,6 +23,12 @@
                 style="@style/ClickableText"
                 />
 
+        <Spinner android:id="@+id/categorySpinner"
+                 android:layout_width="wrap_content"
+                 android:layout_height="36dp"
+                 android:layout_weight="1"
+                 />
+
         <TextView
                 android:id="@+id/prevDate"
                 android:text="  &lt; &lt;  "
