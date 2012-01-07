@@ -4,6 +4,8 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
+              android:id="@+id/edit_lookup_root"
+              android:padding="15dp"
         >
     <EditText
             android:id="@+id/name"
@@ -12,14 +14,6 @@
             android:inputType="textShortMessage"
             android:layout_width="fill_parent">
     </EditText>
-    <Spinner
-            android:id="@+id/UnitTypeSpinner"
-            android:layout_height="wrap_content"
-            android:prompt="@string/unittypeprompt"
-            android:layout_width="fill_parent"
-            >
-    </Spinner>
-
     <EditText
             android:id="@+id/description"
             android:layout_height="wrap_content"
@@ -27,38 +21,9 @@
             android:inputType="textMultiLine"
             android:layout_weight="1"
             android:gravity="top"
-            android:layout_width="fill_parent">
-    </EditText>
-    <LinearLayout
-            android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:orientation="horizontal"
             >
-        <Spinner android:id="@+id/categorySpinner"
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                />
-
-        <LinearLayout
-                style="@style/WrapStyle"
-
-                android:layout_gravity="right|center_vertical"
-
-                >
-
-            <TextView
-                    android:text="Private"
-
-                    style="@style/WrapStyle"
-                    />
-            <CheckBox
-                    android:id="@+id/isPrivateCheckbox"
-
-                    style="@style/WrapStyle"
-
-                    />
-        </LinearLayout>
-    </LinearLayout>
+    </EditText>
     <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"

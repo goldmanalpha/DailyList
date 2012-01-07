@@ -1,10 +1,15 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
@@ -80,6 +85,12 @@ public class AddItemActivity extends Activity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
 
+                if ( ((SimpleLookup)((Spinner) parentView).getSelectedItem()).getId() == -1)
+                {
+                    initiatePopupWindow();
+                }
+
+
                 Toast.makeText(AddItemActivity.this,"Selected",Toast.LENGTH_LONG).show();
             }
 
@@ -127,9 +138,82 @@ public class AddItemActivity extends Activity {
         unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
         categoryField = (Spinner) findViewById(R.id.categorySpinner);
         isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
+        Button okButton = (Button) findViewById(R.id.okButton);
+        Button cancelButton = (Button) findViewById(R.id.cancelButton);
 
+        okButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                AddItemActivity.this.okClick(view);
+            }
+        }
+        );
+
+        cancelButton.setOnClickListener(new View.OnClickListener()
+                {
+                    public void onClick(View view) {
+                        AddItemActivity.this.finish();
+                    }
+                }
+                );
 
     }
+
+
+    private PopupWindow pw;
+private void initiatePopupWindow() {
+    try {
+        //We need to get the instance of the LayoutInflater, use the context of this activity
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        //Inflate the view from a predefined XML layout
+        final View layout = inflater.inflate(R.layout.edit_lookup,
+                (ViewGroup) findViewById(R.id.edit_lookup_root));
+        // create a 300px width and 470px height PopupWindow
+        pw = new PopupWindow(layout, 300, 470, true);
+        // display the popup in the center
+        pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+
+        Button okButton = (Button) layout.findViewById(R.id.okButton);
+        Button cancelButton = (Button) layout.findViewById(R.id.cancelButton);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //save:
+                 String name =
+                    ((EditText) layout.findViewById(R.id.name)).getText().toString();
+
+                String description =
+                        ((EditText) layout.findViewById(R.id.description))
+                                .getText().toString();
+
+
+                if (("" + name).trim() == "")
+                {
+                    Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    //todo save & refresh spinner
+
+                }
+
+            }
+        }
+        );
+
+        cancelButton.setOnClickListener(new View.OnClickListener()
+                {
+                    public void onClick(View view) {
+                        pw.dismiss();
+                    }
+                }
+                );
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
     public void okClick(View view) {
 
