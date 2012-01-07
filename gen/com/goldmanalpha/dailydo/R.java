@@ -11,39 +11,39 @@ public final class R {
     public static final class attr {
     }
     public static final class id {
-        public static final int UnitTypeSpinner=0x7f040001;
-        public static final int amount=0x7f040019;
-        public static final int big_minus=0x7f04001d;
-        public static final int big_plus=0x7f040020;
-        public static final int cancelButton=0x7f040006;
-        public static final int categorySpinner=0x7f040003;
-        public static final int dateDisplay=0x7f040009;
-        public static final int description=0x7f040002;
-        public static final int edit_description_entry=0x7f040007;
-        public static final int isPrivateCheckbox=0x7f040004;
-        public static final int list_dateColon=0x7f040013;
-        public static final int list_description=0x7f040010;
-        public static final int list_lastAmount=0x7f040017;
-        public static final int list_lastDate=0x7f040012;
-        public static final int list_lastTeaspoons=0x7f040018;
-        public static final int list_lastTime1=0x7f040014;
-        public static final int list_lastTime2=0x7f040016;
-        public static final int list_lastTimeSeparator=0x7f040015;
-        public static final int list_make_dup_val=0x7f040011;
-        public static final int list_name=0x7f04000d;
-        public static final int list_teaspoons=0x7f04000f;
-        public static final int list_time1_value=0x7f04001a;
-        public static final int list_time2_value=0x7f04001c;
-        public static final int list_time_separator=0x7f04001b;
-        public static final int list_unit_type=0x7f04000e;
-        public static final int mainFrame=0x7f040008;
-        public static final int main_list=0x7f04000c;
-        public static final int minus=0x7f04001e;
-        public static final int name=0x7f040000;
-        public static final int nextDate=0x7f04000b;
-        public static final int okButton=0x7f040005;
-        public static final int plus=0x7f04001f;
-        public static final int prevDate=0x7f04000a;
+        public static final int UnitTypeSpinner=0x7f050001;
+        public static final int amount=0x7f050019;
+        public static final int big_minus=0x7f05001d;
+        public static final int big_plus=0x7f050020;
+        public static final int cancelButton=0x7f050006;
+        public static final int categorySpinner=0x7f050003;
+        public static final int dateDisplay=0x7f050009;
+        public static final int description=0x7f050002;
+        public static final int edit_description_entry=0x7f050007;
+        public static final int isPrivateCheckbox=0x7f050004;
+        public static final int list_dateColon=0x7f050013;
+        public static final int list_description=0x7f050010;
+        public static final int list_lastAmount=0x7f050017;
+        public static final int list_lastDate=0x7f050012;
+        public static final int list_lastTeaspoons=0x7f050018;
+        public static final int list_lastTime1=0x7f050014;
+        public static final int list_lastTime2=0x7f050016;
+        public static final int list_lastTimeSeparator=0x7f050015;
+        public static final int list_make_dup_val=0x7f050011;
+        public static final int list_name=0x7f05000d;
+        public static final int list_teaspoons=0x7f05000f;
+        public static final int list_time1_value=0x7f05001a;
+        public static final int list_time2_value=0x7f05001c;
+        public static final int list_time_separator=0x7f05001b;
+        public static final int list_unit_type=0x7f05000e;
+        public static final int mainFrame=0x7f050008;
+        public static final int main_list=0x7f05000c;
+        public static final int minus=0x7f05001e;
+        public static final int name=0x7f050000;
+        public static final int nextDate=0x7f05000b;
+        public static final int okButton=0x7f050005;
+        public static final int plus=0x7f05001f;
+        public static final int prevDate=0x7f05000a;
     }
     public static final class layout {
         public static final int additem=0x7f020000;
@@ -72,5 +72,9 @@ public final class R {
         public static final int unittypeTimeSpan2Times=0x7f030005;
         public static final int unittypeTsp=0x7f030003;
         public static final int unittypeprompt=0x7f030001;
+    }
+    public static final class style {
+        public static final int ClickableText=0x7f040001;
+        public static final int WrapStyle=0x7f040000;
     }
 }
