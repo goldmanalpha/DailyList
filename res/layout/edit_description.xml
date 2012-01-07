@@ -23,8 +23,8 @@
             >
 
         <Button
-                android:text="OK"
-                android:layout_width="wrap_content"
+                android:text="D o n e"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:onClick="click_ok"
                 />

@@ -58,20 +58,19 @@
     </LinearLayout>
     <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="right"
-            android:layout_gravity="center"
+            android:layout_width="fill_parent"
             android:layout_marginTop="15dp"
             >
         <Button
                 android:id="@+id/okButton"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="O K"
+                android:layout_width="fill_parent"
+                android:text="D o n e"
                 android:clickable="true"
                 android:onClick="okClick"
                 android:layout_marginRight="15dp"
                 android:width="75dp"
+                android:layout_weight="1"
                 />
         <Button
                 android:id="@+id/cancelButton"

@@ -91,6 +91,10 @@ public class AddItemActivity extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        okClick(null);
+    }
 
     static final String[] unitTypes = EnumHelper.EnumNameToStringArray(UnitType.values());
 

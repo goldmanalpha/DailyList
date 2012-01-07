@@ -56,10 +56,13 @@ public class EditDescriptionActivity extends Activity{
             editor.setText(value.getDescription());
     }
 
+    @Override
+    public void onBackPressed() {
+        click_ok(null);
+    }
 
     public void click_ok(View v)
     {
-
         EditText editor = (EditText) findViewById(R.id.edit_description_entry);
 
         value.setDescription(editor.getText().toString());
