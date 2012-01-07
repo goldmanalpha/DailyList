@@ -3,6 +3,10 @@ package com.com.goldmanalpha.dailydo.db;
 public class DoableItemValueTable extends TableBase {
     public static final String TableName = "DoableItemValue";
 
+    public DoableItemValueTable() {
+        super(TableName);
+    }
+
     @Override
     protected String databaseCreateSql() {
         return super.databaseCreateSql().replace("?", TableName)

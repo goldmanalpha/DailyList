@@ -13,8 +13,14 @@ import java.util.Date;
 
 public abstract class TableBase {
 
+    final String TableName;
+
+    public TableBase(String tableName) {
+        TableName = tableName;
+    }
+
     protected String databaseCreateSql() {
-        return "create table ? "
+        return "create table " + TableName + " "
                 + "(id integer primary key, "
                 + "dateCreated  TIMESTAMP NOT NULL DEFAULT current_timestamp, "
                 + "dateModified  TIMESTAMP NOT NULL DEFAULT current_timestamp, ";
@@ -28,7 +34,7 @@ public abstract class TableBase {
     }
 
     public void onCreate(SQLiteDatabase database) {
-            database.execSQL(databaseCreateSql());
+        database.execSQL(databaseCreateSql());
     }
 
     public void onUpgrade(SQLiteDatabase database, int oldVersion,

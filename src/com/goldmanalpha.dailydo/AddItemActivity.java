@@ -1,14 +1,21 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
+import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 import com.goldmanalpha.androidutility.ArrayHelper;
 import com.goldmanalpha.androidutility.EnumHelper;
 import com.goldmanalpha.dailydo.model.DoableItem;
+import com.goldmanalpha.dailydo.model.SimpleLookup;
 import com.goldmanalpha.dailydo.model.UnitType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddItemActivity extends Activity {
 
@@ -35,7 +42,55 @@ public class AddItemActivity extends Activity {
         if (getIntent().hasExtra("itemId")) {
             loadItem(getIntent().getIntExtra("itemId", 0));
         }
+
+        setupCategories();
     }
+
+    LookupTableAdapter categoryTableAdapter;
+    Cursor categoriesCursor;
+
+    private void setupCategories() {
+        //To change body of created methods use File | Settings | File Templates.
+
+        categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter(this);
+
+        List<SimpleLookup> categories = categoryTableAdapter.list();
+
+        SimpleLookup addItem = new SimpleLookup(-2);
+        addItem.setName("Select Category");
+        categories.add(addItem);
+
+        addItem = new SimpleLookup(-1);
+                addItem.setName("Add Category");
+                categories.add(addItem);
+
+
+
+        ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
+                this, android.R.layout.simple_spinner_item,
+                categories);
+
+        adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
+
+        categoryField.setAdapter(adapter);
+
+
+        categoryField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+
+                Toast.makeText(AddItemActivity.this,"Selected",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    }
+
 
     static final String[] unitTypes = EnumHelper.EnumNameToStringArray(UnitType.values());
 
@@ -48,8 +103,7 @@ public class AddItemActivity extends Activity {
 
         int index = ArrayHelper.IndexOf(unitTypes, doableItem.getUnitType().toString());
 
-        if (index > -1)
-        {
+        if (index > -1) {
             unitTypeField.setSelection(index);
         }
 
@@ -59,14 +113,15 @@ public class AddItemActivity extends Activity {
     EditText nameField;
     EditText descriptionField;
     Spinner unitTypeField;
+    Spinner categoryField;
     CheckBox isPrivateCheckbox;
 
 
-    void findFieldsInUi()
-    {
+    void findFieldsInUi() {
         nameField = (EditText) findViewById(R.id.name);
         descriptionField = (EditText) findViewById(R.id.description);
         unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
+        categoryField = (Spinner) findViewById(R.id.categorySpinner);
         isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
 
 

@@ -25,6 +25,8 @@ public abstract class TableAdapterBase<T extends DoableBase> {
 
     protected String tableName;
 
+
+    //todo: set context from application object and remove context param
     public TableAdapterBase(Context context, String tableName) {
         this.context = context;
         this.tableName = tableName;

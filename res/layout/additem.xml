@@ -31,19 +31,30 @@
     </EditText>
     <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
             >
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Private"
+        <Spinner android:id="@+id/categorySpinner"
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
                 />
-        <CheckBox
-                android:id="@+id/isPrivateCheckbox"
+
+        <LinearLayout
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                >
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Private"
+                    />
+            <CheckBox
+                    android:id="@+id/isPrivateCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
             android:layout_height="wrap_content"
