@@ -13,40 +13,35 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            style="@style/ClickableText"
             >
 
         <TextView
                 android:id="@+id/dateDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
                 android:text="Date"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
+                style="@style/ClickableText"
                 />
 
         <TextView
                 android:id="@+id/prevDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="  &lt; &lt;  "
                 android:clickable="true"
                 android:onClick="prevDayClick"
                 android:layout_gravity="right"
+                style="@style/ClickableText"
 
                 />
 
 
         <TextView
                 android:id="@+id/nextDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="  &gt; &gt;  "
                 android:clickable="true"
                 android:onClick="nextDayClick"
 
+                style="@style/ClickableText"
 
                 />
     </LinearLayout>

@@ -39,22 +39,19 @@
                  android:layout_width="wrap_content"
                 />
 
-        <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                >
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Private"
+                    android:layout_gravity="right|center_vertical"
                     />
             <CheckBox
                     android:id="@+id/isPrivateCheckbox"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    />
+
     </LinearLayout>
     <LinearLayout
             android:layout_height="wrap_content"
