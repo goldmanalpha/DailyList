@@ -52,6 +52,9 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
         values.put("displayOrder", object.getDisplayOrder());
 
+
+        values.put("categoryId", object.getCategoryId());
+
         return values;
     }
 
@@ -72,7 +75,7 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
         Cursor cursor = db.rawQuery(
                 "select "
-                        + " id as _id, id, name, unitType, description, private, dateCreated, dateModified, displayOrder"
+                        + " id as _id, id, name, unitType, description, private, dateCreated, dateModified, displayOrder, categoryId "
                         + " from " + this.tableName, new String[]{});
 
         return cursor;
@@ -97,6 +100,7 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
             );
 
             item.setDisplayOrder(c.getInt(c.getColumnIndex("displayOrder")));
+            item.setCategoryId(c.getInt(c.getColumnIndex("categoryId")));
         }
 
         c.close();

@@ -3,6 +3,7 @@ package com.goldmanalpha.dailydo.model;
 
 import android.content.Context;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
+import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 
 import java.lang.reflect.Array;
 import java.sql.Time;
@@ -15,6 +16,7 @@ public class DoableItem extends DoableBase {
     String description;
     UnitType unitType;
     boolean isPrivate;
+    SimpleLookup category;
 
     int displayOrder = 0;
 
@@ -25,7 +27,6 @@ public class DoableItem extends DoableBase {
     public void setDisplayOrder(int displayOrder) {
         this.displayOrder = displayOrder;
     }
-
 
 
     public DoableItem(int id) {
@@ -71,13 +72,42 @@ public class DoableItem extends DoableBase {
     }
 
 
-
     @Override
     public String toString() {
         return super.toString() + ": " + name;    //To change body of overridden methods use File | Settings | File Templates.
     }
-    
-    
+
+    public SimpleLookup getCategory(Context context) throws ParseException {
+
+        if (category == null) {
+            if (categoryId == 0) {
+                category = new SimpleLookup();
+                category.setName("Unset");
+            } else {
+                LookupTableAdapter adapter = LookupTableAdapter.getItemCategoryTableAdapter(context);
+
+                category = adapter.get(categoryId);
+
+            }
+
+        }
+
+        return category;
+    }
+
+    int categoryId;
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+
+        category = null;
+    }
+
+    public int getCategoryId() {
+        return this.categoryId;
+    }
+
+
 }
 
 

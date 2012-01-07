@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.android.internal.util.Predicate;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 import com.goldmanalpha.androidutility.ArrayHelper;
@@ -59,17 +60,15 @@ public class AddItemActivity extends Activity {
 
         categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter(this);
 
-        List<SimpleLookup> categories = categoryTableAdapter.list();
+        final List<SimpleLookup> categories = categoryTableAdapter.list();
 
         SimpleLookup addItem = new SimpleLookup(-2);
         addItem.setName("Select Category");
-        categories.add(addItem);
+        categories.add(0, addItem);
 
         addItem = new SimpleLookup(-1);
-                addItem.setName("Add Category");
-                categories.add(addItem);
-
-
+        addItem.setName("Add Category");
+        categories.add(addItem);
 
         ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
                 this, android.R.layout.simple_spinner_item,
@@ -80,18 +79,32 @@ public class AddItemActivity extends Activity {
         categoryField.setAdapter(adapter);
 
 
+        SimpleLookup [] lookupArray = new SimpleLookup[3];
+
+        int selectedPosition = ArrayHelper.IndexOfP(
+            categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
+            public boolean apply(SimpleLookup simpleLookup) {
+                return simpleLookup.getId() == doableItem.getCategoryId();  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        categoryField.setSelection(selectedPosition);
+
         categoryField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
 
-                if ( ((SimpleLookup)((Spinner) parentView).getSelectedItem()).getId() == -1)
-                {
+                if (((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId() == -1) {
                     initiatePopupWindow();
                 }
 
 
-                Toast.makeText(AddItemActivity.this,"Selected",Toast.LENGTH_LONG).show();
+                SimpleLookup lookup = categories.get(position);
+
+                if (lookup.getId() > 0) {
+                    doableItem.setCategoryId(lookup.getId());
+                }
             }
 
             @Override
@@ -148,72 +161,76 @@ public class AddItemActivity extends Activity {
         }
         );
 
-        cancelButton.setOnClickListener(new View.OnClickListener()
-                {
-                    public void onClick(View view) {
-                        AddItemActivity.this.finish();
-                    }
-                }
-                );
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                AddItemActivity.this.finish();
+            }
+        }
+        );
 
     }
 
 
     private PopupWindow pw;
-private void initiatePopupWindow() {
-    try {
-        //We need to get the instance of the LayoutInflater, use the context of this activity
-        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        //Inflate the view from a predefined XML layout
-        final View layout = inflater.inflate(R.layout.edit_lookup,
-                (ViewGroup) findViewById(R.id.edit_lookup_root));
-        // create a 300px width and 470px height PopupWindow
-        pw = new PopupWindow(layout, 300, 470, true);
-        // display the popup in the center
-        pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+    private void initiatePopupWindow() {
+        try {
+            //We need to get the instance of the LayoutInflater, use the context of this activity
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-
-        Button okButton = (Button) layout.findViewById(R.id.okButton);
-        Button cancelButton = (Button) layout.findViewById(R.id.cancelButton);
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //save:
-                 String name =
-                    ((EditText) layout.findViewById(R.id.name)).getText().toString();
-
-                String description =
-                        ((EditText) layout.findViewById(R.id.description))
-                                .getText().toString();
+            //Inflate the view from a predefined XML layout
+            final View layout = inflater.inflate(R.layout.edit_lookup,
+                    (ViewGroup) findViewById(R.id.edit_lookup_root));
+            // create a 300px width and 470px height PopupWindow
+            pw = new PopupWindow(layout, 300, 470, true);
+            // display the popup in the center
+            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
 
-                if (("" + name).trim() == "")
-                {
-                    Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    //todo save & refresh spinner
+            Button okButton = (Button) layout.findViewById(R.id.okButton);
+            Button cancelButton = (Button) layout.findViewById(R.id.cancelButton);
 
-                }
+            okButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    //save:
+                    String name =
+                            ((EditText) layout.findViewById(R.id.name)).getText().toString();
 
-            }
-        }
-        );
+                    String description =
+                            ((EditText) layout.findViewById(R.id.description))
+                                    .getText().toString();
 
-        cancelButton.setOnClickListener(new View.OnClickListener()
-                {
-                    public void onClick(View view) {
+
+                    if (("" + name).trim().length() > 0) {
+                        SimpleLookup lookup = new SimpleLookup();
+
+                        lookup.setName(name);
+                        lookup.setDescription(description);
+
+                        categoryTableAdapter.save(lookup);
+
+                        setupCategories();
+
                         pw.dismiss();
+                    } else {
+                        Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_LONG).show();
                     }
-                }
-                );
 
-    } catch (Exception e) {
-        e.printStackTrace();
+                }
+            }
+            );
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    pw.dismiss();
+                }
+            }
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
     public void okClick(View view) {
 

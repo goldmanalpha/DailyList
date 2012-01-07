@@ -24,9 +24,10 @@
 
         <Button
                 android:text="D o n e"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="click_ok"
+                android:layout_weight="1"
                 />
         <Button
                 android:text="Cancel"

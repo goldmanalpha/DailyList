@@ -72,9 +72,13 @@ public class LookupTableAdapter extends TableAdapterBase<SimpleLookup> {
         List<SimpleLookup> lookups = new ArrayList<SimpleLookup>();
 
         if (c.moveToFirst()) {
-            SimpleLookup item = new SimpleLookup(c.getInt(c.getColumnIndex("id")));
-            setCommonValues(item, c);
-            lookups.add(item);
+            do {
+
+                SimpleLookup item = new SimpleLookup(c.getInt(c.getColumnIndex("id")));
+                setCommonValues(item, c);
+                lookups.add(item);
+            }
+            while (c.moveToNext());
         }
 
         c.close();

@@ -32,6 +32,14 @@ public class DoableItemTable extends TableBase {
             return sql;
         }
 
+        if (newVersion == 12)
+        {
+            String sql = "Alter Table " + TableName
+                            + " add column categoryId int;";
+
+                    return sql;
+        }
+
         return null;
     }
 }
