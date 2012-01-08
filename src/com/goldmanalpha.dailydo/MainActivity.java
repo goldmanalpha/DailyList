@@ -689,21 +689,40 @@ public class MainActivity extends Activity {
     public void list_now_click(View v) throws ParseException {
         ValueIdentifier ids = GetValueIds(v);
 
-        DoableValue value = getCurrentValue(ids);
+        final DoableValue value = getCurrentValue(ids);
 
         Boolean usesTime1 = !usesTime1Map.containsKey(ids.ItemId) || usesTime1Map.get(ids.ItemId);
 
         Date now = new Date();
         Time nowTime = new Time(now.getHours(), now.getMinutes(), now.getSeconds());
 
+        String whichTimeToSet = "?";
         if (usesTime1) {
             value.setFromTime(nowTime);
+            whichTimeToSet = "fromTime";
         } else {
             value.setToTime(nowTime);
+            whichTimeToSet = "toTime";
         }
 
-        doableItemValueTableAdapter.save(value);
-        SetupList2(mDisplayingDate);
+
+        SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                value.getItem(this).getName(), "Set " + whichTimeToSet + " to current time?",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        if (id == DialogInterface.BUTTON_POSITIVE) {
+
+                            doableItemValueTableAdapter.save(value);
+                            SetupList2(mDisplayingDate);
+
+                        }
+                    }
+                });
+
+        dlg.show();
+
+
     }
 
     public void unit_type_click(View v) {
