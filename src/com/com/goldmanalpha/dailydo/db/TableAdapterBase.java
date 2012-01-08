@@ -132,6 +132,21 @@ public abstract class TableAdapterBase<T extends DoableBase> {
         return t;
     }
 
+    public float totalHours(Integer time1, Integer time2) {
+        Time diff1;
+        if (time1 > time2) {
+            diff1 = IntToTime(240000 - time1);
+
+
+            Time t2 = IntToTime(time2);
+
+            return diff1.getHours() + t2.getHours() + Math.round((diff1.getMinutes() + t2.getMinutes()) / 6) / 10.0f;
+        }
+        Time diff = IntToTime(time2 - time1);
+
+        return diff.getHours() + Math.round((diff.getMinutes()) / 6) / 10.0f;
+    }
+
     public void setCommonValues(T val, Cursor c) {
 
         try {

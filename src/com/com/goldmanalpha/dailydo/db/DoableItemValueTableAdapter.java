@@ -117,6 +117,10 @@ public class DoableItemValueTableAdapter
     public static final String ColToTime = "toTime";
     public static final String ColLastToTime = "lastToTime";
 
+    //placeholders support using mapping infrastructure
+    public static final String ColPlaceHolder1 = "placeHolder1";
+    public static final String ColPlaceHolder2 = "placeHolder2";
+    public static final String ColPlaceHolder3 = "placeHolder3";
 
     public void recalcDisplayOrder() {
         open();
@@ -197,8 +201,10 @@ String sql = "select "
         + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
         + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
         + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
-        + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate "
+        + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate, "
 
+
+        + " null placeHolder1, null placeHolder2, null placeHolder3 "
         + " from " + DoableItemTable.TableName + " as items "
         + " left outer join " + this.tableName + " as vals "
         + " on vals.itemId = items.id "

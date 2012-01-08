@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
     DoableItemValueTableAdapter doableItemValueTableAdapter;
 
     private static final SimpleDateFormat shortMonthDateFormat = new SimpleDateFormat("MMM-dd");
-    private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH-mm");
+    private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
 
     HashMap<Integer, Boolean> usesTime1Map = new HashMap<Integer, Boolean>();
 
@@ -60,7 +60,6 @@ public class MainActivity extends Activity {
         if (savedInstanceState != null)
             selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
         setupCategories();
-
 
 
     }
@@ -99,8 +98,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.main_list)
-        {
+        if (v.getId() == R.id.main_list) {
             menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
         }
     }
@@ -109,15 +107,14 @@ public class MainActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
 
         boolean handled = false;
-        switch (item.getItemId())
-        {
-            case                MenuItems.DuplicateItem:
+        switch (item.getItemId()) {
+            case MenuItems.DuplicateItem:
 
                 ValueIdentifier ids = GetValueIds(myList.getSelectedView());
 
                 String name = cachedCursor.getString(
                         cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
-                        )                                                                  ;
+                );
 
 
                 SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
@@ -136,13 +133,13 @@ public class MainActivity extends Activity {
                 dlg.show();
 
 
-                handled  = true;
+                handled = true;
 
 
                 break;
         }
 
-        return handled ;
+        return handled;
     }
 
     public void list_description_click(View v) {
@@ -287,21 +284,21 @@ public class MainActivity extends Activity {
         categoryField.setSelection(selectedPosition, true);
 
         categoryField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                        selectedCategoryId =
-                                ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
+                selectedCategoryId =
+                        ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
 
-                        MainActivity.this.SetupList2(mDisplayingDate);
-                    }
+                MainActivity.this.SetupList2(mDisplayingDate);
+            }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parentView) {
-                        // your code here
-                    }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
 
-                });
+        });
 
     }
 
@@ -358,6 +355,7 @@ public class MainActivity extends Activity {
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
         descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
+        final int nowColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPlaceHolder1);
 
         startManagingCursor(cachedCursor);
 
@@ -372,7 +370,8 @@ public class MainActivity extends Activity {
                 DoableItemValueTableAdapter.ColLastFromTime,
                 DoableItemValueTableAdapter.ColToTime,
                 DoableItemValueTableAdapter.ColLastToTime,
-                DoableItemValueTableAdapter.ColDescription
+                DoableItemValueTableAdapter.ColDescription,
+                DoableItemValueTableAdapter.ColPlaceHolder1
         };
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
@@ -380,7 +379,7 @@ public class MainActivity extends Activity {
                 R.id.list_lastDate, R.id.list_lastAmount,
                 R.id.list_lastTeaspoons, R.id.list_time1_value,
                 R.id.list_lastTime1, R.id.list_time2_value, R.id.list_lastTime2,
-                R.id.list_description
+                R.id.list_description, R.id.list_set_now
         };
 
         teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
@@ -412,8 +411,8 @@ public class MainActivity extends Activity {
                             String description = cursor.getString(columnIndex);
 
                             if (description != null && description.trim().length() > 0) {
-                                tv.setShadowLayer(3, 3, 3, Color.BLUE);
-                                tv.setText("D");
+                                tv.setShadowLayer(6, 0, 0, Color.MAGENTA);
+                                tv.setText("|D|");
 
                             } else {
                                 int id = cursor.getInt(valueIdColumnIndex);
@@ -421,7 +420,7 @@ public class MainActivity extends Activity {
                                 if (id == 0) {
                                     ((TextView) view).setText("");
                                 } else {
-                                    ((TextView) view).setText("D");
+                                    ((TextView) view).setText("|D|");
                                 }
 
                                 ((TextView) view).setShadowLayer(0, 0, 0, Color.BLACK);
@@ -492,10 +491,30 @@ public class MainActivity extends Activity {
 
                             if (fromShows || toShows) {
 
+                                int timeAsInt = cursor.getInt(columnIndex);
                                 Time t = doableItemValueTableAdapter
-                                        .IntToTime(cursor.getInt(columnIndex));
+                                        .IntToTime(timeAsInt);
 
-                                tv.setText(short24TimeFormat.format(t));
+                                String totalHours = "";
+                                if (toShows && timeAsInt > 0) {
+                                    int startTimeAsInt = 0;
+                                    //calc the total hours
+                                    if (columnIndex == lastToTimeColumnIndex) {
+                                        startTimeAsInt = cursor.getInt(lastFromTimedColumnIndex);
+                                    }
+
+                                    if (columnIndex == toTimeColumnIndex) {
+                                        startTimeAsInt = cursor.getInt(fromTimeColumnIndex);
+                                    }
+
+                                    totalHours = " ("
+                                            + doableItemValueTableAdapter.totalHours(startTimeAsInt, timeAsInt)
+                                            + ")";
+                                }
+
+                                tv.setText(short24TimeFormat.format(t) + totalHours);
+
+
                             } else {
                                 //stupid android seems to hold old values and apply them automatically when handled = true
                                 tv.setText("");
@@ -528,6 +547,20 @@ public class MainActivity extends Activity {
                             returnValue = true;
 
                             ApplyLastAppliesToDateBind((TextView) view, cursor, columnIndex);
+                        }
+
+                        if (columnIndex == nowColumnIndex) {
+
+                            int timesToShowDate = timesToShowDate(cursor);
+                            TextView tv = (TextView) view;
+
+                            if (timesToShowDate > 0) {
+                                tv.setText("now");
+                            } else {
+                                tv.setText("");
+                            }
+
+                            returnValue = true;
                         }
 
                         return returnValue;
@@ -643,6 +676,28 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    public void list_now_click(View v) throws ParseException {
+        ValueIdentifier ids = GetValueIds(v);
+
+        DoableValue value = getCurrentValue(ids);
+
+        Boolean usesTime1 = !usesTime1Map.containsKey(ids.ItemId) || usesTime1Map.get(ids.ItemId);
+
+        Date now = new Date();
+        Time nowTime = new Time(now.getHours(), now.getMinutes(), now.getSeconds());
+
+        if (usesTime1)
+        {
+            value.setFromTime(nowTime);
+        }
+        else
+        {
+            value.setToTime(nowTime);
+        }
+
+        doableItemValueTableAdapter.save(value);
+        SetupList2(mDisplayingDate);
+    }
 
     public void unit_type_click(View v) {
         ValueIdentifier ids = GetValueIds(v);
@@ -744,6 +799,15 @@ public class MainActivity extends Activity {
             }
 
         }
+
+        //if its tsp, make sure there's a tsp type set
+        if (value.getTeaspoons() == TeaSpoons.unset && isTeaspoons(cachedCursor)) {
+            value.setTeaspoons(
+                    TeaSpoons.valueOf(
+                            this.getTeaspoonsForCursorPosition(cachedCursor)));
+        }
+
+
     }
 
     String getTeaspoonsForCursorPosition(Cursor c) {
@@ -801,9 +865,8 @@ public class MainActivity extends Activity {
 
     }
 
-    public void add_click
-            (View
-                     v) throws ParseException {
+    public void add_click(View v) throws ParseException {
+
         ValueIdentifier ids = GetValueIds(v);
         TextView tv = (TextView) v;
 
@@ -838,20 +901,7 @@ public class MainActivity extends Activity {
 
         if (addAmount != 0) {
 
-            DoableValue value = doableItemValueTableAdapter
-                    .get(ids.ValueId);
-
-            //its a new value:
-            if (value.getDoableItemId() == 0) {
-                value.setDoableItemId(ids.ItemId);
-            }
-
-            //if its tsp, make sure there's a tsp type set
-            if (value.getTeaspoons() == TeaSpoons.unset && isTeaspoons(cachedCursor)) {
-                value.setTeaspoons(
-                        TeaSpoons.valueOf(
-                                this.getTeaspoonsForCursorPosition(cachedCursor)));
-            }
+            DoableValue value = getCurrentValue(ids);
 
             int timesToShow = timesToShowDate(cachedCursor);
 
@@ -900,17 +950,24 @@ public class MainActivity extends Activity {
                 }
             }
 
-            value.setAppliesToDate(this.mDisplayingDate);
-
-
             doableItemValueTableAdapter.save(value);
-
 
             SetupList2(mDisplayingDate);
 
         }
 
 
+    }
+
+    private DoableValue getCurrentValue(ValueIdentifier ids) throws ParseException {
+        DoableValue value = doableItemValueTableAdapter
+                .get(ids.ValueId);
+
+        value.setAppliesToDate(this.mDisplayingDate);
+
+        SetDefaultsForNewValue(value);
+
+        return value;
     }
 
     public void nextDayClick

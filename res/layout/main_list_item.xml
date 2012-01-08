@@ -2,7 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="3dp"
+
+        >
 
     <TextView android:id="@+id/list_name"
               android:textSize="16sp"
@@ -41,6 +44,16 @@
                   android:text="D"
                   android:clickable="true"
                   android:onClick="list_description_click"
+                  style="@style/ClickableText"
+                />
+
+    <TextView android:id="@+id/list_set_now"
+                  android:layout_marginLeft="5dp"
+                  android:layout_toRightOf="@id/list_description"
+                  android:layout_below="@id/list_name"
+                  android:text="now"
+                  android:clickable="true"
+                  android:onClick="list_now_click"
                   style="@style/ClickableText"
                 />
 
