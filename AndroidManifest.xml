@@ -38,5 +38,6 @@
                   android:label="Pick One"/>
 
          <service android:enabled="true" android:name=".BackupService" />
+
     </application>
 </manifest> 

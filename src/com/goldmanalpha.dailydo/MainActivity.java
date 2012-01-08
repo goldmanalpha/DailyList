@@ -3,6 +3,7 @@ package com.goldmanalpha.dailydo;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Path;
@@ -71,11 +72,12 @@ public class MainActivity extends Activity {
         public static final int AddItem = 0;
         public static final int Backup = 1;
         public static final int Quit = 2;
-        public static final int EmailDb = 3;
+
         public static final int DeleteDb = 4;
         public static final int PublicPrivateSwitch = 5;
 
         public static final int DuplicateItem = 6;
+        public static final int BackupFolder = 6;
     }
 
     MenuItem PublicPrivateMenuItem;
@@ -83,15 +85,23 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        //Preferences
+
         //group, item, order, title
+
         menu.add(0, MenuItems.AddItem, 0, "Add Item");
-        menu.add(1, MenuItems.Backup, 0, "Backup");
-        menu.add(0, MenuItems.Quit, 0, "Quit");
-        menu.add(1, MenuItems.EmailDb, 0, "Email DB");
-        menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
 
         PublicPrivateMenuItem =
                 menu.add(0, MenuItems.PublicPrivateSwitch, 0, "Pub Only");
+
+
+        menu.add(0, MenuItems.Quit, 0, "Quit");
+
+
+        menu.add(1, MenuItems.BackupFolder, 0, "Backup Folder");
+
+        menu.add(1, MenuItems.Backup, 0, "Backup");
+        menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
 
         return true;
     }
@@ -177,10 +187,16 @@ public class MainActivity extends Activity {
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
                                     //backup?!
 
-                                    String path = "data/data/" + getPackageName() + "/databases/";
+                                    String localPath = "data/data/" + getPackageName() + "/databases/";
+
+
+                                    SharedPreferences preferences =
+                                            getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
+
+                                    String targetPath = preferences.getString("BackupFolder", localPath);
 
                                     BackupHelper helper = new BackupHelper();
-                                    helper.backup(path, DailyDoDatabaseHelper.DATABASE_NAME, "preDelete.");
+                                    helper.backup(localPath, targetPath, DailyDoDatabaseHelper.DATABASE_NAME, "preDelete.");
 
                                     //delete
 
@@ -210,18 +226,11 @@ public class MainActivity extends Activity {
                 startService(new Intent(this, BackupService.class));
                 break;
 
-            case MenuItems.EmailDb:
+            case (MenuItems.BackupFolder):
 
-                Intent email = new Intent(Intent.ACTION_SEND);
-                //email.putExtra(Intent.EXTRA_EMAIL, recipients);
-                email.putExtra(Intent.EXTRA_TEXT, "data attached");
-                email.putExtra(Intent.EXTRA_SUBJECT, "DailyDo Data");
-                email.setType("message/rfc822");
-
-                email.putExtra(android.content.Intent.EXTRA_STREAM,
-                        Uri.parse("file://" + path + "/dailydodata.db"));
-
-                startActivity(email);
+                Intent browser = new Intent(Intent.ACTION_GET_CONTENT);
+                browser.setType("file/*");
+                startActivityForResult(browser, IntentRequestCodes.BackupFolder);
 
                 break;
 
@@ -236,6 +245,7 @@ public class MainActivity extends Activity {
 
         return true;
     }
+
 
     LookupTableAdapter categoryTableAdapter;
     int selectedCategoryId = SimpleLookup.ALL_ID;
@@ -686,12 +696,9 @@ public class MainActivity extends Activity {
         Date now = new Date();
         Time nowTime = new Time(now.getHours(), now.getMinutes(), now.getSeconds());
 
-        if (usesTime1)
-        {
+        if (usesTime1) {
             value.setFromTime(nowTime);
-        }
-        else
-        {
+        } else {
             value.setToTime(nowTime);
         }
 
@@ -745,31 +752,56 @@ public class MainActivity extends Activity {
 
     class IntentRequestCodes {
         public static final int TeaspoonSelection = 1;
+
+        public static final int BackupFolder = 2;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
 
+        switch (requestCode) {
+            case IntentRequestCodes.TeaspoonSelection:
+                if (resultCode == RESULT_OK) {
 
-        if (resultCode == RESULT_OK &&
-                requestCode == IntentRequestCodes.TeaspoonSelection
-                ) {
-
-            String setToTeaspoons = data.getStringExtra(PickOneList.SelectedItem);
+                    String setToTeaspoons = data.getStringExtra(PickOneList.SelectedItem);
 
 
-            if (!teaspoonsClickValue.getTeaspoons().toString().equals(setToTeaspoons)) {
+                    if (!teaspoonsClickValue.getTeaspoons().toString().equals(setToTeaspoons)) {
 
-                teaspoonsClickValue.setTeaspoons(TeaSpoons.valueOf(setToTeaspoons));
+                        teaspoonsClickValue.setTeaspoons(TeaSpoons.valueOf(setToTeaspoons));
 
-                doableItemValueTableAdapter.save(teaspoonsClickValue);
-            }
+                        doableItemValueTableAdapter.save(teaspoonsClickValue);
+                    }
 
-            SetupList(new DayOnlyDate(this.mDisplayingDate));
+                    SetupList(new DayOnlyDate(this.mDisplayingDate));
+                }
+                break;
+            case IntentRequestCodes.BackupFolder:
+                if (resultCode == RESULT_OK) {
+
+                    String FilePath = data.getData().getPath();
+                    String FileName = data.getData().getLastPathSegment();
+                    int lastPos = FilePath.length() - FileName.length();
+                    String Folder = FilePath.substring(0, lastPos);
+
+                    SharedPreferences preferences =
+                            getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
+                    preferences.edit().putString("BackupFolder", Folder).commit();
+
+                    Toast.makeText(this, "Saved folder: " + Folder, Toast.LENGTH_LONG).show();
+
+                    /*textFile.setText("Full Path: \n" + FilePath + "\n");
+              textFolder.setText("Folder: \n" + Folder + "\n");
+              textFileName.setText("File Name: \n" + FileName + "\n");*/
+                }
+                break;
 
         }
+
+
     }
+
 
     //for a new doable value, this will set defaults enough to save
     //need to have called GetIds prior to this call

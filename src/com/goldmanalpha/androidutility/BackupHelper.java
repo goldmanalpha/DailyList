@@ -16,26 +16,28 @@ public class BackupHelper {
 
 
     //path must have proper ending slash
-    public void backup(String path, String fileName, String prefix)
+
+    //localPath: path to the file to backup
+    public void backup(String localPath, String targetPath, String fileName, String prefix)
     {
                 String datePrefix = new SimpleDateFormat("yyyyMMdd.HHmm").format(new Date());
                 FileHelper helper = new FileHelper();
 
                 String backupSuffix = ".backup." + fileName;
-                String backupPath = path + prefix + datePrefix + backupSuffix ;
+                String backupPath = targetPath + prefix + datePrefix + backupSuffix ;
                 File backupFile = new File(backupPath);
 
                 if (!backupFile.exists()) {
                     try {
                         //todo: show backup issues in the app
-                        helper.CopyFile(path + fileName, backupPath);
+                        helper.CopyFile(localPath + fileName, backupPath);
                     } catch (IOException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
 
                     //delete any older files for this day:
 
-                    File dir = new File(path);
+                    File dir = new File(targetPath);
 
                     String dateOnlyPrefix = new SimpleDateFormat("yyyyMMdd.").format(new Date());
 
