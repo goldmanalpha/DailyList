@@ -165,91 +165,102 @@ public class DoableItemValueTableAdapter
 
         String categorySql = "";
 
-        if (categoryId == SimpleLookup.UNSET_ID) {
-            categorySql = " and (categoryId = 0 or categoryId is null)";
-        } else {
-            if (categoryId != SimpleLookup.ALL_ID) {
+        switch (categoryId) {
+            case SimpleLookup.UNSET_ID:
+                categorySql = " and (categoryId = 0 or categoryId is null)";
+
+                break;
+
+            case SimpleLookup.ALL_ID:
+                //leave blank
+                break;
+
+            case    SimpleLookup.HAS_VALUE_ID:
+                categorySql = " and vals.id is not null ";
+                break;
+
+            default:
+
                 categorySql = " and categoryId = " + categoryId;
-            }
 
         }
 
-        String sql = "select "
-                + " vals.id as _id, vals.id, vals.description, "
-                + " vals.fromTime, vals.toTime, vals.amount, "
-                + " vals.teaspoons, "
+String sql = "select "
+        + " vals.id as _id, vals.id, vals.description, "
+        + " vals.fromTime, vals.toTime, vals.amount, "
+        + " vals.teaspoons, "
 
-                + " vals.dateCreated, vals.dateModified, "
+        + " vals.dateCreated, vals.dateModified, "
 
-                + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
-                + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
-                + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
-                + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
-                + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
-                + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate "
+        + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
+        + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
+        + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
+        + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
+        + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
+        + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate "
 
-                + " from " + DoableItemTable.TableName + " as items "
-                + " left outer join " + this.tableName + " as vals "
-                + " on vals.itemId = items.id "
-                + " and vals.appliesToDate = ?"
-                + " left outer join " + this.tableName + " as lastVal "
-                + " on vals.previousValueId = lastVal.id "
+        + " from " + DoableItemTable.TableName + " as items "
+        + " left outer join " + this.tableName + " as vals "
+        + " on vals.itemId = items.id "
+        + " and vals.appliesToDate = ?"
+        + " left outer join " + this.tableName + " as lastVal "
+        + " on vals.previousValueId = lastVal.id "
 
-                + " left outer join ViewItemValueMax as valueMaxJunction "
-                + " on items.id = valueMaxJunction.itemId "
+        + " left outer join ViewItemValueMax as valueMaxJunction "
+        + " on items.id = valueMaxJunction.itemId "
 
-                + " left outer join " + this.tableName + " as latestVal "
-                + " on valueMaxJunction.valueId = latestVal.id "
+        + " left outer join " + this.tableName + " as latestVal "
+        + " on valueMaxJunction.valueId = latestVal.id "
 
-                + " where 1 = 1"
+        + " where 1 = 1"
 
-                + (showPrivate ? "" : " and items.private = 0")
+        + (showPrivate ? "" : " and items.private = 0")
 
-                + categorySql
+        + categorySql
 
-                + " order by items.displayOrder";
+        + " order by items.displayOrder";
 
-        // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
+    // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
 
-        Cursor cursor = db.rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
+Cursor cursor = db.rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
 
-        return cursor;
-    }
+return cursor;
+}
 
-    @Override
-    public DoableValue get(int id) throws ParseException {
-        Cursor c = getSingle(id);
+@Override
+public DoableValue get(int id)throws ParseException{
+        Cursor c=getSingle(id);
 
-        DoableValue val = new DoableValue();
+DoableValue val=new DoableValue();
 
-        if (c.moveToFirst()) {
+if(c.moveToFirst()){
 
-            val = new DoableValue(c.getInt(c.getColumnIndex("id")));
+        val=new DoableValue(c.getInt(c.getColumnIndex("id")));
 
-            super.setCommonValues(val, c);
-
-
-            val.setAmount(c.getFloat(c.getColumnIndex("amount")));
-            val.setAppliesToDate(simpleDateFormat.parse(c.getString(c.getColumnIndex("appliesToDate"))));
-
-            val.setFromTime(IntToTime(c.getInt(c.getColumnIndex("fromTime"))));
-            val.setToTime(IntToTime(c.getInt(c.getColumnIndex("toTime"))));
-
-            val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
-
-            val.setDescription(c.getString(c.getColumnIndex(ColDescription)));
-
-            val.setTeaspoons(
-                    TeaSpoons.valueOf(
-                            c.getString(c.getColumnIndex("teaspoons"))));
+super.setCommonValues(val,c);
 
 
-        }
+val.setAmount(c.getFloat(c.getColumnIndex("amount")));
+val.setAppliesToDate(simpleDateFormat.parse(c.getString(c.getColumnIndex("appliesToDate"))));
+
+val.setFromTime(IntToTime(c.getInt(c.getColumnIndex("fromTime"))));
+val.setToTime(IntToTime(c.getInt(c.getColumnIndex("toTime"))));
+
+val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
+
+val.setDescription(c.getString(c.getColumnIndex(ColDescription)));
+
+val.setTeaspoons(
+        TeaSpoons.valueOf(
+        c.getString(c.getColumnIndex("teaspoons"))));
+
+
+}
 
         c.close();
 
-        return val;
-    }
+return val;
 }
+        }
 
 

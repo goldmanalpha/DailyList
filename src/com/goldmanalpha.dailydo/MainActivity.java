@@ -65,21 +65,6 @@ public class MainActivity extends Activity {
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("selectedCategoryId", selectedCategoryId);
-        super.onSaveInstanceState(outState);    //To change body of overridden methods use File | Settings | File Templates.
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-
-        if (savedInstanceState != null)
-            selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
-        setupCategories();
-
-    }
 
     boolean showPrivate = true;
 
@@ -273,6 +258,10 @@ public class MainActivity extends Activity {
         addItem = new SimpleLookup(SimpleLookup.UNSET_ID);
         addItem.setName("No Category");
         categories.add(1, addItem);
+
+        addItem = new SimpleLookup(SimpleLookup.HAS_VALUE_ID);
+        addItem.setName("Has Values");
+        categories.add(2, addItem);
 
         ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
                 this, android.R.layout.simple_spinner_item,

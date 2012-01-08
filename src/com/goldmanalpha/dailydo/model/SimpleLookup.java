@@ -4,8 +4,14 @@ public class SimpleLookup extends DoableBase {
     String name;
     String description;
 
+    //matches any:
     public static final int ALL_ID = -2;
+
+    //lookup value has not been applied:
     public static final int UNSET_ID = -1;
+
+    //matches only where value is applied, not nulls
+    public static final int HAS_VALUE_ID = -3;
 
     public SimpleLookup(int id) {
         super(id);
