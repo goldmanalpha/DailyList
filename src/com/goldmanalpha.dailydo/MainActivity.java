@@ -8,10 +8,7 @@ import android.graphics.Color;
 import android.graphics.Path;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import com.android.internal.util.Predicate;
 import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
@@ -41,17 +38,20 @@ public class MainActivity extends Activity {
 
     HashMap<Integer, Boolean> usesTime1Map = new HashMap<Integer, Boolean>();
 
+    public MainActivity() {
+    }
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //todo: wrong wrong wrong
         DoableBase.setContext(getApplicationContext());
 
         setContentView(R.layout.main);
+
+        myList = (ListView) findViewById(R.id.main_list);
+        registerForContextMenu(myList);
 
         mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 
@@ -60,6 +60,8 @@ public class MainActivity extends Activity {
         if (savedInstanceState != null)
             selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
         setupCategories();
+
+
 
     }
 
@@ -88,6 +90,8 @@ public class MainActivity extends Activity {
         public static final int EmailDb = 3;
         public static final int DeleteDb = 4;
         public static final int PublicPrivateSwitch = 5;
+
+        public static final int DuplicateItem = 6;
     }
 
     MenuItem PublicPrivateMenuItem;
@@ -106,6 +110,54 @@ public class MainActivity extends Activity {
                 menu.add(0, MenuItems.PublicPrivateSwitch, 0, "Pub Only");
 
         return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == R.id.main_list)
+        {
+            menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        boolean handled = false;
+        switch (item.getItemId())
+        {
+            case                MenuItems.DuplicateItem:
+
+                ValueIdentifier ids = GetValueIds(myList.getSelectedView());
+
+                String name = cachedCursor.getString(
+                        cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
+                        )                                                                  ;
+
+
+                SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                        name, "Duplicate item?",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                if (id == DialogInterface.BUTTON_POSITIVE) {
+
+                                    Toast.makeText(MainActivity.this, "Agreed", Toast.LENGTH_LONG).show();
+
+                                }
+                            }
+                        });
+
+                dlg.show();
+
+
+                handled  = true;
+
+
+                break;
+        }
+
+        return handled ;
     }
 
     public void list_description_click(View v) {
@@ -353,7 +405,6 @@ public class MainActivity extends Activity {
         toTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColToTime);
         lastToTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastToTime);
 
-        myList = (ListView) findViewById(R.id.main_list);
 
         listCursorAdapter = new SimpleCursorAdapter(myList.getContext(),
                 R.layout.main_list_item, cachedCursor, from, to);

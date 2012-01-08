@@ -50,6 +50,7 @@ public class AddItemActivity extends Activity {
         }
 
         setupCategories();
+
     }
 
     LookupTableAdapter categoryTableAdapter;

@@ -18,6 +18,5 @@ public class DeleteConfirmationDialog extends AlertDialog.Builder{
         setPositiveButton(R.string.ok, onClickListener);
         setNegativeButton(R.string.cancel, null);
     }
-
-
 }
+
