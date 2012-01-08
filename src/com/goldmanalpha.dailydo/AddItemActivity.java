@@ -79,11 +79,14 @@ public class AddItemActivity extends Activity {
         categoryField.setAdapter(adapter);
 
 
-        SimpleLookup [] lookupArray = new SimpleLookup[3];
+        SimpleLookup [] lookupArray = new SimpleLookup[categories.size()];
 
         int selectedPosition = ArrayHelper.IndexOfP(
             categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
             public boolean apply(SimpleLookup simpleLookup) {
+                if (doableItem == null)
+                    return false;
+
                 return simpleLookup.getId() == doableItem.getCategoryId();  //To change body of implemented methods use File | Settings | File Templates.
             }
         });
@@ -213,7 +216,7 @@ public class AddItemActivity extends Activity {
 
                         pw.dismiss();
                     } else {
-                        Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -255,13 +258,13 @@ public class AddItemActivity extends Activity {
                 //doableItemTableAdapter.close();
 
 
-                Toast toast = Toast.makeText(this, item.getName() + " saved.", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, item.getName() + " saved.", Toast.LENGTH_SHORT);
                 toast.show();
 
                 finish();
             } else {
 
-                Toast toast = Toast.makeText(this, "Fill in name and unit type to save.", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, "Fill in name and unit type to save.", Toast.LENGTH_SHORT);
                 toast.show();
             }
 

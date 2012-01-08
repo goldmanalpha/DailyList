@@ -47,16 +47,34 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         DoableBase.setContext(getApplicationContext());
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 
         updateDisplayDate(new DayOnlyDate());
 
+        if (savedInstanceState != null)
+            selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
+        setupCategories();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("selectedCategoryId", selectedCategoryId);
+        super.onSaveInstanceState(outState);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+
+        if (savedInstanceState != null)
+            selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
         setupCategories();
 
     }
@@ -185,11 +203,12 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    LookupTableAdapter       categoryTableAdapter ;
+    LookupTableAdapter categoryTableAdapter;
     int selectedCategoryId = SimpleLookup.ALL_ID;
+    Spinner categoryField;
 
     private void setupCategories() {
-        //To change body of created methods use File | Settings | File Templates.
+        categoryField = (Spinner) findViewById(R.id.categorySpinner);
 
         categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter(this);
 
@@ -209,11 +228,9 @@ public class MainActivity extends Activity {
 
         adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
 
-        Spinner categoryField = (Spinner)findViewById(R.id.categorySpinner);
-
         categoryField.setAdapter(adapter);
 
-        SimpleLookup[] lookupArray = new SimpleLookup[3];
+        SimpleLookup[] lookupArray = new SimpleLookup[categories.size()];
 
         //todo: save last category on close
         int selectedPosition = ArrayHelper.IndexOfP(
@@ -223,24 +240,28 @@ public class MainActivity extends Activity {
             }
         });
 
-        categoryField.setSelection(selectedPosition);
+
+        //todo: this reset to previous state doesn't exactly work
+        //the display text in the spinner is wrong.
+        categoryField.setSelection(selectedPosition, true);
 
         categoryField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                selectedCategoryId =
-                        ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
+                        selectedCategoryId =
+                                ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
 
-                MainActivity.this.SetupList2(mDisplayingDate);
-            }
+                        MainActivity.this.SetupList2(mDisplayingDate);
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parentView) {
+                        // your code here
+                    }
 
-        });
+                });
+
     }
 
     @Override
@@ -352,7 +373,7 @@ public class MainActivity extends Activity {
 
                             if (description != null && description.trim().length() > 0) {
                                 tv.setShadowLayer(3, 3, 3, Color.BLUE);
-                                tv.setText("d");
+                                tv.setText("D");
 
                             } else {
                                 int id = cursor.getInt(valueIdColumnIndex);
@@ -360,7 +381,7 @@ public class MainActivity extends Activity {
                                 if (id == 0) {
                                     ((TextView) view).setText("");
                                 } else {
-                                    ((TextView) view).setText("d");
+                                    ((TextView) view).setText("D");
                                 }
 
                                 ((TextView) view).setShadowLayer(0, 0, 0, Color.BLACK);

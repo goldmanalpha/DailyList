@@ -35,29 +35,14 @@
                 />
 
     <TextView android:id="@+id/list_description"
-                  android:textSize="16sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
                   android:layout_marginLeft="5dp"
                   android:layout_toRightOf="@id/list_teaspoons"
                   android:layout_below="@id/list_name"
-                  android:text="d"
+                  android:text="D"
                   android:clickable="true"
                   android:onClick="list_description_click"
+                  style="@style/ClickableText"
                 />
-
-    <TextView android:id="@+id/list_make_dup_val"
-                  android:textSize="16sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="5dp"
-                  android:layout_toRightOf="@id/list_description"
-                  android:layout_below="@id/list_name"
-                  android:text="+"
-                  android:clickable="true"
-                  android:onClick="list_description_click"
-                />
-
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                       android:layout_width="wrap_content"
