@@ -3,6 +3,7 @@ package com.goldmanalpha.dailydo;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.IBinder;
 import android.widget.Toast;
 import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
@@ -37,20 +38,30 @@ public class BackupService extends Service {
             prefix = intent.getStringExtra(BACKUP_PREFIX);
         }
 
-        String localPath = "data/data/" + this.getPackageName() + "/databases/";
 
         SharedPreferences preferences =
                 getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
 
-        String targetPath = preferences.getString("BackupFolder", localPath);
+        String targetPath = preferences.getString("BackupFolder", "");
 
-        BackupHelper helper = new BackupHelper();
-        helper.backup(localPath, targetPath, DailyDoDatabaseHelper.DATABASE_NAME, prefix);
+        doBackup(prefix, getPackageName(), targetPath );
 
-        Toast.makeText(this, "DailyDo Backed Up", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "DailyDo DB Backed Up.", Toast.LENGTH_SHORT).show();
+
+        //ShareFile(backupFilePath);
 
         stopSelf();
 
         return START_NOT_STICKY;
+    }
+
+    public String doBackup(String prefix, String packageName, String targetPath) {
+        String localPath = "data/data/" + packageName  + "/databases/";
+
+        BackupHelper helper = new BackupHelper();
+
+        String backupFilePath = helper.backup(localPath, targetPath, DailyDoDatabaseHelper.DATABASE_NAME, prefix);
+
+        return backupFilePath;
     }
 }

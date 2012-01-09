@@ -168,6 +168,19 @@ public class MainActivity extends Activity {
         }
     }
 
+    void shareFile(String filePath) {
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("application/x-gzip");
+
+        share.putExtra(Intent.EXTRA_STREAM,
+                Uri.parse("file://" + filePath));
+
+        share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(Intent.createChooser(share, "Share Backup"));
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -223,7 +236,21 @@ public class MainActivity extends Activity {
 
             case (MenuItems.Backup):
                 Toast.makeText(this, "Backing up", Toast.LENGTH_LONG).show();
-                startService(new Intent(this, BackupService.class));
+
+                BackupService backupService = new BackupService();
+
+
+                SharedPreferences preferences =
+                        getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
+
+                String targetPath = preferences.getString("BackupFolder", "");
+
+                String backupFileName = backupService.doBackup("", getPackageName(), targetPath);
+
+                Toast.makeText(this, "DailyDo DB Backed Up. Recommended to share it with DroopBox", Toast.LENGTH_SHORT).show();
+
+                this.shareFile(backupFileName);
+
                 break;
 
             case (MenuItems.BackupFolder):
@@ -236,7 +263,9 @@ public class MainActivity extends Activity {
 
             case (MenuItems.Quit):
                 Toast.makeText(this, "Bye.", Toast.LENGTH_SHORT).show();
+
                 startService(new Intent(this, BackupService.class));
+
                 finish();
                 break;
             default:
