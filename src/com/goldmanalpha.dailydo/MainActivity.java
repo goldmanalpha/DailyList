@@ -77,7 +77,10 @@ public class MainActivity extends Activity {
         public static final int PublicPrivateSwitch = 5;
 
         public static final int DuplicateItem = 6;
-        public static final int BackupFolder = 6;
+
+        public static final int BackupFolder = 7;
+
+        public static final int DeleteItem = 8;
     }
 
     MenuItem PublicPrivateMenuItem;
@@ -109,32 +112,58 @@ public class MainActivity extends Activity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.main_list) {
+
+
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+            cachedCursor.moveToPosition(info.position);
+
+            final String name = cachedCursor.getString(
+                                cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
+                        );
+
+            menu.setHeaderTitle(name);
+
             menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
+
+            menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
         }
     }
+
+
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
+        final ValueIdentifier ids = getValueIdsForCurrentCursorPosition();
+        final String name = cachedCursor.getString(
+                        cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
+                );;
         boolean handled = false;
+        SeriousConfirmationDialog dlg = null;
+
         switch (item.getItemId()) {
             case MenuItems.DuplicateItem:
 
-                ValueIdentifier ids = GetValueIds(myList.getSelectedView());
+                if (ids == null || ids.ValueId == 0)
+                {
+                    Toast.makeText(this, "No value to duplicate", Toast.LENGTH_LONG).show();
+                    return true;
+                }
 
-                String name = cachedCursor.getString(
-                        cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
-                );
-
-
-                SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                dlg = new SeriousConfirmationDialog(this,
                         name, "Duplicate item?",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
+                                    try {
+                                        MainActivity.this.
+                                        doableItemValueTableAdapter.createDuplicate(ids.ValueId);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                    }
 
-                                    Toast.makeText(MainActivity.this, "Agreed", Toast.LENGTH_LONG).show();
 
                                 }
                             }
@@ -147,6 +176,42 @@ public class MainActivity extends Activity {
 
 
                 break;
+
+            case MenuItems.DeleteItem:
+
+                if (ids == null || ids.ValueId == 0)
+                {
+                    Toast.makeText(this, "No value to delete", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+
+                String description = cachedCursor.getString(descriptionColumnIndex);
+
+                if ((description + "").trim() != null) {
+                    Toast.makeText(this, "Can't delete value with description -- delete description first.",
+                            Toast.LENGTH_LONG).show();
+
+                } else {
+                    dlg = new SeriousConfirmationDialog(this,
+                            name, "Delete item?",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    if (id == DialogInterface.BUTTON_POSITIVE) {
+
+                                        doableItemValueTableAdapter.delete(ids.ValueId);
+                                    }
+
+                                }
+                            });
+
+                    dlg.show();
+                }
+
+                handled = true;
+
+
+                break;
+
         }
 
         return handled;
@@ -694,16 +759,20 @@ public class MainActivity extends Activity {
 
         if (cachedCursor.moveToPosition(myList.getPositionForView(view))) {
 
-            ValueIdentifier vi = new ValueIdentifier();
-
-            vi.ValueId = cachedCursor.getInt(valueIdColumnIndex);
-            vi.ItemId = cachedCursor.getInt(itemIdColumnIndex);
-
-            lastValueId = vi;
-            return vi;
+            return getValueIdsForCurrentCursorPosition();
         }
 
         return (lastValueId = null);
+    }
+
+    private ValueIdentifier getValueIdsForCurrentCursorPosition() {
+        ValueIdentifier vi = new ValueIdentifier();
+
+        vi.ValueId = cachedCursor.getInt(valueIdColumnIndex);
+        vi.ItemId = cachedCursor.getInt(itemIdColumnIndex);
+
+        lastValueId = vi;
+        return vi;
     }
 
     public void nameClick(View view) {

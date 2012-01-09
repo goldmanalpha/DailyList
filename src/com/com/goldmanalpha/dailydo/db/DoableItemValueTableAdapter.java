@@ -179,7 +179,7 @@ public class DoableItemValueTableAdapter
                 //leave blank
                 break;
 
-            case    SimpleLookup.HAS_VALUE_ID:
+            case SimpleLookup.HAS_VALUE_ID:
                 categorySql = " and vals.id is not null ";
                 break;
 
@@ -189,84 +189,93 @@ public class DoableItemValueTableAdapter
 
         }
 
-String sql = "select "
-        + " vals.id as _id, vals.id, vals.description, "
-        + " vals.fromTime, vals.toTime, vals.amount, "
-        + " vals.teaspoons, "
+        String sql = "select "
+                + " vals.id as _id, vals.id, vals.description, "
+                + " vals.fromTime, vals.toTime, vals.amount, "
+                + " vals.teaspoons, "
 
-        + " vals.dateCreated, vals.dateModified, "
+                + " vals.dateCreated, vals.dateModified, "
 
-        + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
-        + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
-        + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
-        + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
-        + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
-        + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate, "
-
-
-        + " null placeHolder1, null placeHolder2, null placeHolder3 "
-        + " from " + DoableItemTable.TableName + " as items "
-        + " left outer join " + this.tableName + " as vals "
-        + " on vals.itemId = items.id "
-        + " and vals.appliesToDate = ?"
-        + " left outer join " + this.tableName + " as lastVal "
-        + " on vals.previousValueId = lastVal.id "
-
-        + " left outer join ViewItemValueMax as valueMaxJunction "
-        + " on items.id = valueMaxJunction.itemId "
-
-        + " left outer join " + this.tableName + " as latestVal "
-        + " on valueMaxJunction.valueId = latestVal.id "
-
-        + " where 1 = 1"
-
-        + (showPrivate ? "" : " and items.private = 0")
-
-        + categorySql
-
-        + " order by items.displayOrder";
-
-    // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
-
-Cursor cursor = db.rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
-
-return cursor;
-}
-
-@Override
-public DoableValue get(int id)throws ParseException{
-        Cursor c=getSingle(id);
-
-DoableValue val=new DoableValue();
-
-if(c.moveToFirst()){
-
-        val=new DoableValue(c.getInt(c.getColumnIndex("id")));
-
-super.setCommonValues(val,c);
+                + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
+                + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
+                + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
+                + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
+                + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
+                + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate, "
 
 
-val.setAmount(c.getFloat(c.getColumnIndex("amount")));
-val.setAppliesToDate(simpleDateFormat.parse(c.getString(c.getColumnIndex("appliesToDate"))));
+                + " null placeHolder1, null placeHolder2, null placeHolder3 "
+                + " from " + DoableItemTable.TableName + " as items "
+                + " left outer join " + this.tableName + " as vals "
+                + " on vals.itemId = items.id "
+                + " and vals.appliesToDate = ?"
+                + " left outer join " + this.tableName + " as lastVal "
+                + " on vals.previousValueId = lastVal.id "
 
-val.setFromTime(IntToTime(c.getInt(c.getColumnIndex("fromTime"))));
-val.setToTime(IntToTime(c.getInt(c.getColumnIndex("toTime"))));
+                + " left outer join ViewItemValueMax as valueMaxJunction "
+                + " on items.id = valueMaxJunction.itemId "
 
-val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
+                + " left outer join " + this.tableName + " as latestVal "
+                + " on valueMaxJunction.valueId = latestVal.id "
 
-val.setDescription(c.getString(c.getColumnIndex(ColDescription)));
+                + " where 1 = 1"
 
-val.setTeaspoons(
-        TeaSpoons.valueOf(
-        c.getString(c.getColumnIndex("teaspoons"))));
+                + (showPrivate ? "" : " and items.private = 0")
+
+                + categorySql
+
+                + " order by items.displayOrder";
+
+        // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
+
+        Cursor cursor = db.rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
+
+        return cursor;
+    }
+
+    @Override
+    public DoableValue get(int id) throws ParseException {
+        Cursor c = getSingle(id);
+
+        DoableValue val = new DoableValue();
+
+        if (c.moveToFirst()) {
+
+            val = new DoableValue(c.getInt(c.getColumnIndex("id")));
+
+            super.setCommonValues(val, c);
 
 
-}
+            val.setAmount(c.getFloat(c.getColumnIndex("amount")));
+            val.setAppliesToDate(simpleDateFormat.parse(c.getString(c.getColumnIndex("appliesToDate"))));
+
+            val.setFromTime(IntToTime(c.getInt(c.getColumnIndex("fromTime"))));
+            val.setToTime(IntToTime(c.getInt(c.getColumnIndex("toTime"))));
+
+            val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
+
+            val.setDescription(c.getString(c.getColumnIndex(ColDescription)));
+
+            val.setTeaspoons(
+                    TeaSpoons.valueOf(
+                            c.getString(c.getColumnIndex("teaspoons"))));
+
+
+        }
 
         c.close();
 
-return val;
+        return val;
+    }
+
+    public void createDuplicate(int id) throws ParseException {
+
+        DoableValue value = get(id);
+
+        DoableValue copy = new DoableValue(value);
+
+        save(copy);
+    }
 }
-        }
 
 

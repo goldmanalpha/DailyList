@@ -19,9 +19,22 @@ public class DoableValue extends DoableBase {
 
     private Date appliesToDate;
     private Integer doableItemId = 0;
-    /*int previousValueId = 0;
-    DoableValue previousValue;
-*/
+
+    public DoableValue(DoableValue copyItem) {
+        super();
+
+        this.setAppliesToDate(copyItem.getAppliesToDate());
+        this.setTeaspoons(copyItem.teaspoons);
+    }
+
+
+    public DoableValue(int id) {
+        super(id);
+    }
+
+
+    public DoableValue() {
+    }
 
     public TeaSpoons getTeaspoons() {
         return teaspoons;
@@ -32,13 +45,6 @@ public class DoableValue extends DoableBase {
     }
 
     private TeaSpoons teaspoons = TeaSpoons.unset;
-
-    public DoableValue() {
-    }
-
-    public DoableValue(int id) {
-        super(id);
-    }
 
     public Date getAppliesToDate() {
         return appliesToDate;

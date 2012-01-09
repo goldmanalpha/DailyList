@@ -92,6 +92,15 @@ public abstract class TableAdapterBase<T extends DoableBase> {
 
     public abstract T get(int id) throws ParseException;
 
+    public void delete(int id) {
+        open();
+
+        String sql = "delete from " + tableName + " where id = " + id;
+
+        db.execSQL(sql);
+    }
+
+
     protected Cursor getSingle(int id) {
         open();
 
