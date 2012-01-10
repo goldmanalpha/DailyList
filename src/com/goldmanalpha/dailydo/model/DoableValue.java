@@ -25,6 +25,8 @@ public class DoableValue extends DoableBase {
 
         this.setAppliesToDate(copyItem.getAppliesToDate());
         this.setTeaspoons(copyItem.teaspoons);
+       // this.setDoableItemId(copyItem.getItem());
+
     }
 
 

@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 
+
 public abstract class TableAdapterBase<T extends DoableBase> {
 
 
