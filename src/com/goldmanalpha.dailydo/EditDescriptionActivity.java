@@ -32,7 +32,7 @@ public class EditDescriptionActivity extends Activity{
 
 
         setContentView(R.layout.edit_description);
-        tableAdapter = new DoableItemValueTableAdapter(this);
+        tableAdapter = new DoableItemValueTableAdapter();
 
         Intent intent = getIntent();
 
@@ -48,7 +48,7 @@ public class EditDescriptionActivity extends Activity{
 
         String date = new SimpleDateFormat("EEE, MMM d, yyyy").format(value.getAppliesToDate());
 
-        setTitle(date + ": " + value.getItem(this).getName());
+        setTitle(date + ": " + value.getItem().getName());
 
         EditText editor = (EditText) findViewById(R.id.edit_description_entry);
 

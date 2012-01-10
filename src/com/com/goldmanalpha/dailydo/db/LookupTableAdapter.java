@@ -21,12 +21,12 @@ public class LookupTableAdapter extends TableAdapterBase<SimpleLookup> {
 
     final String TableName;
 
-    public static LookupTableAdapter getItemCategoryTableAdapter(Context context) {
-        return new LookupTableAdapter(context, "ItemCategory");
+    public static LookupTableAdapter getItemCategoryTableAdapter() {
+        return new LookupTableAdapter("ItemCategory");
     }
 
-    private LookupTableAdapter(Context context, String tableName) {
-        super(context, tableName);
+    private LookupTableAdapter(String tableName) {
+        super(tableName);
         TableName = tableName;
     }
 

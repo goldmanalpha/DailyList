@@ -84,7 +84,7 @@ public class DoableItem extends DoableBase {
                 category = new SimpleLookup();
                 category.setName("Unset");
             } else {
-                LookupTableAdapter adapter = LookupTableAdapter.getItemCategoryTableAdapter(context);
+                LookupTableAdapter adapter = LookupTableAdapter.getItemCategoryTableAdapter();
 
                 category = adapter.get(categoryId);
 

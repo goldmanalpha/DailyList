@@ -1,6 +1,7 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Application;
+import com.com.goldmanalpha.dailydo.db.DatabaseRoot;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +13,7 @@ import android.app.Application;
 public class DailyDoApp extends Application{
 
     public DailyDoApp() {
-
+        DatabaseRoot.setContext(this);
 
     }
 }

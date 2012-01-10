@@ -13,11 +13,9 @@ import java.util.List;
 public class DoableItemValueTableAdapter
         extends TableAdapterBase<DoableValue> {
 
-    Context context;
 
-    public DoableItemValueTableAdapter(Context context) {
-        super(context, DoableItemValueTable.TableName);
-        this.context = context;
+    public DoableItemValueTableAdapter() {
+        super(DoableItemValueTable.TableName);
     }
 
     @Override
@@ -36,8 +34,8 @@ public class DoableItemValueTableAdapter
 
         values.put("description", object.getDescription());
 
-        if (object.getItem(context).getUnitType() != UnitType.time
-                && object.getItem(context).getUnitType() != UnitType.timeSpan) {
+        if (object.getItem().getUnitType() != UnitType.time
+                && object.getItem().getUnitType() != UnitType.timeSpan) {
             values.putNull("fromTime");
             values.putNull("toTime");
 
@@ -151,7 +149,7 @@ public class DoableItemValueTableAdapter
         c.close();
 
         if (!items.isEmpty()) {
-            DoableItemTableAdapter adapter = new DoableItemTableAdapter(context);
+            DoableItemTableAdapter adapter = new DoableItemTableAdapter();
 
             for (int i = 0; i < items.size(); i++) {
 

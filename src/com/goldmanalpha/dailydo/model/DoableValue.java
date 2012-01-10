@@ -101,9 +101,9 @@ public class DoableValue extends DoableBase {
 
     DoableItem item;
 
-    public DoableItem getItem(Context context) {
+    public DoableItem getItem() {
         if (item == null) {
-            item = new DoableItemTableAdapter(context).get(doableItemId);
+            item = new DoableItemTableAdapter().get(doableItemId);
         }
 
         return item;

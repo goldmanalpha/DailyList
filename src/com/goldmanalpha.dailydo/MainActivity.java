@@ -348,7 +348,7 @@ public class MainActivity extends Activity {
     private void setupCategories() {
         categoryField = (Spinner) findViewById(R.id.categorySpinner);
 
-        categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter(this);
+        categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter();
 
         final List<SimpleLookup> categories = categoryTableAdapter.list();
 
@@ -453,7 +453,7 @@ public class MainActivity extends Activity {
 
         setupDate = true;
 
-        doableItemValueTableAdapter = new DoableItemValueTableAdapter(this);
+        doableItemValueTableAdapter = new DoableItemValueTableAdapter();
         cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, SimpleLookup.ALL_ID);
 
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
@@ -805,7 +805,7 @@ public class MainActivity extends Activity {
 
 
         SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
-                value.getItem(this).getName(), "Set " + whichTimeToSet + " to current time?",
+                value.getItem().getName(), "Set " + whichTimeToSet + " to current time?",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 

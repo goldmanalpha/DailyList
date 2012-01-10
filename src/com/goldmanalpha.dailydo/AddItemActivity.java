@@ -31,7 +31,7 @@ public class AddItemActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        doableItemTableAdapter = new DoableItemTableAdapter(this);
+        doableItemTableAdapter = new DoableItemTableAdapter();
         doableItem = new DoableItem();
 
         setContentView(R.layout.additem);
@@ -59,7 +59,7 @@ public class AddItemActivity extends Activity {
     private void setupCategories() {
         //To change body of created methods use File | Settings | File Templates.
 
-        categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter(this);
+        categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter();
 
         final List<SimpleLookup> categories = categoryTableAdapter.list();
 
@@ -254,7 +254,7 @@ public class AddItemActivity extends Activity {
 
             if (item.getName().trim().length() > 0 && item.getUnitType() != UnitType.unset) {
 
-                doableItemTableAdapter = new DoableItemTableAdapter(this);
+                doableItemTableAdapter = new DoableItemTableAdapter();
                 doableItemTableAdapter.save(item);
                 //doableItemTableAdapter.close();
 

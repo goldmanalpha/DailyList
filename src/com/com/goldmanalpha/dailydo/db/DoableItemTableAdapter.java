@@ -13,11 +13,9 @@ import java.util.List;
 
 public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
-    Context context;
 
-    public DoableItemTableAdapter(Context context) {
-        super(context, DoableItemTable.TableName);
-        this.context = context;
+    public DoableItemTableAdapter() {
+        super(DoableItemTable.TableName);
     }
 
     public void updateOrder(int id, int order) {

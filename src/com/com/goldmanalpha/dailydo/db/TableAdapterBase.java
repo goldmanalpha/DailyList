@@ -14,22 +14,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+public abstract class TableAdapterBase<T extends DoableBase>
+    extends  DatabaseRoot{
 
-
-public abstract class TableAdapterBase<T extends DoableBase> {
-
-
-    private Context context;
     protected static SQLiteDatabase db;
     static DailyDoDatabaseHelper dbHelper;
     private static boolean opened;
 
     protected String tableName;
 
-
-    //todo: set context from application object and remove context param
-    public TableAdapterBase(Context context, String tableName) {
-        this.context = context;
+    public TableAdapterBase(String tableName) {
         this.tableName = tableName;
     }
 
