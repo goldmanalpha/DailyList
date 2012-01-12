@@ -17,32 +17,11 @@ import java.util.List;
 public abstract class TableAdapterBase<T extends DoableBase>
     extends  DatabaseRoot{
 
-    protected static SQLiteDatabase db;
-    static DailyDoDatabaseHelper dbHelper;
-    private static boolean opened;
-
     protected String tableName;
 
     public TableAdapterBase(String tableName) {
         this.tableName = tableName;
     }
-
-    protected void open() throws SQLException {
-
-        if (!opened) {
-            dbHelper = new DailyDoDatabaseHelper(context);
-            db = dbHelper.getWritableDatabase();
-            opened = true;
-        }
-    }
-
-    public void close() {
-        if (opened) {
-            dbHelper.close();
-            opened = false;
-        }
-    }
-
     //returns id or -1 if fail
     public long save(T object) {
 

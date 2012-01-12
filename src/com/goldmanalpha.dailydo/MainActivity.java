@@ -13,6 +13,7 @@ import android.view.*;
 import android.widget.*;
 import com.android.internal.util.Predicate;
 import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
+import com.com.goldmanalpha.dailydo.db.DatabaseRoot;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 import com.goldmanalpha.androidutility.*;
@@ -160,6 +161,7 @@ public class MainActivity extends Activity {
                                     try {
                                         MainActivity.this.
                                         doableItemValueTableAdapter.createDuplicate(ids.ValueId);
+                                        SetupList2(mDisplayingDate);
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }
@@ -1161,6 +1163,8 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
 
-        doableItemValueTableAdapter.close();
+        //done with cursors -- close db...
+
+        DatabaseRoot.close();
     }
 }
