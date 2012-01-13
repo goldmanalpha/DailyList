@@ -14,6 +14,5 @@ public class DailyDoApp extends Application{
 
     public DailyDoApp() {
         DatabaseRoot.setContext(this);
-
     }
 }

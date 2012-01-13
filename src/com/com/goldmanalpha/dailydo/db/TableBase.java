@@ -1,10 +1,12 @@
 package com.com.goldmanalpha.dailydo.db;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import com.goldmanalpha.dailydo.DailyDoApp;
 import com.goldmanalpha.dailydo.model.DoableBase;
 import com.goldmanalpha.dailydo.model.DoableItem;
 
@@ -34,7 +36,12 @@ public abstract class TableBase {
     }
 
     public void onCreate(SQLiteDatabase database) {
-        database.execSQL(databaseCreateSql());
+        String sql = databaseCreateSql();
+
+        if (sql != null) {
+            Log.d(LogTag, sql);
+            database.execSQL(sql);
+        }
     }
 
     public void onUpgrade(SQLiteDatabase database, int oldVersion,

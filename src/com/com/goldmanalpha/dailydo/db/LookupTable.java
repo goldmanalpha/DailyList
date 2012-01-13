@@ -34,6 +34,13 @@ public class LookupTable extends TableBase {
                 + ");";
     }
 
+    @Override
+    protected String databaseCreateSql() {
+        //since lookup tables will be created at specific version numbers
+        //don't do anything at the default database create time
+        return null;
+
+    }
 
     @Override
     protected String databaseUpgradeSql(int newVersion) {
