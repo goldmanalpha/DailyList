@@ -66,7 +66,7 @@ public abstract class TableAdapterBase<T extends DoableBase>
 
     public abstract T get(int id) throws ParseException;
 
-    public void delete(int id) {
+    public void delete(int id) throws ParseException {
         open();
 
         String sql = "delete from " + tableName + " where id = " + id;

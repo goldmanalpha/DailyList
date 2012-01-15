@@ -70,6 +70,7 @@ public class MainActivity extends Activity {
         public static final int Quit = 2;
 
         public static final int DeleteDb = 4;
+
         public static final int PublicPrivateSwitch = 5;
 
         public static final int DuplicateItem = 6;
@@ -77,6 +78,8 @@ public class MainActivity extends Activity {
         public static final int BackupFolder = 7;
 
         public static final int DeleteItem = 8;
+
+        public static final int ItemHistory = 9;
     }
 
     MenuItem PublicPrivateMenuItem;
@@ -93,14 +96,12 @@ public class MainActivity extends Activity {
         PublicPrivateMenuItem =
                 menu.add(0, MenuItems.PublicPrivateSwitch, 0, "Pub Only");
 
-
         menu.add(0, MenuItems.Quit, 0, "Quit");
-
 
         menu.add(1, MenuItems.BackupFolder, 0, "Backup Folder");
 
         menu.add(1, MenuItems.Backup, 0, "Backup");
-        menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
+        //menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
 
         return true;
     }
@@ -123,6 +124,8 @@ public class MainActivity extends Activity {
             menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
 
             menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
+
+            menu.add(Menu.NONE, MenuItems.ItemHistory, 0, "Item History");
         }
     }
 
@@ -146,27 +149,18 @@ public class MainActivity extends Activity {
                     return true;
                 }
 
-                dlg = new SeriousConfirmationDialog(this,
-                        name, "Duplicate item?",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
+                try {
+                    MainActivity.this.
+                            doableItemValueTableAdapter.createDuplicate(ids.ValueId);
 
-                                if (id == DialogInterface.BUTTON_POSITIVE) {
-                                    try {
-                                        MainActivity.this.
-                                                doableItemValueTableAdapter.createDuplicate(ids.ValueId);
-                                        SetupList2(mDisplayingDate);
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 
+                    Toast.makeText(this, "Problem duplicating: " + e.getMessage(), Toast.LENGTH_LONG)
+                            .show();
+                }
 
-                                }
-                            }
-                        });
-
-                dlg.show();
-
+                SetupList2(mDisplayingDate);
 
                 handled = true;
 
@@ -182,7 +176,7 @@ public class MainActivity extends Activity {
 
                 String description = cachedCursor.getString(descriptionColumnIndex);
 
-                if ((description + "").trim() != null) {
+                if (description != null && (description).trim() != "") {
                     Toast.makeText(this, "Can't delete value with description -- delete description first.",
                             Toast.LENGTH_LONG).show();
 
@@ -193,13 +187,23 @@ public class MainActivity extends Activity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     if (id == DialogInterface.BUTTON_POSITIVE) {
 
-                                        doableItemValueTableAdapter.delete(ids.ValueId);
+                                        try {
+                                            doableItemValueTableAdapter.delete(ids.ValueId);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+                                            Toast.makeText(MainActivity.this, "Problem deleting: " + e.getMessage(), Toast.LENGTH_LONG)
+                                                    .show();
+                                        }
+                                        SetupList2(mDisplayingDate);
                                     }
 
                                 }
                             });
 
                     dlg.show();
+
+
                 }
 
                 handled = true;

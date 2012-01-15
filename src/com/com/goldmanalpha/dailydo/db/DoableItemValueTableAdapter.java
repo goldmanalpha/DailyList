@@ -303,6 +303,31 @@ public class DoableItemValueTableAdapter
         save(value);
         save(copy);
     }
+
+    @Override
+    public void delete(int id) throws ParseException {
+
+        DoableValue deletingItem = get(id);
+
+        super.delete(id);    //To change body of overridden methods use File | Settings | File Templates.
+
+        //if this is a single item left, make sure its dup flag is off
+        Cursor cursor = db.rawQuery("select id from " + this.tableName
+                + " where itemId = ? and appliesToDate = ? " ,
+                new String[]{
+                        Integer.toString(deletingItem.getItem().getId()),
+                        super.DateToTimeStamp(deletingItem.getAppliesToDate())
+                });
+
+        if (cursor.getCount() == 1 && cursor.moveToFirst())
+        {
+            int remainingId = cursor.getInt(0);
+            DoableValue remainder =  get(remainingId);
+            remainder.setHasAnotherDayInstance(false);
+            save(remainder);
+        }
+    }
+
 }
 
 
