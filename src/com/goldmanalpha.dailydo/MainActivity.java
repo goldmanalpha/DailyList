@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     private static final SimpleDateFormat shortMonthDateFormat = new SimpleDateFormat("MMM-dd");
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
 
-    HashMap<Integer, Boolean> usesTime1Map = new HashMap<Integer, Boolean>();
+    HashMap<Integer, AltFocus> usesAltFocusMap = new HashMap<Integer, AltFocus>();
 
     public MainActivity() {
     }
@@ -415,6 +415,11 @@ public class MainActivity extends Activity {
     SimpleCursorAdapter listCursorAdapter;
 
     public void SetupList2(Date date) {
+
+        if (date != mDisplayingDate) {
+            usesAltFocusMap.clear();
+        }
+
         cachedCursor.close();
         cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, selectedCategoryId);
         startManagingCursor(cachedCursor);
@@ -511,17 +516,33 @@ public class MainActivity extends Activity {
 
                         if (appliesToTimeColIdx == columnIndex) {
 
+
+                            int itemId = cursor.getInt(itemIdColumnIndex);
+                            TextView tv = (TextView) view;
+
+                            boolean editAppliesToTime = usesAltFocusMap.containsKey(itemId)
+                                    && usesAltFocusMap.get(itemId) == AltFocus.AppliesToTime;
+
                             //todo:  too much leaking logic???
                             //converting to objects would be less (or too in)efficient?
                             boolean showAppliesToTime = cursor.getInt(showAppliesToTimeCountColIdx) > 0
                                     && timesToShowDate(cursor) < 1;
 
-                            TextView tv = (TextView) view;
+                            boolean isActive = false;
+                            if (editAppliesToTime && showAppliesToTime) {
+                                tv.setShadowLayer(3, 3, 3, Color.GREEN);
+                                isActive = true;
+                            } else {
+                                tv.setShadowLayer(0, 0, 0, Color.BLACK);
+                                usesAltFocusMap.remove(itemId);
+                            }
+
                             if (showAppliesToTime) {
                                 Time t = new Time(0, 0, 0);
                                 if (cursor.isNull(appliesToTimeColIdx)) {
 
-                                    tv.setShadowLayer(6, 0, 0, Color.YELLOW);
+                                    if (!isActive)
+                                        tv.setShadowLayer(6, 0, 0, Color.YELLOW);
 
                                     try {
                                         Date crDate =
@@ -583,10 +604,11 @@ public class MainActivity extends Activity {
                                     (columnIndex == fromTimeColumnIndex || columnIndex == toTimeColumnIndex)) {
                                 int itemId = cursor.getInt(itemIdColumnIndex);
 
-                                boolean editFirst = !usesTime1Map.containsKey(itemId) || usesTime1Map.get(itemId);
+                                boolean editFirstTime = !usesAltFocusMap.containsKey(itemId)
+                                        || usesAltFocusMap.get(itemId) == AltFocus.Time1OrValue;
 
-                                if ((columnIndex == fromTimeColumnIndex && editFirst)
-                                        || (columnIndex == toTimeColumnIndex && !editFirst)
+                                if ((columnIndex == fromTimeColumnIndex && editFirstTime)
+                                        || (columnIndex == toTimeColumnIndex && !editFirstTime)
                                         )
                                     tv.setShadowLayer(3, 3, 3, Color.GREEN);
                                 else
@@ -823,7 +845,8 @@ public class MainActivity extends Activity {
 
         final DoableValue value = getCurrentValue(ids);
 
-        Boolean usesTime1 = !usesTime1Map.containsKey(ids.ItemId) || usesTime1Map.get(ids.ItemId);
+        Boolean usesTime1 = !usesAltFocusMap.containsKey(ids.ItemId)
+                || usesAltFocusMap.get(ids.ItemId) == AltFocus.Time1OrValue;
 
         Date now = new Date();
         Time nowTime = new Time(now.getHours(), now.getMinutes(), now.getSeconds());
@@ -1015,9 +1038,7 @@ public class MainActivity extends Activity {
 
     }
 
-    public void time1_click
-            (View
-                     v) {
+    public void time1_click(View v) {
 
         moveCursorToCurrentRow(v);
 
@@ -1028,14 +1049,41 @@ public class MainActivity extends Activity {
             TextView tv = (TextView) v;
             tv.setShadowLayer(3, 3, 3, Color.GREEN);
 
-            usesTime1Map.put(GetValueIds(v).ItemId, true);
+            usesAltFocusMap.put(GetValueIds(v).ItemId, AltFocus.Time1OrValue);
         }
 
     }
 
-    public void time2_click
-            (View
-                     v) {
+    enum AltFocus {
+        /**
+         * Default
+         */
+        Time1OrValue,
+        Time2,
+        AppliesToTime
+    }
+
+    public void list_applies_to_time_click(View v) {
+        moveCursorToCurrentRow(v);
+        usesAltFocusMap.put(GetValueIds(v).ItemId, AltFocus.AppliesToTime);
+
+        TextView tv = (TextView) v;
+        tv.setShadowLayer(3, 3, 3, Color.GREEN);
+    }
+
+    public void list_amount_click(View v) {
+        moveCursorToCurrentRow(v);
+        usesAltFocusMap.remove(GetValueIds(v).ItemId);
+
+        //brittle reliance on view composition here:
+        TextView otherTv = (TextView) ((ViewGroup) v.getParent().getParent()).findViewById(R.id.list_applies_to_time);
+        otherTv.setShadowLayer(0, 0, 0, Color.RED);
+
+        TextView tv = (TextView) v;
+        tv.setShadowLayer(3, 3, 3, Color.GREEN);
+    }
+
+    public void time2_click(View v) {
 
         TextView otherTv = (TextView) ((ViewGroup) v.getParent()).findViewById(R.id.list_time1_value);
         otherTv.setShadowLayer(0, 0, 0, Color.RED);
@@ -1044,7 +1092,7 @@ public class MainActivity extends Activity {
         TextView tv = (TextView) v;
         tv.setShadowLayer(3, 3, 3, Color.GREEN);
 
-        usesTime1Map.put(GetValueIds(v).ItemId, false);
+        usesAltFocusMap.put(GetValueIds(v).ItemId, AltFocus.Time2);
 
     }
 
@@ -1058,7 +1106,10 @@ public class MainActivity extends Activity {
         int bigAdd = 5;
         int smallAdd = 1;
 
-        if (timesToShowDate(cachedCursor) > 0) {
+        Boolean changeAppliesToTime = usesAltFocusMap.containsKey(ids.ItemId)
+                && usesAltFocusMap.get(ids.ItemId) == AltFocus.AppliesToTime;
+
+        if (timesToShowDate(cachedCursor) > 0 || changeAppliesToTime) {
             bigAdd = 60;
             smallAdd = 5;
         }
@@ -1088,7 +1139,7 @@ public class MainActivity extends Activity {
 
             int timesToShow = timesToShowDate(cachedCursor);
 
-            if (value.getId() == 0) {
+            if (value.getId() == 0) {   //a new value
                 if (timesToShow > 0) {
 
                     int sqlFromTime = cachedCursor.getInt(lastFromTimedColumnIndex);
@@ -1109,7 +1160,8 @@ public class MainActivity extends Activity {
             } else {
                 if (timesToShow > 0) {
 
-                    Boolean usesTime1 = !usesTime1Map.containsKey(ids.ItemId) || usesTime1Map.get(ids.ItemId);
+                    Boolean usesTime1 = !usesAltFocusMap.containsKey(ids.ItemId)
+                            || usesAltFocusMap.get(ids.ItemId) == AltFocus.Time2;
 
 
                     Time timeToChange = usesTime1 ? value.getFromTime() : value.getToTime();
@@ -1129,7 +1181,22 @@ public class MainActivity extends Activity {
                         value.setToTime(setToTime);
 
                 } else {
-                    value.setAmount(value.getAmount() + addAmount);
+
+
+                    if (!changeAppliesToTime) {
+                        value.setAmount(value.getAmount() + addAmount);
+                    } else {
+                        Time t = value.getAppliesToTime();
+                        //only other current else is applies to time:
+                        if (t == null) {
+                            t = new Time(value.getDateCreated().getTime());
+                        }
+
+                        Date updatedTime = DateHelper.addMinutes(t, addAmount);
+
+                        value.setAppliesToTime(new Time(updatedTime.getTime()));
+
+                    }
                 }
             }
 

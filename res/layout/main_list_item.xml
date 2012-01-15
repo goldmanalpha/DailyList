@@ -62,6 +62,8 @@
                   android:layout_toRightOf="@id/list_description"
                   android:layout_below="@id/list_name"
                   style="@style/TinyText"
+                  android:clickable="true"
+                  android:onClick="list_applies_to_time_click"
                 />
 
 
@@ -127,11 +129,9 @@
 
 
         <TextView android:id="@+id/amount"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="false"
+                  style="@style/ClickableText"
+                  android:clickable="true"
+                  android:onClick="list_amount_click"
                   android:gravity="center_vertical|right"
                 />
 
