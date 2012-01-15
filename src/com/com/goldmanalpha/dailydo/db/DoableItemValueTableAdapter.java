@@ -39,7 +39,11 @@ public class DoableItemValueTableAdapter
             values.putNull("fromTime");
             values.putNull("toTime");
 
-            values.put("appliesToTime", TimeToInt(object.getAppliesToTime()));
+            if (object.getAppliesToTime() == null)
+                values.putNull("appliesToTime");
+            else
+                values.put("appliesToTime", TimeToInt(object.getAppliesToTime()));
+
             values.put("amount", object.getAmount());
         } else {
             values.putNull("amount");
@@ -120,7 +124,7 @@ public class DoableItemValueTableAdapter
     public static final String ColLastToTime = "lastToTime";
 
     public static final String ColAppliesToTime = "appliesToTime";
-    public static final String ColShowAppliesToTime = "showAppliesToTime";
+    public static final String ColShowAppliesToTimeCount = "showAppliesToTimeCount";
 
     //placeholders support using mapping infrastructure
     public static final String ColPlaceHolder1 = "placeHolder1";
@@ -209,7 +213,7 @@ public class DoableItemValueTableAdapter
                 + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate, "
 
                 //when 0 don't show, otherwise show
-                + " items.showAppliesToTime + vals.hasAnotherDayInstance showAppliesToTimeCount, "
+                + " coalesce(items.showAppliesToTime, 0) + coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
 
 
                 //can be null

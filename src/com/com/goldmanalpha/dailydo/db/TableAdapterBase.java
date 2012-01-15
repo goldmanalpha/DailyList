@@ -92,6 +92,10 @@ public abstract class TableAdapterBase<T extends DoableBase>
         return simpleDateFormat.format(d);
     }
 
+    public Date TimeStampToDate(String timestamp) throws ParseException {
+        return simpleDateFormat.parse(timestamp);
+    }
+
     public Integer TimeToInt(Time t) {
         if (t == null) {
             //null time is only for defaults
@@ -134,11 +138,10 @@ public abstract class TableAdapterBase<T extends DoableBase>
 
         try {
             val.setDateCreated(
-                    simpleDateFormat.parse(c.getString(c.getColumnIndex("dateCreated"))));
+                    TimeStampToDate(c.getString(c.getColumnIndex("dateCreated"))));
             val.setDateModified(simpleDateFormat.parse(c.getString(c.getColumnIndex("dateModified"))));
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
     }
 }

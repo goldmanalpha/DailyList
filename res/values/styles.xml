@@ -10,4 +10,18 @@
         <item name="android:textStyle">bold</item>
         <item name="android:clickable">true</item>
     </style>
+
+    <style name="ShortClickableText" parent="ClickableText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:minWidth">25dp</item>
+    </style>
+
+    <style name="TinyText" parent="WrapStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+
+
 </resources>

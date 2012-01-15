@@ -6,21 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Path;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 import com.android.internal.util.Predicate;
-import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
-import com.com.goldmanalpha.dailydo.db.DatabaseRoot;
-import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
-import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
+import com.com.goldmanalpha.dailydo.db.*;
 import com.goldmanalpha.androidutility.*;
 import com.goldmanalpha.dailydo.model.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -115,13 +110,13 @@ public class MainActivity extends Activity {
         if (v.getId() == R.id.main_list) {
 
 
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
             cachedCursor.moveToPosition(info.position);
 
             final String name = cachedCursor.getString(
-                                cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
-                        );
+                    cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
+            );
 
             menu.setHeaderTitle(name);
 
@@ -132,22 +127,21 @@ public class MainActivity extends Activity {
     }
 
 
-
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
         final ValueIdentifier ids = getValueIdsForCurrentCursorPosition();
         final String name = cachedCursor.getString(
-                        cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
-                );;
+                cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
+        );
+        ;
         boolean handled = false;
         SeriousConfirmationDialog dlg = null;
 
         switch (item.getItemId()) {
             case MenuItems.DuplicateItem:
 
-                if (ids == null || ids.ValueId == 0)
-                {
+                if (ids == null || ids.ValueId == 0) {
                     Toast.makeText(this, "No value to duplicate", Toast.LENGTH_LONG).show();
                     return true;
                 }
@@ -160,7 +154,7 @@ public class MainActivity extends Activity {
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
                                     try {
                                         MainActivity.this.
-                                        doableItemValueTableAdapter.createDuplicate(ids.ValueId);
+                                                doableItemValueTableAdapter.createDuplicate(ids.ValueId);
                                         SetupList2(mDisplayingDate);
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -181,8 +175,7 @@ public class MainActivity extends Activity {
 
             case MenuItems.DeleteItem:
 
-                if (ids == null || ids.ValueId == 0)
-                {
+                if (ids == null || ids.ValueId == 0) {
                     Toast.makeText(this, "No value to delete", Toast.LENGTH_LONG).show();
                     return true;
                 }
@@ -477,7 +470,8 @@ public class MainActivity extends Activity {
                 DoableItemValueTableAdapter.ColToTime,
                 DoableItemValueTableAdapter.ColLastToTime,
                 DoableItemValueTableAdapter.ColDescription,
-                DoableItemValueTableAdapter.ColPlaceHolder1
+                DoableItemValueTableAdapter.ColPlaceHolder1, //set to now
+                DoableItemValueTableAdapter.ColAppliesToTime
         };
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
@@ -485,7 +479,8 @@ public class MainActivity extends Activity {
                 R.id.list_lastDate, R.id.list_lastAmount,
                 R.id.list_lastTeaspoons, R.id.list_time1_value,
                 R.id.list_lastTime1, R.id.list_time2_value, R.id.list_lastTime2,
-                R.id.list_description, R.id.list_set_now
+                R.id.list_description, R.id.list_set_now,
+                R.id.list_applies_to_time
         };
 
         teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
@@ -493,6 +488,9 @@ public class MainActivity extends Activity {
         unitTypeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
         final int lastAppliesToDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastAppliesToDate);
         final int lastTeaspoonsColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
+        final int appliesToTimeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToTime);
+        final int showAppliesToTimeCountColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColShowAppliesToTimeCount);
+        final int createdDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDateCreated);
 
         lastFromTimedColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastFromTime);
         fromTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColFromTime);
@@ -510,6 +508,40 @@ public class MainActivity extends Activity {
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
                         boolean returnValue = false;
+
+                        if (appliesToTimeColIdx == columnIndex) {
+
+                            //todo:  too much leaking logic???
+                            //converting to objects would be less (or too in)efficient?
+                            boolean showAppliesToTime = cursor.getInt(showAppliesToTimeCountColIdx) > 0
+                                    && timesToShowDate(cursor) < 1;
+
+                            TextView tv = (TextView) view;
+                            if (showAppliesToTime) {
+                                Time t = new Time(0, 0, 0);
+                                if (cursor.isNull(appliesToTimeColIdx)) {
+
+                                    tv.setShadowLayer(6, 0, 0, Color.YELLOW);
+
+                                    try {
+                                        Date crDate =
+                                                doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx));
+
+                                        t = new Time(crDate.getHours(), crDate.getMinutes(), crDate.getSeconds());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                    }
+                                } else {
+                                    t = doableItemValueTableAdapter.IntToTime(cursor.getInt(appliesToTimeColIdx));
+                                }
+
+                                tv.setText(short24TimeFormat.format(t));
+                            } else {
+                                tv.setText("");
+                            }
+
+                            returnValue = true;
+                        }
 
                         if (columnIndex == descriptionColumnIndex) {
                             TextView tv = ((TextView) view);

@@ -57,6 +57,13 @@
                   style="@style/ClickableText"
                 />
 
+    <TextView android:id="@+id/list_applies_to_time"
+                  android:layout_marginLeft="5dp"
+                  android:layout_toRightOf="@id/list_description"
+                  android:layout_below="@id/list_name"
+                  style="@style/TinyText"
+                />
+
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -68,67 +75,39 @@
                 >
 
     <TextView android:id="@+id/list_lastDate"
-              android:textSize="12sp"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              style="@style/TinyText"
               android:layout_marginLeft="15dp"
-              android:clickable="true"
-              android:onClick="unit_type_click"
 
             />
 
         <TextView android:id="@+id/list_dateColon"
-                  android:textSize="12sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="unit_type_click"
+                  style="@style/TinyText"
                   android:text=": "
                 />
 
 
         <TextView android:id="@+id/list_lastTime1"
-                  android:textSize="12sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="unit_type_click"
+                  style="@style/TinyText"
 
                 />
 
         <TextView android:id="@+id/list_lastTimeSeparator"
-                  android:textSize="12sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="unit_type_click"
+                  style="@style/TinyText"
                   android:text=" - "
                 />
 
         <TextView android:id="@+id/list_lastTime2"
-                  android:textSize="12sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="unit_type_click"
+                  style="@style/TinyText"
 
                 />
 
         <TextView android:id="@+id/list_lastAmount"
-                  android:textSize="12sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="unit_type_click"
+                  style="@style/TinyText"
 
                 />
 
         <TextView android:id="@+id/list_lastTeaspoons"
-                  android:textSize="12sp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
-                  android:onClick="unit_type_click"
+                  style="@style/TinyText"
                   android:layout_marginLeft="2dp"
                   android:singleLine="true"
                   android:ellipsize="none"
@@ -184,43 +163,27 @@
 
 
         <TextView android:id="@+id/big_minus"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
+                  style="@style/ShortClickableText"
                   android:onClick="add_click"
-                  android:text="  &lt;&lt; "
+                  android:text="   &lt;&lt;"
                 />
 
         <TextView android:id="@+id/minus"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
+                  style="@style/ShortClickableText"
                   android:onClick="add_click"
-                  android:text=" -  "
+                  android:text="   -   "
                 />
 
         <TextView android:id="@+id/plus"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
+                  style="@style/ShortClickableText"
                   android:onClick="add_click"
                   android:text="  +   "
                 />
 
         <TextView android:id="@+id/big_plus"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:clickable="true"
+                  style="@style/ShortClickableText"
                   android:onClick="add_click"
-                  android:text=">> "
+                  android:text=">>   "
                 />
 
     </LinearLayout>
