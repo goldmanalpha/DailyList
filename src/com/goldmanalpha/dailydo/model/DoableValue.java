@@ -19,6 +19,9 @@ public class DoableValue extends DoableBase {
 
     private Date appliesToDate;
     private Integer doableItemId = 0;
+    private boolean hasAnotherDayInstance = false;
+
+    private Time appliesToTime;
 
     public DoableValue(DoableValue copyItem) {
         super();
@@ -38,6 +41,29 @@ public class DoableValue extends DoableBase {
     public DoableValue() {
     }
 
+
+
+    public boolean getHasAnotherDayInstance() {
+        return hasAnotherDayInstance;
+    }
+
+    public void setHasAnotherDayInstance(boolean hasAnotherDayInstance) {
+        this.hasAnotherDayInstance = hasAnotherDayInstance;
+    }
+
+    /**
+     * can be null,
+     * in which case caller might want to default to
+     * crDate
+     * @return
+     */
+    public Time getAppliesToTime() {
+        return appliesToTime;
+    }
+
+    public void setAppliesToTime(Time appliesToTime) {
+        this.appliesToTime = appliesToTime;
+    }
     public TeaSpoons getTeaspoons() {
         return teaspoons;
     }

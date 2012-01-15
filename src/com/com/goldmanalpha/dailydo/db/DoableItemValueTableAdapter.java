@@ -39,13 +39,17 @@ public class DoableItemValueTableAdapter
             values.putNull("fromTime");
             values.putNull("toTime");
 
+            values.put("appliesToTime", TimeToInt(object.getAppliesToTime()));
             values.put("amount", object.getAmount());
         } else {
             values.putNull("amount");
             values.put("fromTime", TimeToInt(object.getFromTime()));
             values.put("toTime", TimeToInt(object.getToTime()));
-        }
 
+            values.putNull("appliesToTime");
+         }
+
+        values.put("hasAnotherDayInstance", object.getHasAnotherDayInstance() ? 1 : 0);
         values.put("teaspoons", object.getTeaspoons().toString());
 
         //todo: handle case of item being added out of order :(
@@ -114,6 +118,9 @@ public class DoableItemValueTableAdapter
 
     public static final String ColToTime = "toTime";
     public static final String ColLastToTime = "lastToTime";
+
+    public static final String ColAppliesToTime = "appliesToTime";
+    public static final String ColShowAppliesToTime = "showAppliesToTime";
 
     //placeholders support using mapping infrastructure
     public static final String ColPlaceHolder1 = "placeHolder1";
@@ -201,6 +208,12 @@ public class DoableItemValueTableAdapter
                 + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
                 + " coalesce(lastVal.appliesToDate, vals.appliesToDate, latestVal.appliesToDate) lastAppliesToDate, "
 
+                //when 0 don't show, otherwise show
+                + " items.showAppliesToTime + vals.hasAnotherDayInstance showAppliesToTimeCount, "
+
+
+                //can be null
+                + " vals.appliesToTime appliesToTime, "
 
                 + " null placeHolder1, null placeHolder2, null placeHolder3 "
                 + " from " + DoableItemTable.TableName + " as items "
@@ -259,6 +272,14 @@ public class DoableItemValueTableAdapter
                             c.getString(c.getColumnIndex("teaspoons"))));
 
 
+            val.setHasAnotherDayInstance(c.getInt(c.getColumnIndex("hasAnotherDayInstance")) > 0);
+
+
+            int appliesToCol = c.getColumnIndex("appliesToTime");
+            if (!c.isNull(appliesToCol))
+            {
+                val.setAppliesToTime(IntToTime(c.getInt(appliesToCol)));
+            }
         }
 
         c.close();
@@ -270,8 +291,12 @@ public class DoableItemValueTableAdapter
 
         DoableValue value = get(id);
 
-        DoableValue copy = new DoableValue(value);
+        value.setHasAnotherDayInstance(true);
 
+        DoableValue copy = new DoableValue(value);
+        copy.setHasAnotherDayInstance(true);
+
+        save(value);
         save(copy);
     }
 }

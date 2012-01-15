@@ -21,7 +21,7 @@ public class DoableItemTable extends TableBase {
     }
 
     @Override
-    protected String databaseUpgradeSql(int newVersion) {
+    protected String[] databaseUpgradeSql(int newVersion) {
 
         if (newVersion == 10)
         {
@@ -29,7 +29,7 @@ public class DoableItemTable extends TableBase {
             String sql = "Alter Table " + TableName
                     + " add column displayOrder int;";
 
-            return sql;
+            return new String[] {sql};
         }
 
         if (newVersion == 12)
@@ -37,9 +37,17 @@ public class DoableItemTable extends TableBase {
             String sql = "Alter Table " + TableName
                             + " add column categoryId int;";
 
-                    return sql;
+            return new String []{sql};
         }
 
+        if (newVersion == 13)
+        {
+            String sql = "Alter Table " + TableName
+                            + " add column showAppliesToTime int;";
+
+            return new String []{sql};
+
+        }
         return null;
     }
 }

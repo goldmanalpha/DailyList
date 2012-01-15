@@ -31,7 +31,7 @@ public abstract class TableBase {
 
     protected String LogTag = this.getClass().getName();
 
-    protected String databaseUpgradeSql(int newVersion) {
+    protected String[] databaseUpgradeSql(int newVersion) {
         return null;
     }
 
@@ -54,10 +54,11 @@ public abstract class TableBase {
         for (int i = oldVersion + 1; i <= newVersion; i++) {
             Log.i(LogTag, "applying version " + i);
 
-            String sql = databaseUpgradeSql(i);
+            String[] sqls = databaseUpgradeSql(i);
 
-            if (sql != null) {
-                database.execSQL(sql);
+            if (sqls != null) {
+                for(String sql : sqls)
+                    database.execSQL(sql);
             } else {
                 Log.v(LogTag, "no update");
             }

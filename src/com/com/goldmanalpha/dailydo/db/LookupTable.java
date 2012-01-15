@@ -1,7 +1,5 @@
 package com.com.goldmanalpha.dailydo.db;
 
-import android.database.sqlite.SQLiteDatabase;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Aaron
@@ -43,12 +41,12 @@ public class LookupTable extends TableBase {
     }
 
     @Override
-    protected String databaseUpgradeSql(int newVersion) {
+    protected String[] databaseUpgradeSql(int newVersion) {
 
         if (newVersion == createInVersion) {
-            return createTableSql("");
-
+            return new String[] { createTableSql("")};
         }
+
         return null;
     }
 

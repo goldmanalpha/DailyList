@@ -2,6 +2,20 @@
 	1 show creation time
 	use creation time
 
+	add applies to col
+	show crTime or applies to col
+
+	only if:
+	    item has show time
+	    item is dup:
+	        mark on saving for speed
+	        or make view with having...
+
+	    never for time based items
+
+
+
+
 10 digest format
 	need to refactor main screen to share ui
 	or just use a different query showing multiple dates and show more << >> and only show items with values
