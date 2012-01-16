@@ -1,4 +1,4 @@
-package com.dailydo.db;
+package com.goldmanalpha.dailydo.tests;
 
 import android.content.Context;
 import android.test.ActivityTestCase;
@@ -16,7 +16,7 @@ public class TableAdapterBaseTest extends TestCase {
     {
 
         public TableAdapterBaseInstance() {
-            super("any table name");
+            super( "any table name");
         }
 
         @Override
@@ -45,7 +45,21 @@ public class TableAdapterBaseTest extends TestCase {
         assertEquals((int) 8, (int) result.getHours());
         assertEquals((int)25, (int)result.getMinutes());
         assertEquals((int)15, (int)result.getSeconds());
-
-
     }
+
+    public void testTotalHours()
+    {
+        totalHourTest2(new Time(23,0,0), new Time(1, 0,0), 2.0f);
+        totalHourTest2(new Time(23,30, 30), new Time(1, 0, 0), 1.5f );
+    }
+    
+        void totalHourTest2(Time t1, Time t2, float  expected)
+        {
+            TableAdapterBase target = new TableAdapterBaseInstance();
+            float  result = target.totalHours(target.TimeToInt(t1), target.TimeToInt(t2));
+
+            assertEquals( expected, result);
+
+            
+        }
 }

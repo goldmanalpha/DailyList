@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
     public MainActivity() {
     }
 
-    public static String ExtraValueDateLong = "dateToShow";
+    public static String ExtraValueDateGetTimeLong = "dateToShow";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
         mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 
         Intent intent = getIntent();
-        Long dateLong = intent.getLongExtra(ExtraValueDateLong, new DayOnlyDate().getTime());
+        Long dateLong = intent.getLongExtra(ExtraValueDateGetTimeLong, new DayOnlyDate().getTime());
         updateDisplayDate(new Date(dateLong));
 
 
@@ -219,7 +219,7 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(this, SingleItemHistoryActivity.class);
 
                 intent.putExtra(SingleItemHistoryActivity.ExtraValueItemName, name);
-                intent.putExtra(SingleItemHistoryActivity.ExtraValueItemId,  ids.ItemId);
+                intent.putExtra(SingleItemHistoryActivity.ExtraValueItemId, ids.ItemId);
 
                 startActivity(intent);
 
@@ -229,6 +229,11 @@ public class MainActivity extends Activity {
 
         return handled;
     }
+
+    public void main_date_click(View v) {
+        updateDisplayDate(new DayOnlyDate());
+    }
+
 
     public void list_description_click(View v) {
         ValueIdentifier ids = this.GetValueIds(v);
@@ -434,10 +439,6 @@ public class MainActivity extends Activity {
 
     public void SetupList2(Date date) {
 
-        if (date != mDisplayingDate) {
-            usesAltFocusMap.clear();
-        }
-
         cachedCursor.close();
         cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, selectedCategoryId);
         startManagingCursor(cachedCursor);
@@ -476,6 +477,8 @@ public class MainActivity extends Activity {
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
         descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
         final int nowColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPlaceHolder1);
+        final int unitTypeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
+
 
         startManagingCursor(cachedCursor);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
@@ -512,6 +515,7 @@ public class MainActivity extends Activity {
         final int appliesToTimeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToTime);
         final int showAppliesToTimeCountColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColShowAppliesToTimeCount);
         final int createdDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDateCreated);
+        final String sTimeSpan = UnitType.timeSpan.toString();
 
         lastFromTimedColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastFromTime);
         fromTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColFromTime);
@@ -529,6 +533,20 @@ public class MainActivity extends Activity {
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
                         boolean returnValue = false;
+
+                        if (columnIndex == unitTypeColumnIndex) {
+                            TextView tv = (TextView) view;
+
+                            String value = cursor.getString(columnIndex);
+
+                            if (value.equals(sTimeSpan)) {
+                                value = "ts";
+                            }
+
+                            tv.setText(value);
+
+                            return true;
+                        }
 
                         if (appliesToTimeColIdx == columnIndex) {
 
@@ -550,7 +568,6 @@ public class MainActivity extends Activity {
                                 isActive = true;
                             } else {
                                 tv.setShadowLayer(0, 0, 0, Color.BLACK);
-                                usesAltFocusMap.remove(itemId);
                             }
 
                             if (showAppliesToTime) {
@@ -784,8 +801,6 @@ public class MainActivity extends Activity {
     }
 
 
-
-
     public final static TeaSpoons defaultTeaspoons = TeaSpoons.eighth;
 
     class ValueIdentifier {
@@ -844,7 +859,6 @@ public class MainActivity extends Activity {
 
     public void list_now_click(View v) throws ParseException {
         ValueIdentifier ids = GetValueIds(v);
-
         final DoableValue value = getCurrentValue(ids);
 
         Boolean usesTime1 = !usesAltFocusMap.containsKey(ids.ItemId)
@@ -862,23 +876,27 @@ public class MainActivity extends Activity {
             whichTimeToSet = "toTime";
         }
 
+        if (ids.ValueId == 0) {
+            //if there's no value, just set to now -- no conf needed:
+            doableItemValueTableAdapter.save(value);
+            SetupList2(mDisplayingDate);
+        } else {
 
-        SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
-                value.getItem().getName(), "Set " + whichTimeToSet + " to current time?",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+            SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                    value.getItem().getName(), "Set " + whichTimeToSet + " to current time?",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                        if (id == DialogInterface.BUTTON_POSITIVE) {
+                            if (id == DialogInterface.BUTTON_POSITIVE) {
 
-                            doableItemValueTableAdapter.save(value);
-                            SetupList2(mDisplayingDate);
-
+                                doableItemValueTableAdapter.save(value);
+                                SetupList2(mDisplayingDate);
+                            }
                         }
-                    }
-                });
+                    });
 
-        dlg.show();
-
+            dlg.show();
+        }
 
     }
 
@@ -1240,6 +1258,10 @@ public class MainActivity extends Activity {
 
 
     private void updateDisplayDate(Date date) {
+
+        if (mDisplayingDate != null && !mDisplayingDate.equals(date)) {
+            usesAltFocusMap.clear();
+        }
 
         mDisplayingDate = date;
         SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");

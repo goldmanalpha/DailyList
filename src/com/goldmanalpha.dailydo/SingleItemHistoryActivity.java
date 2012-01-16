@@ -3,16 +3,10 @@ package com.goldmanalpha.dailydo;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
-import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
-import com.com.goldmanalpha.dailydo.db.DoableValueCursorHelper;
-import com.goldmanalpha.androidutility.DayOnlyDate;
-import com.goldmanalpha.dailydo.model.DoableBase;
-import com.goldmanalpha.dailydo.model.SimpleLookup;
+import com.com.goldmanalpha.dailydo.db.*;
 
 import java.sql.Time;
 import java.text.ParseException;
@@ -56,6 +50,29 @@ public class SingleItemHistoryActivity extends Activity {
 
         mainList = (ListView) findViewById(R.id.single_history_list);
         SetupList(itemId);
+        
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                
+                Intent intent = new Intent(SingleItemHistoryActivity.this, MainActivity.class);
+
+                cachedCursor.moveToPosition(i);
+
+                try {
+                    Date appliesToDate = doableItemValueTableAdapter.getAppliesToDate(cachedCursor);
+                    intent.putExtra(MainActivity.ExtraValueDateGetTimeLong, appliesToDate.getTime());
+                    startActivity(intent);
+                    finish();
+                            
+                } catch (ParseException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    Toast.makeText(SingleItemHistoryActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG)
+                            .show();
+                }
+            }
+        });
     }
 
 
@@ -111,6 +128,22 @@ public class SingleItemHistoryActivity extends Activity {
                 new SimpleCursorAdapter.ViewBinder() {
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
+                        if (columnIndex == descriptionColumnIndex)
+                        {
+                            TextView tv = (TextView) view;
+
+                            String description = cursor.getString(columnIndex);
+                            
+                            if (description == null || description.trim() == "")
+                            {
+                                 tv.setHeight(0);
+                            }
+                            else
+                            {
+                                tv.setText(description);
+                            }
+                        }
+                        
                         if (columnIndex == appliesToDateColIdx) {
                             TextView tv = (TextView) view;
 

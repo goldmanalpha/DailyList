@@ -350,6 +350,14 @@ public class DoableItemValueTableAdapter
         }
     }
 
+    public Date getAppliesToDate(Cursor cursor) throws ParseException {
+
+        String appliesToDate =
+                cursor.getString(cursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToDate));
+
+        return TimeStampToDate(appliesToDate);
+
+    }
 }
 
 

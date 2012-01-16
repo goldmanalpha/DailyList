@@ -41,7 +41,6 @@ public abstract class DoableBase {
 
     DoableBase() {
         this(0);
-        setDateCreated(new Date());
         setDateModified(new Date());
     }
 

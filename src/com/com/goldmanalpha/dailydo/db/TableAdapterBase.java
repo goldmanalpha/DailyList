@@ -141,8 +141,8 @@ public abstract class TableAdapterBase<T extends DoableBase>
         float  hours1 = (float) Math.floor(time1/ 10000);
         float  hours2 = (float) Math.floor(time2 / 10000);
 
-        float  minutes1Pct = (time1 % 10000) / 6000;
-        float  minutes2Pct = (time2 % 10000) / 6000;
+        float  minutes1Pct = (time1 % 10000f) / 6000f;
+        float  minutes2Pct = (time2 % 10000f) / 6000f;
 
         hours1 += minutes1Pct;
         hours2 += minutes2Pct;

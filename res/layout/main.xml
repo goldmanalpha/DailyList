@@ -21,6 +21,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 style="@style/ClickableText"
+                android:onClick="main_date_click"
                 />
 
         <Spinner android:id="@+id/categorySpinner"
