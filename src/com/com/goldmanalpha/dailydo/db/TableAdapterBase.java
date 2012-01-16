@@ -129,7 +129,7 @@ public abstract class TableAdapterBase<T extends DoableBase>
 
             float total = diff24 + diff2;
 
-            return (float) Math.floor(total) + Math.round(total * 10) / 10f;
+            return (float) Math.round(total * 10) / 10f;
         }
 
         return totalHours(time1, time2, false);
@@ -138,17 +138,21 @@ public abstract class TableAdapterBase<T extends DoableBase>
 
     float totalHours(Integer time1, Integer time2, boolean exact) {
 
-        float  hours = (float) (Math.floor(time2/ 10000)  - Math.floor(time1 / 10000));
+        float  hours1 = (float) Math.floor(time1/ 10000);
+        float  hours2 = (float) Math.floor(time2 / 10000);
 
-        //todo:  annnoying date arithmetic:
+        float  minutes1Pct = (time1 % 10000) / 6000;
+        float  minutes2Pct = (time2 % 10000) / 6000;
 
-        Time diff = new Time(0,0,0);
+        hours1 += minutes1Pct;
+        hours2 += minutes2Pct;
+
+        float  diff = hours2 - hours1;
 
         if (exact)
-            return diff.getHours() + diff.getMinutes() / 60.0f;
+            return diff;
         else
-
-            return diff.getHours() + Math.round((diff.getMinutes()) / 6) / 10.0f;
+            return Math.round(diff * 10) / 10.0f;
     }
 
 
