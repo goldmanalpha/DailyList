@@ -1,7 +1,5 @@
 package com.goldmanalpha.dailydo.model;
 
-import android.content.Context;
-
 import java.util.Date;
 
 public abstract class DoableBase {
@@ -9,12 +7,6 @@ public abstract class DoableBase {
     int id;
     Date dateCreated;
     Date dateModified;
-
-    static Context context;
-
-    public static void setContext(Context context) {
-        DoableBase.context = context;
-    }
 
     public int getId() {
         return id;

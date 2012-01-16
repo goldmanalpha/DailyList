@@ -1,17 +1,5 @@
-2 support multiple
-	1 show creation time
-	use creation time
-
-	add applies to col
-	show crTime or applies to col
-
-	only if:
-	    item has show time
-	    item is dup:
-	        mark on saving for speed
-	        or make view with having...
-
-	    never for time based items
+history:
+    support always show time in history query, items, etc.
 
 
 

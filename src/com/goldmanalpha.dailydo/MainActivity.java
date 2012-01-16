@@ -26,6 +26,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
+    DoableValueCursorHelper cursorHelper;
     private TextView mDateDisplay;
     Date mDisplayingDate;
     DoableItemValueTableAdapter doableItemValueTableAdapter;
@@ -38,21 +39,23 @@ public class MainActivity extends Activity {
     public MainActivity() {
     }
 
+    public static String ExtraValueDateLong = "dateToShow";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //todo: wrong wrong wrong
-        DoableBase.setContext(getApplicationContext());
-
         setContentView(R.layout.main);
 
-        myList = (ListView) findViewById(R.id.main_list);
-        registerForContextMenu(myList);
+        mainList = (ListView) findViewById(R.id.main_list);
+        registerForContextMenu(mainList);
 
         mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 
-        updateDisplayDate(new DayOnlyDate());
+        Intent intent = getIntent();
+        Long dateLong = intent.getLongExtra(ExtraValueDateLong, new DayOnlyDate().getTime());
+        updateDisplayDate(new Date(dateLong));
+
 
         if (savedInstanceState != null)
             selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
@@ -208,6 +211,17 @@ public class MainActivity extends Activity {
 
                 handled = true;
 
+
+                break;
+
+            case MenuItems.ItemHistory:
+
+                Intent intent = new Intent(this, SingleItemHistoryActivity.class);
+
+                intent.putExtra(SingleItemHistoryActivity.ExtraValueItemName, name);
+                intent.putExtra(SingleItemHistoryActivity.ExtraValueItemId,  ids.ItemId);
+
+                startActivity(intent);
 
                 break;
 
@@ -431,7 +445,7 @@ public class MainActivity extends Activity {
         listCursorAdapter.changeCursor(cachedCursor);
     }
 
-    ListView myList;
+    ListView mainList;
     Cursor cachedCursor;
     int valueIdColumnIndex;
     int itemIdColumnIndex;
@@ -445,8 +459,6 @@ public class MainActivity extends Activity {
 
     int teaspoonColIdx;
     int lastTeaspoonColIdx;
-    int unitTypeColIdx;
-    final String usesTeaspoonsType = UnitType.tsp.toString();
 
     private void SetupList(Date date) {
 
@@ -466,6 +478,7 @@ public class MainActivity extends Activity {
         final int nowColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPlaceHolder1);
 
         startManagingCursor(cachedCursor);
+        cursorHelper = new DoableValueCursorHelper(cachedCursor);
 
         String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
                 DoableItemValueTableAdapter.ColUnitType,
@@ -494,7 +507,6 @@ public class MainActivity extends Activity {
 
         teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
         lastTeaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
-        unitTypeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
         final int lastAppliesToDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastAppliesToDate);
         final int lastTeaspoonsColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
         final int appliesToTimeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToTime);
@@ -507,10 +519,10 @@ public class MainActivity extends Activity {
         lastToTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastToTime);
 
 
-        listCursorAdapter = new SimpleCursorAdapter(myList.getContext(),
+        listCursorAdapter = new SimpleCursorAdapter(mainList.getContext(),
                 R.layout.main_list_item, cachedCursor, from, to);
 
-        myList.setAdapter(listCursorAdapter);
+        mainList.setAdapter(listCursorAdapter);
 
         listCursorAdapter.setViewBinder(
                 new SimpleCursorAdapter.ViewBinder() {
@@ -530,7 +542,7 @@ public class MainActivity extends Activity {
                             //todo:  too much leaking logic???
                             //converting to objects would be less (or too in)efficient?
                             boolean showAppliesToTime = cursor.getInt(showAppliesToTimeCountColIdx) > 0
-                                    && timesToShowDate(cursor) < 1;
+                                    && cursorHelper.timesToShowDate(cursor) < 1;
 
                             boolean isActive = false;
                             if (editAppliesToTime && showAppliesToTime) {
@@ -602,7 +614,7 @@ public class MainActivity extends Activity {
 
                             TextView tv = (TextView) view;
 
-                            int timesToShowDate = timesToShowDate(cursor);
+                            int timesToShowDate = cursorHelper.timesToShowDate(cursor);
 
                             if (timesToShowDate > 1 &&
                                     (columnIndex == fromTimeColumnIndex || columnIndex == toTimeColumnIndex)) {
@@ -688,7 +700,7 @@ public class MainActivity extends Activity {
                         if (columnIndex == teaspoonColIdx) {
                             TextView tv = ((TextView) view);
 
-                            if (!isTeaspoons(cursor)) {
+                            if (!cursorHelper.isTeaspoons(cursor)) {
                                 tv.setText("");
                                 returnValue = true;
                             } else {
@@ -701,7 +713,7 @@ public class MainActivity extends Activity {
                         if (columnIndex == lastTeaspoonsColIdx) {
                             TextView tv = ((TextView) view);
 
-                            if (!isTeaspoons(cursor)) {
+                            if (!cursorHelper.isTeaspoons(cursor)) {
                                 tv.setText("");
                                 returnValue = true;
                             }
@@ -715,7 +727,7 @@ public class MainActivity extends Activity {
 
                         if (columnIndex == nowColumnIndex) {
 
-                            int timesToShowDate = timesToShowDate(cursor);
+                            int timesToShowDate = cursorHelper.timesToShowDate(cursor);
                             TextView tv = (TextView) view;
 
                             if (timesToShowDate > 0) {
@@ -732,7 +744,7 @@ public class MainActivity extends Activity {
                 }
         );
 
-        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
@@ -771,22 +783,8 @@ public class MainActivity extends Activity {
 
     }
 
-    boolean isTeaspoons(Cursor cursor) {
 
-        return cursor.getString(unitTypeColIdx).equals(usesTeaspoonsType);
-    }
 
-    UnitType unitType(Cursor cursor) {
-        String unitType = cursor.getString(unitTypeColIdx);
-        return UnitType.valueOf(unitType);
-    }
-
-    //0, 1, or 2 times will show depending on unit type
-    int timesToShowDate(Cursor cursor) {
-        UnitType unitType = unitType(cursor);
-
-        return unitType == UnitType.timeSpan ? 2 : (unitType == UnitType.time ? 1 : 0);
-    }
 
     public final static TeaSpoons defaultTeaspoons = TeaSpoons.eighth;
 
@@ -817,7 +815,7 @@ public class MainActivity extends Activity {
         if (view == null)
             return lastValueId;
 
-        if (cachedCursor.moveToPosition(myList.getPositionForView(view))) {
+        if (cachedCursor.moveToPosition(mainList.getPositionForView(view))) {
 
             return getValueIdsForCurrentCursorPosition();
         }
@@ -993,7 +991,7 @@ public class MainActivity extends Activity {
 
         value.setDoableItemId(GetValueIds(null).ItemId);
 
-        int timesToShow = timesToShowDate(cachedCursor);
+        int timesToShow = cursorHelper.timesToShowDate(cachedCursor);
 
         if (value.getId() == 0) {
             if (timesToShow > 0) {
@@ -1011,7 +1009,7 @@ public class MainActivity extends Activity {
         }
 
         //if its tsp, make sure there's a tsp type set
-        if (value.getTeaspoons() == TeaSpoons.unset && isTeaspoons(cachedCursor)) {
+        if (value.getTeaspoons() == TeaSpoons.unset && cursorHelper.isTeaspoons(cachedCursor)) {
             value.setTeaspoons(
                     TeaSpoons.valueOf(
                             this.getTeaspoonsForCursorPosition(cachedCursor)));
@@ -1046,7 +1044,7 @@ public class MainActivity extends Activity {
 
         moveCursorToCurrentRow(v);
 
-        if (timesToShowDate(cachedCursor) > 1) {
+        if (cursorHelper.timesToShowDate(cachedCursor) > 1) {
             TextView otherTv = (TextView) ((ViewGroup) v.getParent()).findViewById(R.id.list_time2_value);
             otherTv.setShadowLayer(0, 0, 0, Color.RED);
 
@@ -1113,7 +1111,7 @@ public class MainActivity extends Activity {
         Boolean changeAppliesToTime = usesAltFocusMap.containsKey(ids.ItemId)
                 && usesAltFocusMap.get(ids.ItemId) == AltFocus.AppliesToTime;
 
-        if (timesToShowDate(cachedCursor) > 0 || changeAppliesToTime) {
+        if (cursorHelper.timesToShowDate(cachedCursor) > 0 || changeAppliesToTime) {
             bigAdd = 60;
             smallAdd = 5;
         }
@@ -1141,7 +1139,7 @@ public class MainActivity extends Activity {
 
             DoableValue value = getCurrentValue(ids);
 
-            int timesToShow = timesToShowDate(cachedCursor);
+            int timesToShow = cursorHelper.timesToShowDate(cachedCursor);
 
             if (value.getId() == 0) {   //a new value
                 if (timesToShow > 0) {
@@ -1165,7 +1163,7 @@ public class MainActivity extends Activity {
                 if (timesToShow > 0) {
 
                     Boolean usesTime1 = !usesAltFocusMap.containsKey(ids.ItemId)
-                            || usesAltFocusMap.get(ids.ItemId) == AltFocus.Time2;
+                            || usesAltFocusMap.get(ids.ItemId) == AltFocus.Time1OrValue;
 
 
                     Time timeToChange = usesTime1 ? value.getFromTime() : value.getToTime();
@@ -1241,9 +1239,7 @@ public class MainActivity extends Activity {
     }
 
 
-    private void updateDisplayDate
-            (Date
-                     date) {
+    private void updateDisplayDate(Date date) {
 
         mDisplayingDate = date;
         SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
@@ -1252,9 +1248,7 @@ public class MainActivity extends Activity {
         SetupList(new DayOnlyDate(date));
     }
 
-    Date addDays
-            (Date
-                     date, int days) {
+    Date addDays(Date date, int days) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, days);  // number of days to add

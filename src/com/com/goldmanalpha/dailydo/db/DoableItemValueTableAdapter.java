@@ -51,7 +51,7 @@ public class DoableItemValueTableAdapter
             values.put("toTime", TimeToInt(object.getToTime()));
 
             values.putNull("appliesToTime");
-         }
+        }
 
         values.put("hasAnotherDayInstance", object.getHasAnotherDayInstance() ? 1 : 0);
         values.put("teaspoons", object.getTeaspoons().toString());
@@ -111,6 +111,7 @@ public class DoableItemValueTableAdapter
     public static final String ColLastTeaspoons = "lastTeaspoons";
     public static final String ColLastAmount = "lastAmount";
     public static final String ColLastAppliesToDate = "lastAppliesToDate";
+    public static final String ColAppliesToDate = "appliesToDate";
 
     public static final String ColDescription = "description";
     public static final String ColPrivate = "private";
@@ -169,6 +170,29 @@ public class DoableItemValueTableAdapter
                 adapter.updateOrder(item.getId(), item.getDisplayOrder());
             }
         }
+    }
+
+    public Cursor getItems(Integer itemId) {
+
+        DoableItemTableAdapter t = new DoableItemTableAdapter();
+        DoableItem item =  t.get(itemId);
+
+        //todo: add always show the the params here...
+
+        String sql = "select vals.appliesToDate, vals.appliesToTime, "
+                + " vals.id as _id, vals.id, vals.description, "
+                + " vals.fromTime, vals.toTime, vals.amount, "
+                + " vals.teaspoons, '" + item.getUnitType().toString() + "' unitType, "
+
+                + " coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
+
+                + " vals.dateCreated, vals.dateModified from "
+                + this.tableName + " vals "
+
+                + " where itemId = ?"
+                + " order by appliesToDate desc, appliesToTime desc";
+
+        return db.rawQuery(sql, new String[]{Integer.toString(itemId)});
     }
 
     //returns a cursor of doable items:
@@ -280,8 +304,7 @@ public class DoableItemValueTableAdapter
 
 
             int appliesToCol = c.getColumnIndex("appliesToTime");
-            if (!c.isNull(appliesToCol))
-            {
+            if (!c.isNull(appliesToCol)) {
                 val.setAppliesToTime(IntToTime(c.getInt(appliesToCol)));
             }
         }
@@ -313,16 +336,15 @@ public class DoableItemValueTableAdapter
 
         //if this is a single item left, make sure its dup flag is off
         Cursor cursor = db.rawQuery("select id from " + this.tableName
-                + " where itemId = ? and appliesToDate = ? " ,
+                + " where itemId = ? and appliesToDate = ? ",
                 new String[]{
                         Integer.toString(deletingItem.getItem().getId()),
                         super.DateToTimeStamp(deletingItem.getAppliesToDate())
                 });
 
-        if (cursor.getCount() == 1 && cursor.moveToFirst())
-        {
+        if (cursor.getCount() == 1 && cursor.moveToFirst()) {
             int remainingId = cursor.getInt(0);
-            DoableValue remainder =  get(remainingId);
+            DoableValue remainder = get(remainingId);
             remainder.setHasAnotherDayInstance(false);
             save(remainder);
         }

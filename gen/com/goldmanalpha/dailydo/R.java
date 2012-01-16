@@ -46,6 +46,14 @@ public final class R {
         public static final int okButton=0x7f050005;
         public static final int plus=0x7f050021;
         public static final int prevDate=0x7f05000b;
+        public static final int single_history_item_applies_to_time=0x7f050029;
+        public static final int single_history_item_date=0x7f050025;
+        public static final int single_history_item_description=0x7f05002a;
+        public static final int single_history_item_time_value=0x7f050027;
+        public static final int single_history_item_tsp=0x7f050028;
+        public static final int single_history_item_value=0x7f050026;
+        public static final int single_history_list=0x7f050024;
+        public static final int single_history_name=0x7f050023;
     }
     public static final class layout {
         public static final int additem=0x7f020000;
@@ -55,6 +63,8 @@ public final class R {
         public static final int main_list=0x7f020004;
         public static final int main_list_item=0x7f020005;
         public static final int short_spinner_dropdown_item=0x7f020006;
+        public static final int single_history=0x7f020007;
+        public static final int single_history_item=0x7f020008;
     }
     public static final class string {
         public static final int app_name=0x7f030000;

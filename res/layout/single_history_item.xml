@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+        >
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+            >
+
+        <TextView
+                style="@style/TinyText"
+                android:id="@+id/single_history_item_date"
+                />
+
+        <TextView
+                style="@style/TinyText"
+                android:id="@+id/single_history_item_value"
+                android:layout_marginLeft="15dp"
+                />
+
+        <TextView
+                style="@style/TinyText"
+                android:id="@+id/single_history_item_time_value"
+                android:layout_marginLeft="15dp"
+                />
+
+        <TextView
+                style="@style/TinyText"
+                android:id="@+id/single_history_item_tsp"
+                android:layout_marginLeft="15dp"
+                />
+
+        <TextView
+                style="@style/TinyText"
+                android:id="@+id/single_history_item_applies_to_time"
+                android:layout_marginLeft="15dp"
+                />
+    </LinearLayout>
+
+    <TextView
+                style="@style/TinyText"
+                android:id="@+id/single_history_item_description"
+                android:layout_marginLeft="15dp"
+                android:singleLine="true"
+                />
+
+</LinearLayout>

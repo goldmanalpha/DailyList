@@ -15,13 +15,14 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class TableAdapterBase<T extends DoableBase>
-    extends  DatabaseRoot{
+        extends DatabaseRoot {
 
     protected String tableName;
 
     public TableAdapterBase(String tableName) {
         this.tableName = tableName;
     }
+
     //returns id or -1 if fail
     public long save(T object) {
 
@@ -120,19 +121,36 @@ public abstract class TableAdapterBase<T extends DoableBase>
     }
 
     public float totalHours(Integer time1, Integer time2) {
-        Time diff1;
+
         if (time1 > time2) {
-            diff1 = IntToTime(240000 - time1);
 
+            float diff24 = totalHours(time1, 240000, true);
+            float diff2 = totalHours(1, time2, true);
 
-            Time t2 = IntToTime(time2);
+            float total = diff24 + diff2;
 
-            return diff1.getHours() + t2.getHours() + Math.round((diff1.getMinutes() + t2.getMinutes()) / 6) / 10.0f;
+            return (float) Math.floor(total) + Math.round(total * 10) / 10f;
         }
-        Time diff = IntToTime(time2 - time1);
 
-        return diff.getHours() + Math.round((diff.getMinutes()) / 6) / 10.0f;
+        return totalHours(time1, time2, false);
+
     }
+
+    float totalHours(Integer time1, Integer time2, boolean exact) {
+
+        float  hours = (float) (Math.floor(time2/ 10000)  - Math.floor(time1 / 10000));
+
+        //todo:  annnoying date arithmetic:
+
+        Time diff = new Time(0,0,0);
+
+        if (exact)
+            return diff.getHours() + diff.getMinutes() / 60.0f;
+        else
+
+            return diff.getHours() + Math.round((diff.getMinutes()) / 6) / 10.0f;
+    }
+
 
     public void setCommonValues(T val, Cursor c) {
 

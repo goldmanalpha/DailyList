@@ -35,8 +35,6 @@ public class EditDescriptionActivity extends Activity{
         tableAdapter = new DoableItemValueTableAdapter();
 
         Intent intent = getIntent();
-
-
         int valueId = intent.getIntExtra(ExtraValueId, 0);
 
         try {

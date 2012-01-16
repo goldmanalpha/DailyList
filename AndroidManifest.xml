@@ -37,6 +37,9 @@
         <activity android:name="com.goldmanalpha.androidutility.PickOneList"
                   android:label="Pick One"/>
 
+        <activity android:name=".SingleItemHistoryActivity"
+                  android:label="Item History"/>
+
          <service android:enabled="true" android:name=".BackupService" />
 
     </application>
