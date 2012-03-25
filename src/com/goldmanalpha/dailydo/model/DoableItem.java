@@ -17,6 +17,7 @@ public class DoableItem extends DoableBase {
     UnitType unitType;
     boolean isPrivate;
     SimpleLookup category;
+    boolean  alwaysShowAppliesToTime;
 
     int displayOrder = 0;
 
@@ -77,7 +78,7 @@ public class DoableItem extends DoableBase {
         return super.toString() + ": " + name;    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public SimpleLookup getCategory(Context context) throws ParseException {
+    public SimpleLookup getCategory() throws ParseException {
 
         if (category == null) {
             if (categoryId == 0) {
@@ -107,6 +108,13 @@ public class DoableItem extends DoableBase {
         return this.categoryId;
     }
 
+    public boolean getAlwaysShowAppliesToTime() {
+        return alwaysShowAppliesToTime;
+    }
+
+    public void setAlwaysShowAppliesToTime(boolean alwaysShowAppliesToTime) {
+        this.alwaysShowAppliesToTime = alwaysShowAppliesToTime;
+    }
 
 }
 

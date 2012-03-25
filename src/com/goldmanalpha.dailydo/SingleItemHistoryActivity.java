@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.*;
+import com.goldmanalpha.dailydo.model.DoableItem;
 
 import java.sql.Time;
 import java.text.ParseException;
@@ -63,6 +64,11 @@ public class SingleItemHistoryActivity extends Activity {
                 try {
                     Date appliesToDate = doableItemValueTableAdapter.getAppliesToDate(cachedCursor);
                     intent.putExtra(MainActivity.ExtraValueDateGetTimeLong, appliesToDate.getTime());
+
+                    DoableItem item = new DoableItemTableAdapter().get(itemId);
+
+                    intent.putExtra(MainActivity.ExtraValueCategoryId, item.getCategoryId());
+                    
                     startActivity(intent);
                     finish();
                             
@@ -259,7 +265,13 @@ public class SingleItemHistoryActivity extends Activity {
     public void item_click(View view) {
         Intent intent = new Intent(this, AddItemActivity.class);
         intent.putExtra("itemId", itemId);
+        startActivity(intent);
+    }
 
+    public void single_history_item_description_click(View v)
+    {
+        Intent intent = new Intent(this, EditDescriptionActivity.class);
+        intent.putExtra(EditDescriptionActivity.ExtraValueId, cursorHelper.getValueId(cachedCursor));
         startActivity(intent);
     }
 }

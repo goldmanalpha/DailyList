@@ -53,6 +53,9 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
         values.put("categoryId", object.getCategoryId());
 
+        values.put("showAppliesToTime", object.getAlwaysShowAppliesToTime()
+                        ? 1 : 0);
+
         return values;
     }
 
@@ -99,6 +102,8 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
             item.setDisplayOrder(c.getInt(c.getColumnIndex("displayOrder")));
             item.setCategoryId(c.getInt(c.getColumnIndex("categoryId")));
+            
+            item.setAlwaysShowAppliesToTime(c.getInt(c.getColumnIndex("showAppliesToTime")) == 1 ? true : false);
         }
 
         c.close();

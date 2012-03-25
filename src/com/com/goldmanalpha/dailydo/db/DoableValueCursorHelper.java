@@ -16,6 +16,8 @@ public class DoableValueCursorHelper {
     final String usesTeaspoonsType = UnitType.tsp.toString();
     int unitTypeColIdx;
     int teaspoonColIdx;
+    int valueIdColumnIndex;
+
 
     /**
      * @param cursor: only used to get column indices
@@ -23,7 +25,7 @@ public class DoableValueCursorHelper {
     public DoableValueCursorHelper(Cursor cursor) {
         unitTypeColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
         teaspoonColIdx = cursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
-
+        valueIdColumnIndex = cursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
     }
 
     /**
@@ -50,6 +52,13 @@ public class DoableValueCursorHelper {
 
     public String getTeaspoons(Cursor c) {
         return c.getString(this.teaspoonColIdx);
+    }
+    
+    public int getValueId(Cursor c)
+    {
+        return c.getInt(valueIdColumnIndex);
+
+        
     }
 
 }

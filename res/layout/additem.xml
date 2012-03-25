@@ -53,9 +53,17 @@
                     />
             <CheckBox
                     android:id="@+id/isPrivateCheckbox"
-
                     style="@style/WrapStyle"
+                    />
 
+
+            <TextView
+                    android:text="AppliesTo Time"
+                    style="@style/WrapStyle"
+                    />
+            <CheckBox
+                    android:id="@+id/addItemAlwaysShowAppliesToCheckbox"
+                    style="@style/WrapStyle"
                     />
         </LinearLayout>
     </LinearLayout>

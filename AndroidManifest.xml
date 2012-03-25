@@ -4,6 +4,7 @@
           android:versionCode="1"
           android:versionName="1.0"
           android:debuggable="true"
+          android:installLocation="auto"
         >
     
     <supports-screens android:resizeable="true"

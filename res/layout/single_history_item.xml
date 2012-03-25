@@ -42,10 +42,12 @@
     </LinearLayout>
 
     <TextView
-                style="@style/BigText"
+                style="@style/ClickableText"
                 android:id="@+id/single_history_item_description"
                 android:layout_marginLeft="15dp"
                 android:singleLine="true"
+                android:textStyle="normal"
+                android:onClick="single_history_item_description_click"
                 />
 
 </LinearLayout>

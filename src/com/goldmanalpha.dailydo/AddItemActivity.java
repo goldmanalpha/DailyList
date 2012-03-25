@@ -140,6 +140,7 @@ public class AddItemActivity extends Activity {
         }
 
         isPrivateCheckbox.setChecked(doableItem.getPrivate());
+        alwaysShowAppliesToTimeCheckbox.setChecked(doableItem.getAlwaysShowAppliesToTime());
     }
 
     EditText nameField;
@@ -147,6 +148,7 @@ public class AddItemActivity extends Activity {
     Spinner unitTypeField;
     Spinner categoryField;
     CheckBox isPrivateCheckbox;
+    Checkable alwaysShowAppliesToTimeCheckbox;
 
 
     void findFieldsInUi() {
@@ -155,6 +157,8 @@ public class AddItemActivity extends Activity {
         unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
         categoryField = (Spinner) findViewById(R.id.categorySpinner);
         isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
+        alwaysShowAppliesToTimeCheckbox = (CheckBox) findViewById(R.id.addItemAlwaysShowAppliesToCheckbox);
+
         Button okButton = (Button) findViewById(R.id.okButton);
         Button cancelButton = (Button) findViewById(R.id.cancelButton);
 
@@ -251,6 +255,7 @@ public class AddItemActivity extends Activity {
 
             item.setPrivate(isPrivateCheckbox.isChecked());
 
+            item.setAlwaysShowAppliesToTime(alwaysShowAppliesToTimeCheckbox.isChecked());
 
             if (item.getName().trim().length() > 0 && item.getUnitType() != UnitType.unset) {
 

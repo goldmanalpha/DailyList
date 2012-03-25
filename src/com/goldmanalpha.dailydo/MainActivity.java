@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
     }
 
     public static String ExtraValueDateGetTimeLong = "dateToShow";
+    public static String ExtraValueCategoryId = "categoryId";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,12 +57,12 @@ public class MainActivity extends Activity {
         Long dateLong = intent.getLongExtra(ExtraValueDateGetTimeLong, new DayOnlyDate().getTime());
         updateDisplayDate(new Date(dateLong));
 
-
         if (savedInstanceState != null)
             selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
+
+        selectedCategoryId = intent.getIntExtra(ExtraValueCategoryId, selectedCategoryId);
+
         setupCategories();
-
-
     }
 
 
@@ -124,11 +125,11 @@ public class MainActivity extends Activity {
 
             menu.setHeaderTitle(name);
 
+            menu.add(Menu.NONE, MenuItems.ItemHistory, 0, "Item History");
             menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
-
             menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
 
-            menu.add(Menu.NONE, MenuItems.ItemHistory, 0, "Item History");
+
         }
     }
 
@@ -570,7 +571,7 @@ public class MainActivity extends Activity {
                                 tv.setShadowLayer(0, 0, 0, Color.BLACK);
                             }
 
-                            if (showAppliesToTime) {
+                            if (showAppliesToTime && cursor.getInt(valueIdColumnIndex) != 0) {
                                 Time t = new Time(0, 0, 0);
                                 if (cursor.isNull(appliesToTimeColIdx)) {
 
