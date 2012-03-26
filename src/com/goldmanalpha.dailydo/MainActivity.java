@@ -16,6 +16,8 @@ import com.goldmanalpha.androidutility.*;
 import com.goldmanalpha.dailydo.model.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Array;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -84,6 +86,8 @@ public class MainActivity extends Activity {
         public static final int DeleteItem = 8;
 
         public static final int ItemHistory = 9;
+
+        public static final int RestoreFromBackup = 10;
     }
 
     MenuItem PublicPrivateMenuItem;
@@ -105,6 +109,9 @@ public class MainActivity extends Activity {
         menu.add(1, MenuItems.BackupFolder, 0, "Backup Folder");
 
         menu.add(1, MenuItems.Backup, 0, "Backup");
+
+        menu.add(1, MenuItems.RestoreFromBackup, 0, "RestoreDB");
+
         //menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
 
         return true;
@@ -318,6 +325,20 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(this, AddItemActivity.class));
                 break;
 
+            case (MenuItems.RestoreFromBackup):
+
+                BackupHelper helper = new BackupHelper();
+
+                SharedPreferences preferences1 =
+                        getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
+
+                String targetPath1 = preferences1.getString("BackupFolder", path);
+
+                String[] files = helper.BackupFiles(targetPath1);
+
+                PickRestoreDB(files);
+
+                break;
             case (MenuItems.Backup):
                 Toast.makeText(this, "Backing up", Toast.LENGTH_LONG).show();
 
@@ -327,7 +348,7 @@ public class MainActivity extends Activity {
                 SharedPreferences preferences =
                         getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
 
-                String targetPath = preferences.getString("BackupFolder", "");
+                String targetPath = preferences.getString("BackupFolder", path);
 
                 String backupFileName = backupService.doBackup("", getPackageName(), targetPath);
 
@@ -945,10 +966,25 @@ public class MainActivity extends Activity {
         startActivityForResult(intent, IntentRequestCodes.TeaspoonSelection);
     }
 
+    private void PickRestoreDB(String[] choices) {
+
+        Intent intent = new Intent(this, PickOneList.class);
+
+        intent.putExtra(PickOneList.Title, "Pick DB to Restore");
+
+        intent.putExtra(PickOneList.Choices, choices);
+
+        startActivityForResult(intent, IntentRequestCodes.RestoreDBSelection);
+
+    }
+
+
     class IntentRequestCodes {
         public static final int TeaspoonSelection = 1;
 
         public static final int BackupFolder = 2;
+
+        public static final int RestoreDBSelection = 3;
     }
 
     @Override
@@ -989,6 +1025,70 @@ public class MainActivity extends Activity {
                     /*textFile.setText("Full Path: \n" + FilePath + "\n");
               textFolder.setText("Folder: \n" + Folder + "\n");
               textFileName.setText("File Name: \n" + FileName + "\n");*/
+                }
+                break;
+            case IntentRequestCodes.RestoreDBSelection:
+
+                if (resultCode == RESULT_OK) {
+
+                    final String restoreFile = data.getStringExtra(PickOneList.SelectedItem);
+
+                    SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                            "Restore DB?!", "Restore db from: " + restoreFile,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    if (id == DialogInterface.BUTTON_POSITIVE) {
+                                        //backup?!
+
+                                        String localPath = "data/data/" + getPackageName() + "/databases/";
+
+                                        //delete
+                                        File f = new File(
+                                                "data/data/" + getPackageName() + "/databases/"
+                                                        + DailyDoDatabaseHelper.DATABASE_NAME);
+
+                                        String dbFileFullPath = null;
+                                        boolean canContinue = false;
+
+                                        try {
+                                            dbFileFullPath = f.getCanonicalPath();
+                                            canContinue = true;
+                                        } catch (IOException e) {
+                                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+                                            Toast.makeText(MainActivity.this, "getCanonicalPath Err: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                        if (canContinue) {
+                                            f.delete();
+
+                                            SharedPreferences preferences =
+                                                    getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
+
+                                            String backupDir = preferences.getString("BackupFolder", localPath);
+
+                                            FileHelper helper = new FileHelper();
+
+                                            //todo: show backup issues in the app
+                                            try {
+                                                helper.CopyFile(backupDir + restoreFile, dbFileFullPath);
+
+                                                Toast.makeText(getApplication(), "Success / Restarting", Toast.LENGTH_LONG);
+                                            } catch (IOException e) {
+                                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+                                                Toast.makeText(MainActivity.this, "Restore Copy Fail: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                        finish();
+                                    }
+                                }
+                            });
+
+                    dlg.show();
+
                 }
                 break;
 

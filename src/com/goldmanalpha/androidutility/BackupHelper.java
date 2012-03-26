@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,6 +60,27 @@ public class BackupHelper {
 
         return backupPath;
 
+    }
+
+    public String[] BackupFiles(String targetPath)
+    {
+        File dir = new File(targetPath);
+
+        dir.list(new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String s) {
+                return s.contains(".backup.");
+            }
+        })      ;
+        File[] files = dir.listFiles();
+
+        String[] fileNames = new String[files.length];
+        for(int i = 0; i < files.length ; i++)
+        {
+            fileNames[i] = files[i].getName();
+        }
+
+        return fileNames;
     }
 
 }
