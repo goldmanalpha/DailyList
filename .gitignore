@@ -3,3 +3,5 @@
 
 *.unaligned
 *.dex
+*.class
+\bin

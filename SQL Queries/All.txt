@@ -1,0 +1,20 @@
+SELECT ItemCategory.id, DoableItemValue.appliesToDate dt,
+      ItemCategory.name,
+      DoableItem.name, DoableItemValue.amount,
+      DoableItemValue.fromTime,
+      DoableItemValue.toTime,
+      
+      DoableItemValue.teaspoons,
+      
+      DoableItemValue.appliesToTime tm,
+DoableItemValue.Description
+FROM 
+      DoableItemValue
+      INNER JOIN DoableItem ON (DoableItemValue.itemid = DoableItem.id) 
+      INNER JOIN ItemCategory ON (DoableItem.categoryId = ItemCategory.id) 
+where not ItemCategory.id in (12, 13, 6)
+
+
+
+ORDER BY 
+       DoableItemValue.appliesToDate Asc
