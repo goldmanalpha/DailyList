@@ -62,6 +62,18 @@ public class DoableItemValueTable extends TableBase {
 
             return new String[] {sql14};
         }
+
+        if (newVersion == 16)
+        {
+            String sql16 =
+                    "Alter Table " + TableName
+                            + " add column potency int;"
+
+                    ;
+
+            return new String[] {sql16};
+
+        }
         return null;
     }
 

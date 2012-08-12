@@ -47,9 +47,20 @@
                   android:onClick="teaspoons_click"
                 />
 
+    <TextView android:id="@+id/list_potency"
+              android:textSize="16sp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/list_name"
+              android:layout_toRightOf="@id/list_unit_type"
+              android:layout_marginLeft="5dp"
+              android:clickable="true"
+              android:onClick="potency_click"
+            />
+
     <TextView android:id="@+id/list_description"
                   android:layout_marginLeft="5dp"
-                  android:layout_toRightOf="@id/list_teaspoons"
+                  android:layout_toRightOf="@id/list_potency"
                   android:layout_below="@id/list_name"
                   android:text="D"
                   android:clickable="true"
@@ -109,6 +120,14 @@
                 />
 
         <TextView android:id="@+id/list_lastTeaspoons"
+                  style="@style/TinyText"
+                  android:layout_marginLeft="2dp"
+                  android:singleLine="true"
+                  android:ellipsize="none"
+                  android:maxWidth="20dp"
+                />
+
+        <TextView android:id="@+id/list_lastPotency"
                   style="@style/TinyText"
                   android:layout_marginLeft="2dp"
                   android:singleLine="true"

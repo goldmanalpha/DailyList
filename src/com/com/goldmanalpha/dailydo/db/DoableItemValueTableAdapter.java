@@ -33,6 +33,7 @@ public class DoableItemValueTableAdapter
         values.put("itemId", object.getDoableItemId());
 
         values.put("description", object.getDescription());
+        values.put("potency", object.getPotency());
 
         if (object.getItem().getUnitType() != UnitType.time
                 && object.getItem().getUnitType() != UnitType.timeSpan) {
@@ -107,8 +108,11 @@ public class DoableItemValueTableAdapter
     public static final String ColUnitType = "unitType";
     public static final String ColAmount = "amount";
     public static final String ColTeaspoons = "teaspoons";
-
     public static final String ColLastTeaspoons = "lastTeaspoons";
+
+    public static final String ColPotency = "potency";
+    public static final String ColLastPotency = "lastPotency";
+
     public static final String ColLastAmount = "lastAmount";
     public static final String ColLastAppliesToDate = "lastAppliesToDate";
     public static final String ColAppliesToDate = "appliesToDate";
@@ -225,12 +229,13 @@ public class DoableItemValueTableAdapter
         String sql = "select "
                 + " vals.id as _id, vals.id, vals.description, "
                 + " vals.fromTime, vals.toTime, vals.amount, "
-                + " vals.teaspoons, "
+                + " vals.teaspoons, vals.potency,"
 
                 + " vals.dateCreated, vals.dateModified, "
 
                 + " items.id as items_id, items.name as items_name, items.unitType, items.private, "
                 + " coalesce(lastVal.teaspoons, vals.teaspoons, latestVal.teaspoons) lastTeaspoons, "
+                + " coalesce(lastVal.potency, vals.potency, latestVal.potency) lastPotency, "
                 + " coalesce(lastVal.amount, vals.amount, latestVal.amount) lastAmount, "
                 + " coalesce(lastVal.fromTime, vals.fromTime, latestVal.fromTime) lastFromTime, "
                 + " coalesce(lastVal.toTime, vals.toTime, latestVal.toTime) lastToTime, "
@@ -299,6 +304,7 @@ public class DoableItemValueTableAdapter
                     TeaSpoons.valueOf(
                             c.getString(c.getColumnIndex("teaspoons"))));
 
+            val.setPotency(c.getInt(c.getColumnIndex("potency")));
 
             val.setHasAnotherDayInstance(c.getInt(c.getColumnIndex("hasAnotherDayInstance")) > 0);
 

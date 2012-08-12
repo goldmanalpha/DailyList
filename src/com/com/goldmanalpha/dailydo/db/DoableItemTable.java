@@ -46,8 +46,8 @@ public class DoableItemTable extends TableBase {
                             + " add column showAppliesToTime int;";
 
             return new String []{sql};
-
         }
+
         return null;
     }
 }

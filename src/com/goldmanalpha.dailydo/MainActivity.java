@@ -483,6 +483,9 @@ public class MainActivity extends Activity {
     int teaspoonColIdx;
     int lastTeaspoonColIdx;
 
+    int potencyColIdx;
+    int lastPotencyColIdx;
+
     private void SetupList(Date date) {
 
         if (setupDate) {
@@ -509,9 +512,11 @@ public class MainActivity extends Activity {
                 DoableItemValueTableAdapter.ColUnitType,
                 DoableItemValueTableAdapter.ColAmount,
                 DoableItemValueTableAdapter.ColTeaspoons,
+                DoableItemValueTableAdapter.ColPotency,
                 DoableItemValueTableAdapter.ColLastAppliesToDate,
                 DoableItemValueTableAdapter.ColLastAmount,
                 DoableItemValueTableAdapter.ColLastTeaspoons,
+                DoableItemValueTableAdapter.ColLastPotency,
                 DoableItemValueTableAdapter.ColFromTime,
                 DoableItemValueTableAdapter.ColLastFromTime,
                 DoableItemValueTableAdapter.ColToTime,
@@ -522,9 +527,9 @@ public class MainActivity extends Activity {
         };
 
         int[] to = new int[]{R.id.list_name, R.id.list_unit_type,
-                R.id.amount, R.id.list_teaspoons,
+                R.id.amount, R.id.list_teaspoons, R.id.list_potency,
                 R.id.list_lastDate, R.id.list_lastAmount,
-                R.id.list_lastTeaspoons, R.id.list_time1_value,
+                R.id.list_lastTeaspoons, R.id.list_lastPotency, R.id.list_time1_value,
                 R.id.list_lastTime1, R.id.list_time2_value, R.id.list_lastTime2,
                 R.id.list_description, R.id.list_set_now,
                 R.id.list_applies_to_time
@@ -532,6 +537,11 @@ public class MainActivity extends Activity {
 
         teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
         lastTeaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
+
+
+        potencyColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPotency);
+        lastPotencyColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastPotency);
+
         final int lastAppliesToDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastAppliesToDate);
         final int lastTeaspoonsColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
         final int appliesToTimeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToTime);
@@ -754,6 +764,18 @@ public class MainActivity extends Activity {
 
                             if (!cursorHelper.isTeaspoons(cursor)) {
                                 tv.setText("");
+                                returnValue = true;
+                            }
+                        }
+
+                        if (columnIndex == potencyColIdx || columnIndex == lastPotencyColIdx) {
+                            TextView tv = ((TextView) view);
+
+                            if (!cursorHelper.isDrops(cursor)) {
+                                tv.setText("");
+                                returnValue = true;
+                            } else {
+                                tv.setText("p" + cursor.getInt(columnIndex));
                                 returnValue = true;
                             }
                         }
@@ -1139,7 +1161,6 @@ public class MainActivity extends Activity {
 
     String getTeaspoonsForCursorPosition(Cursor c) {
 
-
         String setTeaspoons = c.getString(this.teaspoonColIdx);
         String lastTeaspoons = c.getString(this.lastTeaspoonColIdx);
 
@@ -1154,9 +1175,7 @@ public class MainActivity extends Activity {
             return setTeaspoons;
         }
 
-
         return defaultTeaspoons.toString();
-
     }
 
     public void time1_click(View v) {

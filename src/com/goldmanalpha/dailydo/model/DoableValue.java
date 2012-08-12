@@ -20,6 +20,7 @@ public class DoableValue extends DoableBase {
     private Date appliesToDate;
     private Integer doableItemId = 0;
     private boolean hasAnotherDayInstance = false;
+    private Integer potency = 0;
 
     private Time appliesToTime;
 
@@ -28,8 +29,8 @@ public class DoableValue extends DoableBase {
 
         this.setAppliesToDate(copyItem.getAppliesToDate());
         this.setTeaspoons(copyItem.teaspoons);
+        this.setPotency(copyItem.potency);
         this.setDoableItemId(copyItem.getItem().getId());
-
     }
 
 
@@ -135,44 +136,11 @@ public class DoableValue extends DoableBase {
         return item;
     }
 
-
-/*
-    public DoableValue getPreviousValue(Context context) throws ParseException {
-
-        if (previousValueId != 0 && previousValue == null)
-        {
-            previousValue = new DoableItemValueTableAdapter(context).get(previousValueId);
-        }
-
-        return previousValue == null ? this : previousValue;
+    public Integer getPotency() {
+        return potency;
     }
 
-
-    public int getPreviousValueId() {
-        return previousValueId;
+    public void setPotency(Integer potency) {
+        this.potency = potency;
     }
-
-    public void setPreviousValueId(int previousValueId) {
-        this.previousValueId = previousValueId;
-
-        if (previousValue != null && previousValue.id != previousValueId)
-        {
-            previousValue = null;
-        }
-    }
-
-
-    public void setPreviousValue(DoableValue previousValue) {
-        this.previousValue = previousValue;
-
-        if (previousValue != null)
-        {
-            previousValueId = previousValue.id;
-        }
-        else
-        {
-            previousValueId = 0;
-        }
-    }
-    */
 }

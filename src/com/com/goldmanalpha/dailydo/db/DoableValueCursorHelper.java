@@ -14,6 +14,8 @@ import com.goldmanalpha.dailydo.model.UnitType;
 public class DoableValueCursorHelper {
 
     final String usesTeaspoonsType = UnitType.tsp.toString();
+    final String usesDropsType = UnitType.drops.toString();
+
     int unitTypeColIdx;
     int teaspoonColIdx;
     int valueIdColumnIndex;
@@ -48,6 +50,11 @@ public class DoableValueCursorHelper {
     public boolean isTeaspoons(Cursor cursor) {
 
         return cursor.getString(unitTypeColIdx).equals(usesTeaspoonsType);
+    }
+
+    public boolean isDrops(Cursor cursor) {
+
+        return cursor.getString(unitTypeColIdx).equals(usesDropsType);
     }
 
     public String getTeaspoons(Cursor c) {
