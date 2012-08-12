@@ -775,10 +775,19 @@ public class MainActivity extends Activity {
                                 tv.setText("");
                                 returnValue = true;
                             } else {
-                                tv.setText("p" + cursor.getInt(columnIndex));
+                                if (columnIndex == potencyColIdx && cursor.getInt(valueIdColumnIndex) == 0)
+                                {
+                                    tv.setText("p" + cursor.getInt(lastPotencyColIdx));
+                                }
+                                else
+                                {
+                                    tv.setText("p" + cursor.getInt(columnIndex));
+                                }
+
                                 returnValue = true;
                             }
                         }
+
 
                         if (columnIndex == lastAppliesToDateColIdx) {
                             returnValue = true;
@@ -953,27 +962,49 @@ public class MainActivity extends Activity {
 
     }
 
+    DoableValue potencyClickValue;
+
+    public void potency_click(View v)
+    {
+        //setup the value, because the intent will close the cursor
+        if ((potencyClickValue = GetValue(v)) == null) return;
+
+        if (potencyClickValue.getId() == 0)
+        {
+            Toast.makeText(this, "Set a value before changing potency", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+       Intent intent = new Intent(this, PickOneList.class);
+
+        intent.putExtra(PickOneList.Title, "Pick Log Value Vs. Usual Potency");
+
+        intent.putExtra(PickOneList.SelectedItem, this.potencyClickValue.getPotency().toString());
+
+        //values from -1 to neg 30 should be sufficient:
+        String[] potencies = new String[29];
+
+        for (int i = -1; i > -30 ; i--) {
+            potencies[Math.abs(i)-1] = String.valueOf(i);
+        }
+
+        intent.putExtra(PickOneList.Choices, potencies);
+
+        startActivityForResult(intent, IntentRequestCodes.PotencySelection);
+
+    }
+
+
 
     DoableValue teaspoonsClickValue;
 
     public void teaspoons_click(View v) {
 
         //setup the value, because the intent will close the cursor
-        try {
-            teaspoonsClickValue = doableItemValueTableAdapter
-                    .get(this.GetValueIds(v).ValueId);
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-
-            Toast.makeText(this, "Error loading value for tsp change: " + e.getMessage(), Toast.LENGTH_LONG).show();
-
-            return;
-        }
-
+        if ((teaspoonsClickValue = GetValue(v)) == null) return;
 
 //in case it was an unset/new value:
         SetDefaultsForNewValue(teaspoonsClickValue);
-
 
         Intent intent = new Intent(this, PickOneList.class);
 
@@ -986,6 +1017,20 @@ public class MainActivity extends Activity {
 
 
         startActivityForResult(intent, IntentRequestCodes.TeaspoonSelection);
+    }
+
+    private DoableValue GetValue(View v) {
+        DoableValue retVal = null;
+        try {
+            retVal  = doableItemValueTableAdapter
+                    .get(this.GetValueIds(v).ValueId);
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+            Toast.makeText(this, "Error loading value: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        return retVal ;
     }
 
     private void PickRestoreDB(String[] choices) {
@@ -1007,6 +1052,8 @@ public class MainActivity extends Activity {
         public static final int BackupFolder = 2;
 
         public static final int RestoreDBSelection = 3;
+
+        public static final int PotencySelection = 4;
     }
 
     @Override
@@ -1018,7 +1065,6 @@ public class MainActivity extends Activity {
                 if (resultCode == RESULT_OK) {
 
                     String setToTeaspoons = data.getStringExtra(PickOneList.SelectedItem);
-
 
                     if (!teaspoonsClickValue.getTeaspoons().toString().equals(setToTeaspoons)) {
 
@@ -1114,6 +1160,21 @@ public class MainActivity extends Activity {
                 }
                 break;
 
+                case IntentRequestCodes.PotencySelection:
+                if (resultCode == RESULT_OK) {
+
+                    String potencyString = data.getStringExtra(PickOneList.SelectedItem);
+
+                    if (!potencyClickValue.getPotency().toString().equals(potencyString)) {
+
+                        potencyClickValue.setPotency(Integer.parseInt(potencyString));
+                        doableItemValueTableAdapter.save(potencyClickValue);
+                    }
+
+                    SetupList(new DayOnlyDate(this.mDisplayingDate));
+                }
+                break;
+
         }
 
 
@@ -1126,7 +1187,6 @@ public class MainActivity extends Activity {
 
         if (value.getId() != 0)
             return;
-
 
         value.setAppliesToDate(mDisplayingDate);
 
@@ -1144,9 +1204,9 @@ public class MainActivity extends Activity {
                     int sqlToTime = cachedCursor.getInt(lastToTimeColumnIndex);
                     value.setToTime(doableItemValueTableAdapter.IntToTime(sqlToTime));
                 }
-
             }
 
+            value.setPotency(cachedCursor.getInt(lastPotencyColIdx));
         }
 
         //if its tsp, make sure there's a tsp type set

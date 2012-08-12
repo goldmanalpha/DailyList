@@ -289,7 +289,6 @@ public class DoableItemValueTableAdapter
 
             super.setCommonValues(val, c);
 
-
             val.setAmount(c.getFloat(c.getColumnIndex("amount")));
             val.setAppliesToDate(simpleDateFormat.parse(c.getString(c.getColumnIndex("appliesToDate"))));
 
