@@ -186,7 +186,7 @@ public class DoableItemValueTableAdapter
         String sql = "select vals.appliesToDate, vals.appliesToTime, "
                 + " vals.id as _id, vals.id, vals.description, "
                 + " vals.fromTime, vals.toTime, vals.amount, "
-                + " vals.teaspoons, '" + item.getUnitType().toString() + "' unitType, "
+                + " vals.teaspoons, potency, '" + item.getUnitType().toString() + "' unitType, "
 
                 + " coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
 

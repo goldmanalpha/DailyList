@@ -94,6 +94,7 @@ public class SingleItemHistoryActivity extends Activity {
         String[] from = new String[]{
                 DoableItemValueTableAdapter.ColAmount,
                 DoableItemValueTableAdapter.ColTeaspoons,
+                DoableItemValueTableAdapter.ColPotency,
                 DoableItemValueTableAdapter.ColDescription,
                 DoableItemValueTableAdapter.ColAppliesToDate,
                 DoableItemValueTableAdapter.ColAppliesToTime,
@@ -104,6 +105,7 @@ public class SingleItemHistoryActivity extends Activity {
         int[] to = new int[]{
                 R.id.single_history_item_value,
                 R.id.single_history_item_tsp,
+                R.id.single_history_item_potency,
                 R.id.single_history_item_description,
                 R.id.single_history_item_date,
                 R.id.single_history_item_applies_to_time,
@@ -111,6 +113,7 @@ public class SingleItemHistoryActivity extends Activity {
         };
 
         final int teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
+        final int potencyColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPotency);
 
         final int appliesToDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToDate);
         final int appliesToTimeColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToTime);
@@ -246,6 +249,19 @@ public class SingleItemHistoryActivity extends Activity {
                                 tv.setText("");
                             } else {
                                 tv.setText(cursorHelper.getTeaspoons(cursor));
+                            }
+
+                            return true;
+
+                        }
+
+                        if (columnIndex == potencyColIdx) {
+                            TextView tv = ((TextView) view);
+
+                            if (!cursorHelper.isDrops(cursor)) {
+                                tv.setText("");
+                            } else {
+                                tv.setText("p" + Integer.toString(cursor.getInt(potencyColIdx)));
                             }
 
                             return true;

@@ -36,6 +36,12 @@
 
         <TextView
                 style="@style/BigText"
+                android:id="@+id/single_history_item_potency"
+                android:layout_marginLeft="15dp"
+                />
+
+        <TextView
+                style="@style/BigText"
                 android:id="@+id/single_history_item_applies_to_time"
                 android:layout_marginLeft="15dp"
                 />
