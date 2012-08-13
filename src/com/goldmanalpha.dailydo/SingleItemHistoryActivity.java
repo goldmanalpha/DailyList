@@ -61,7 +61,7 @@ public class SingleItemHistoryActivity extends Activity {
                 
                 Intent intent = new Intent(SingleItemHistoryActivity.this, MainActivity.class);
 
-                cachedCursor.moveToPosition(i);
+                SetCursor(view, cachedCursor);
 
                 try {
                     Date appliesToDate = doableItemValueTableAdapter.getAppliesToDate(cachedCursor);
