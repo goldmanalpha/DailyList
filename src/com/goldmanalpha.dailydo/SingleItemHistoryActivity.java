@@ -326,9 +326,16 @@ public class SingleItemHistoryActivity extends Activity {
         startActivity(intent);
     }
 
+    private void SetCursor(View view, Cursor c)
+    {
+        c.moveToPosition(mainList.getPositionForView(view));
+    }
+
     public void single_history_item_description_click(View v)
     {
         Intent intent = new Intent(this, EditDescriptionActivity.class);
+
+        SetCursor(v, cachedCursor);
         intent.putExtra(EditDescriptionActivity.ExtraValueId,
                 cursorHelper.getValueId(cachedCursor));
         startActivity(intent);
