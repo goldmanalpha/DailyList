@@ -13,7 +13,9 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2228550d-88ca-42eb-90a8-f743cbe2b892" name="Default" comment="" />
+    <list default="true" id="2228550d-88ca-42eb-90a8-f743cbe2b892" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="Hello.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -82,8 +84,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -115,7 +117,7 @@
           <file leaf-file-name="DoableItemValueTableAdapter.java" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemValueTableAdapter.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="188" column="44" selection-start="6374" selection-end="6374" vertical-scroll-proportion="0.261851">
+                <state line="188" column="44" selection-start="6374" selection-end="6374" vertical-scroll-proportion="0.03024911">
                   <folding />
                 </state>
               </provider>
@@ -137,13 +139,8 @@
           <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/MainActivity.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="1339" column="0" selection-start="48927" selection-end="48927" vertical-scroll-proportion="-5.5384617">
-                  <folding>
-                    <element signature="e#19963#31199#0" expanded="true" />
-                    <element signature="e#31180#31181#0" expanded="true" />
-                    <element signature="e#31252#31762#0" expanded="true" />
-                    <element signature="e#31751#31752#0" expanded="true" />
-                  </folding>
+                <state line="1339" column="0" selection-start="48927" selection-end="48927" vertical-scroll-proportion="0.0">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -160,7 +157,7 @@
           <file leaf-file-name="SingleItemHistoryActivity.java" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/SingleItemHistoryActivity.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="263" column="49" selection-start="11367" selection-end="11367" vertical-scroll-proportion="0.35764706">
+                <state line="263" column="49" selection-start="11367" selection-end="11367" vertical-scroll-proportion="0.032818533">
                   <folding />
                 </state>
               </provider>
@@ -308,29 +305,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Tests" />
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-        <subPane subId="All">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Hello">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -415,6 +389,29 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Tests" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="All">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Hello">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -432,9 +429,9 @@
     <property name="AndroidTargetDevices" value="emulator-5556" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Android Application.Hello">
     <configuration default="false" name="testCanSetDateCreated()" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true">
@@ -579,24 +576,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -622,6 +601,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -732,13 +729,13 @@
       <method />
     </configuration>
     <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="Android Application.Hello" />
-      <item index="1" class="java.lang.String" itemvalue="Android Tests.Tests" />
-      <item index="2" class="java.lang.String" itemvalue="Android Tests.testCanSetDateCreated()" />
-      <item index="3" class="java.lang.String" itemvalue="Android Tests.testTimeConvertsToInt()" />
-      <item index="4" class="java.lang.String" itemvalue="Android Tests.TableAdapterBaseTest" />
-      <item index="5" class="java.lang.String" itemvalue="Android Tests.DoableBaseTest" />
-      <item index="6" class="java.lang.String" itemvalue="Android Tests.testTotalHours()" />
+      <item index="0" class="java.lang.String" itemvalue="Android Tests.testCanSetDateCreated()" />
+      <item index="1" class="java.lang.String" itemvalue="Android Tests.testTimeConvertsToInt()" />
+      <item index="2" class="java.lang.String" itemvalue="Android Tests.TableAdapterBaseTest" />
+      <item index="3" class="java.lang.String" itemvalue="Android Tests.DoableBaseTest" />
+      <item index="4" class="java.lang.String" itemvalue="Android Tests.testTotalHours()" />
+      <item index="5" class="java.lang.String" itemvalue="Android Application.Hello" />
+      <item index="6" class="java.lang.String" itemvalue="Android Tests.Tests" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -795,28 +792,28 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="7" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23842065" sideWeight="0.6928" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.060897436" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24981017" sideWeight="0.736" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32692307" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17669459" sideWeight="0.2447665" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22435898" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19070514" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19070514" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901752" sideWeight="0.900161" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39939255" sideWeight="0.736" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19362187" sideWeight="0.85096157" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14903846" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19362187" sideWeight="0.85096157" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14903846" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23842065" sideWeight="0.6928" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.060897436" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22435898" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Android Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24905087" sideWeight="0.66022545" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -882,30 +879,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SQL Queries/All.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DatabaseRoot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="22" selection-start="182" selection-end="182" vertical-scroll-proportion="0.15111111">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DailyDoDatabaseHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="50" selection-start="436" selection-end="436" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemValueTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="50" selection-start="2188" selection-end="2195" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -917,44 +893,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="8" selection-start="1315" selection-end="1315" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="20" selection-start="2589" selection-end="2589" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/androidutility/DayOnlyDate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="43" selection-start="159" selection-end="159" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/androidutility/PickOneList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="63" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/androidutility/EnumHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="22" selection-start="513" selection-end="741" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableAdapterBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="16" selection-start="1435" selection-end="1435" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -966,15 +907,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemValueTableAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="188" column="44" selection-start="6374" selection-end="6374" vertical-scroll-proportion="0.03024911">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/TableAdapterBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="16" selection-start="1435" selection-end="1435" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1339" column="0" selection-start="48927" selection-end="48927" vertical-scroll-proportion="-5.5384617">
-          <folding>
-            <element signature="e#19963#31199#0" expanded="true" />
-            <element signature="e#31180#31181#0" expanded="true" />
-            <element signature="e#31252#31762#0" expanded="true" />
-            <element signature="e#31751#31752#0" expanded="true" />
-          </folding>
+        <state line="1339" column="0" selection-start="48927" selection-end="48927" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -985,16 +935,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemValueTableAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/SingleItemHistoryActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="44" selection-start="6374" selection-end="6374" vertical-scroll-proportion="0.261851">
+        <state line="263" column="49" selection-start="11367" selection-end="11367" vertical-scroll-proportion="0.032818533">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/SingleItemHistoryActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/androidutility/EnumHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="263" column="49" selection-start="11367" selection-end="11367" vertical-scroll-proportion="0.35764706">
+        <state line="29" column="22" selection-start="513" selection-end="741" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/androidutility/PickOneList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="63" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha/dailydo/model/DoableValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="20" selection-start="2589" selection-end="2589" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemValueTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="50" selection-start="2188" selection-end="2195" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DailyDoDatabaseHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="50" selection-start="436" selection-end="436" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/goldmanalpha.dailydo/AddItemActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="142" column="0" selection-start="4585" selection-end="4585" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/com/goldmanalpha/dailydo/db/DoableItemTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="8" selection-start="1315" selection-end="1315" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>

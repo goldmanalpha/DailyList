@@ -1,6 +1,7 @@
 # Android Ignore Files
 ###########################################
 
+workspace.xml
 *.unaligned
 *.dex
 *.class
