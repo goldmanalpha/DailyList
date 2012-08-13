@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.*;
@@ -82,6 +84,37 @@ public class SingleItemHistoryActivity extends Activity {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        android.view.MenuItem  item = menu.add(0, MenuItems.ToggleLongDescription, 0, "Long Description");
+        item.setCheckable(true);
+        return true;
+    }
+
+    static final class MenuItems {
+        public static final int ToggleLongDescription = 0;
+    }
+
+    boolean showLongDescription;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case MenuItems.ToggleLongDescription:
+
+                item.setChecked(!item.isChecked());
+
+                showLongDescription = item.isChecked();
+
+                SetupList(this.itemId);
+
+                break;
+        }
+
+        return true;
+    }
+
     private void SetupList(Integer itemId) {
 
 
@@ -149,8 +182,14 @@ public class SingleItemHistoryActivity extends Activity {
                             }
                             else
                             {
+                                if (!showLongDescription)
+                                {
+                                    tv.setSingleLine();
+                                }
+
                                 tv.setText(description);
                             }
+
                         }
                         
                         if (columnIndex == appliesToDateColIdx) {
@@ -273,7 +312,10 @@ public class SingleItemHistoryActivity extends Activity {
                 }
         );
 
-        //todo:  on long click, open the date in the main viewer
+
+
+
+
 
     }
 
@@ -287,7 +329,8 @@ public class SingleItemHistoryActivity extends Activity {
     public void single_history_item_description_click(View v)
     {
         Intent intent = new Intent(this, EditDescriptionActivity.class);
-        intent.putExtra(EditDescriptionActivity.ExtraValueId, cursorHelper.getValueId(cachedCursor));
+        intent.putExtra(EditDescriptionActivity.ExtraValueId,
+                cursorHelper.getValueId(cachedCursor));
         startActivity(intent);
     }
 }
