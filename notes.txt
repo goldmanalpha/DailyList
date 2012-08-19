@@ -1,3 +1,14 @@
+To open recalcitrant backup:
+1. dump to sql. in cmd window:
+    $echo .dump | sqlite3.exe bkupFile.db > backupAsSQL.sql
+2. create db from sql. in cmd window:
+    sqlite3 -init sqlFile.sql outputDBNewName.db
+3. Set the db version.  Need to check the db version in DailyDoDatabaseHelper.java for the backup date.
+   In sqlite3 (replace 15 with the needed version):
+    pragma user_version 15;
+4. copy db to device and restore from it.
+
+
 history:
     support always show time in history query, items, etc.
 
