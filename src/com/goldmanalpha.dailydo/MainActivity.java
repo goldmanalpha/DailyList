@@ -1130,6 +1130,9 @@ public class MainActivity extends Activity {
                                         }
 
                                         if (canContinue) {
+
+                                            DatabaseRoot.close();
+
                                             f.delete();
 
                                             SharedPreferences preferences =
