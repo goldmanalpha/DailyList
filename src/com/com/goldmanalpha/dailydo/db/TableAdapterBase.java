@@ -87,19 +87,13 @@ public abstract class TableAdapterBase<T extends DoableBase>
         return cursor;
     }
 
-    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    protected String DateToTimeStamp(Date d) {
-        return simpleDateFormat.format(d);
-    }
-
     public Date TimeStampToDate(String timestamp) throws ParseException {
         return simpleDateFormat.parse(timestamp);
     }
 
     public Integer TimeToInt(Time t) {
         if (t == null) {
-            //null time is only for defaults
+            //null time getHasValue only for defaults
             Date now = new Date();
             t = new Time(now.getHours(), 0, 0);
         }

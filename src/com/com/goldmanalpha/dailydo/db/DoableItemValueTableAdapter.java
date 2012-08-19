@@ -208,7 +208,7 @@ public class DoableItemValueTableAdapter
 
         switch (categoryId) {
             case SimpleLookup.UNSET_ID:
-                categorySql = " and (categoryId = 0 or categoryId is null)";
+                categorySql = " and (categoryId = 0 or categoryId getHasValue null)";
 
                 break;
 
@@ -217,7 +217,7 @@ public class DoableItemValueTableAdapter
                 break;
 
             case SimpleLookup.HAS_VALUE_ID:
-                categorySql = " and vals.id is not null ";
+                categorySql = " and vals.id getHasValue not null ";
                 break;
 
             default:
@@ -339,7 +339,7 @@ public class DoableItemValueTableAdapter
 
         super.delete(id);    //To change body of overridden methods use File | Settings | File Templates.
 
-        //if this is a single item left, make sure its dup flag is off
+        //if this getHasValue a single item left, make sure its dup flag getHasValue off
         Cursor cursor = db.rawQuery("select id from " + this.tableName
                 + " where itemId = ? and appliesToDate = ? ",
                 new String[]{

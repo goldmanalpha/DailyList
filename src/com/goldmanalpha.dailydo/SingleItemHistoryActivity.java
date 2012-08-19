@@ -89,6 +89,8 @@ public class SingleItemHistoryActivity extends Activity {
 
         android.view.MenuItem  item = menu.add(0, MenuItems.ToggleLongDescription, 0, "Long Description");
         item.setCheckable(true);
+        item.setChecked(ConfigAdapter.Config.getBool("ShowLongDescription", showLongDescription));
+
         return true;
     }
 
@@ -96,16 +98,17 @@ public class SingleItemHistoryActivity extends Activity {
         public static final int ToggleLongDescription = 0;
     }
 
-    boolean showLongDescription;
+    boolean showLongDescription = ConfigAdapter.Config.saveBool("ShowLongDescription", true);
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
             case MenuItems.ToggleLongDescription:
 
-                item.setChecked(!item.isChecked());
+                showLongDescription = !item.isChecked();
 
-                showLongDescription = item.isChecked();
+                item.setChecked(showLongDescription);
+                ConfigAdapter.Config.saveBool("ShowLongDescription", showLongDescription);
 
                 SetupList(this.itemId);
 
@@ -182,11 +185,7 @@ public class SingleItemHistoryActivity extends Activity {
                             }
                             else
                             {
-                                if (!showLongDescription)
-                                {
-                                    tv.setSingleLine();
-                                }
-
+                                tv.setSingleLine(!showLongDescription);
                                 tv.setText(description);
                             }
 
