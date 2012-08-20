@@ -2,6 +2,7 @@ package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,6 +30,7 @@ public class SingleItemHistoryActivity extends Activity {
     DoableItemValueTableAdapter doableItemValueTableAdapter;
     Cursor cachedCursor;
     int itemId;
+    SharedPreferences preferences;
 
     DoableValueCursorHelper cursorHelper;
     public static String ExtraValueItemId = "itemId";
@@ -36,10 +38,14 @@ public class SingleItemHistoryActivity extends Activity {
 
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d");
+    private static final String ShowLongDescriptionKey = "SingleItemHistoryShowLongDescription";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferences = getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
+        this.showLongDescription = preferences.getBoolean(ShowLongDescriptionKey, true);
 
         Intent intent = getIntent();
 
@@ -89,7 +95,7 @@ public class SingleItemHistoryActivity extends Activity {
 
         android.view.MenuItem  item = menu.add(0, MenuItems.ToggleLongDescription, 0, "Long Description");
         item.setCheckable(true);
-        item.setChecked(ConfigAdapter.Config.getBool("ShowLongDescription", showLongDescription));
+        item.setChecked(showLongDescription);
 
         return true;
     }
@@ -98,17 +104,16 @@ public class SingleItemHistoryActivity extends Activity {
         public static final int ToggleLongDescription = 0;
     }
 
-    boolean showLongDescription = ConfigAdapter.Config.saveBool("ShowLongDescription", true);
+    boolean showLongDescription;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
             case MenuItems.ToggleLongDescription:
-
                 showLongDescription = !item.isChecked();
 
                 item.setChecked(showLongDescription);
-                ConfigAdapter.Config.saveBool("ShowLongDescription", showLongDescription);
+                preferences.edit().putBoolean(ShowLongDescriptionKey, showLongDescription).commit();
 
                 SetupList(this.itemId);
 
