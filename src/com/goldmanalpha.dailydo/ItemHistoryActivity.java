@@ -52,7 +52,7 @@ public class ItemHistoryActivity extends Activity {
         Intent intent = getIntent();
 
 
-        multiMode= intent.getBooleanExtra(ExtraValueIsMultiMode, false);
+        multiMode = intent.getBooleanExtra(ExtraValueIsMultiMode, false);
 
         itemId = intent.getIntExtra(ExtraValueItemId, 0);
         String itemName = intent.getStringExtra(ExtraValueItemName);
@@ -64,12 +64,12 @@ public class ItemHistoryActivity extends Activity {
 
         mainList = (ListView) findViewById(R.id.single_history_list);
         SetupList(itemId);
-        
+
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //To change body of implemented methods use File | Settings | File Templates.
-                
+
                 Intent intent = new Intent(ItemHistoryActivity.this, MainActivity.class);
 
                 SetCursor(view, cachedCursor);
@@ -81,10 +81,10 @@ public class ItemHistoryActivity extends Activity {
                     DoableItem item = new DoableItemTableAdapter().get(itemId);
 
                     intent.putExtra(MainActivity.ExtraValueCategoryId, item.getCategoryId());
-                    
+
                     startActivity(intent);
                     finish();
-                            
+
                 } catch (ParseException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     Toast.makeText(ItemHistoryActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG)
@@ -98,9 +98,14 @@ public class ItemHistoryActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        android.view.MenuItem  item = menu.add(0, MenuItems.ToggleLongDescription, 0, (showLongDescription ? "Short" : "Long") + " Description");
+        android.view.MenuItem item = menu.add(0, MenuItems.ToggleLongDescription, 0, (showLongDescription ? "Short" : "Long") + " Description");
         item.setCheckable(true);
         item.setChecked(showLongDescription);
+
+        if (multiMode)
+        {
+            menu.add(0, MenuItems.ToggleLongDescription, 0, "Filter (coming soon)");
+        }
 
         return true;
     }
@@ -110,10 +115,10 @@ public class ItemHistoryActivity extends Activity {
     }
 
     boolean showLongDescription;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case MenuItems.ToggleLongDescription:
                 showLongDescription = !item.isChecked();
 
@@ -130,6 +135,8 @@ public class ItemHistoryActivity extends Activity {
     }
 
     Date lastDate;
+    int originalDateHeight = 24;
+
     private void SetupList(Integer itemId) {
 
 
@@ -189,30 +196,25 @@ public class ItemHistoryActivity extends Activity {
                 new SimpleCursorAdapter.ViewBinder() {
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
-                        if (columnIndex == itemNameColIdx)
-                        {
+                        if (columnIndex == itemNameColIdx) {
                             TextView tv = (TextView) view;
                             tv.setText(multiMode ? cursor.getString(columnIndex) : "");
                         }
 
-                        if (columnIndex == descriptionColumnIndex)
-                        {
+                        if (columnIndex == descriptionColumnIndex) {
                             TextView tv = (TextView) view;
 
                             String description = cursor.getString(columnIndex);
-                            
-                            if (description == null || description.trim() == "")
-                            {
-                                 tv.setHeight(0);
-                            }
-                            else
-                            {
+
+                            if (description == null || description.trim() == "") {
+                                tv.setHeight(0);
+                            } else {
                                 tv.setSingleLine(!showLongDescription);
                                 tv.setText(description);
                             }
 
                         }
-                        
+
                         if (columnIndex == appliesToDateColIdx) {
                             TextView tv = (TextView) view;
 
@@ -223,30 +225,24 @@ public class ItemHistoryActivity extends Activity {
 
                                 tv.setText(dateFormat.format(d));
 
-                                if (multiMode)
-                                {
-                                    if (tv.getId() == R.id.single_history_item_date )
-                                    {
+                                if (multiMode) {
+                                    if (tv.getId() == R.id.single_history_item_date) {
                                         tv.setText("");
                                         tv.setWidth(0);
-
                                     }
 
-                                    if (tv.getId() == R.id.single_history_item_group_date )
-                                    {
-                                    if (d.equals(lastDate))
-                                    {
-                                        tv.setText("");
-                                        tv.setHeight(0);
-                                    }
+                                    if (tv.getId() == R.id.single_history_item_group_date) {
+                                        if (d.equals(lastDate)) {
+                                            tv.setText("");
+                                            tv.setHeight(0);
+                                        } else {
+                                            tv.setHeight(originalDateHeight);
+                                        }
 
-                                    lastDate = d;
+                                        lastDate = d;
                                     }
-                                }
-                                else
-                                {
-                                    if (tv.getId() == R.id.single_history_item_group_date)
-                                    {
+                                } else {
+                                    if (tv.getId() == R.id.single_history_item_group_date) {
                                         tv.setText("");
                                         tv.setHeight(0);
                                     }
@@ -366,10 +362,6 @@ public class ItemHistoryActivity extends Activity {
         );
 
 
-
-
-
-
     }
 
 
@@ -379,13 +371,11 @@ public class ItemHistoryActivity extends Activity {
         startActivity(intent);
     }
 
-    private void SetCursor(View view, Cursor c)
-    {
+    private void SetCursor(View view, Cursor c) {
         c.moveToPosition(mainList.getPositionForView(view));
     }
 
-    public void single_history_item_description_click(View v)
-    {
+    public void single_history_item_description_click(View v) {
         Intent intent = new Intent(this, EditDescriptionActivity.class);
 
         SetCursor(v, cachedCursor);

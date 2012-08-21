@@ -9,7 +9,10 @@
     <TextView
             style="@style/BigText"
             android:id="@+id/single_history_item_group_date"
-            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+
             />
 
 
