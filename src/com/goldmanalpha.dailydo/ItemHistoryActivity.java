@@ -129,6 +129,7 @@ public class ItemHistoryActivity extends Activity {
         return true;
     }
 
+    Date lastDate;
     private void SetupList(Integer itemId) {
 
 
@@ -144,9 +145,11 @@ public class ItemHistoryActivity extends Activity {
                 DoableItemValueTableAdapter.ColPotency,
                 DoableItemValueTableAdapter.ColDescription,
                 DoableItemValueTableAdapter.ColAppliesToDate,
+                DoableItemValueTableAdapter.ColAppliesToDate,
                 DoableItemValueTableAdapter.ColAppliesToTime,
                 DoableItemValueTableAdapter.ColFromTime,
                 DoableItemValueTableAdapter.ColItemName
+
         };
 
         int[] to = new int[]{
@@ -155,6 +158,7 @@ public class ItemHistoryActivity extends Activity {
                 R.id.single_history_item_potency,
                 R.id.single_history_item_description,
                 R.id.single_history_item_date,
+                R.id.single_history_item_group_date,
                 R.id.single_history_item_applies_to_time,
                 R.id.single_history_item_time_value,
                 R.id.single_history_item_name
@@ -216,7 +220,39 @@ public class ItemHistoryActivity extends Activity {
 
                             try {
                                 Date d = doableItemValueTableAdapter.TimeStampToDate(appliesToDate);
+
                                 tv.setText(dateFormat.format(d));
+
+                                if (multiMode)
+                                {
+                                    if (tv.getId() == R.id.single_history_item_date )
+                                    {
+                                        tv.setText("");
+                                        tv.setWidth(0);
+
+                                    }
+
+                                    if (tv.getId() == R.id.single_history_item_group_date )
+                                    {
+                                    if (d.equals(lastDate))
+                                    {
+                                        tv.setText("");
+                                        tv.setHeight(0);
+                                    }
+
+                                    lastDate = d;
+                                    }
+                                }
+                                else
+                                {
+                                    if (tv.getId() == R.id.single_history_item_group_date)
+                                    {
+                                        tv.setText("");
+                                        tv.setHeight(0);
+                                    }
+                                }
+
+
                             } catch (ParseException e) {
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                 tv.setText("ERR: " + e.getMessage());

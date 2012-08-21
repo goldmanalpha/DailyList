@@ -198,7 +198,7 @@ public class DoableItemValueTableAdapter
                 + " where "
                 + (itemId == 0 ? "" : " itemId = ? ")
                 + (itemId == 0 ? " appliesToDate > ? " : "")
-                + " order by appliesToDate desc, appliesToTime desc";
+                + " order by appliesToDate desc, appliesToTime desc, i.id desc";
 
 
         Calendar cal = Calendar.getInstance();

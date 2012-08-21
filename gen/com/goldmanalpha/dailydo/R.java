@@ -50,14 +50,15 @@ public final class R {
         public static final int okButton=0x7f050006;
         public static final int plus=0x7f050025;
         public static final int prevDate=0x7f05000c;
-        public static final int single_history_item_applies_to_time=0x7f05002e;
-        public static final int single_history_item_date=0x7f050029;
-        public static final int single_history_item_description=0x7f050030;
-        public static final int single_history_item_name=0x7f05002f;
-        public static final int single_history_item_potency=0x7f05002d;
-        public static final int single_history_item_time_value=0x7f05002b;
-        public static final int single_history_item_tsp=0x7f05002c;
-        public static final int single_history_item_value=0x7f05002a;
+        public static final int single_history_item_applies_to_time=0x7f05002f;
+        public static final int single_history_item_date=0x7f05002a;
+        public static final int single_history_item_description=0x7f050031;
+        public static final int single_history_item_group_date=0x7f050029;
+        public static final int single_history_item_name=0x7f050030;
+        public static final int single_history_item_potency=0x7f05002e;
+        public static final int single_history_item_time_value=0x7f05002c;
+        public static final int single_history_item_tsp=0x7f05002d;
+        public static final int single_history_item_value=0x7f05002b;
         public static final int single_history_list=0x7f050028;
         public static final int single_history_name=0x7f050027;
     }

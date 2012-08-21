@@ -5,6 +5,14 @@
               android:layout_height="wrap_content"
               android:orientation="vertical"
         >
+
+    <TextView
+            style="@style/BigText"
+            android:id="@+id/single_history_item_group_date"
+            android:gravity="center_horizontal"
+            />
+
+
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"
@@ -13,19 +21,19 @@
         <TextView
                 style="@style/BigText"
                 android:id="@+id/single_history_item_date"
-                android:width="90dp"
+                android:width="80dp"
                 />
 
         <TextView
                 style="@style/BigText"
                 android:id="@+id/single_history_item_value"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 />
 
         <TextView
                 style="@style/BigText"
                 android:id="@+id/single_history_item_time_value"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 />
 
         <TextView
