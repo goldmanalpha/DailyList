@@ -7,6 +7,7 @@ import com.goldmanalpha.dailydo.model.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -123,6 +124,7 @@ public class DoableItemValueTableAdapter
     public static final String ColDateModified = "dateModified";
 
     public static final String ColFromTime = "fromTime";
+
     public static final String ColLastFromTime = "lastFromTime";
 
     public static final String ColToTime = "toTime";
@@ -179,24 +181,34 @@ public class DoableItemValueTableAdapter
     public Cursor getItems(Integer itemId) {
 
         DoableItemTableAdapter t = new DoableItemTableAdapter();
-        DoableItem item =  t.get(itemId);
 
         //todo: add always show the the params here...
 
         String sql = "select vals.appliesToDate, vals.appliesToTime, "
                 + " vals.id as _id, vals.id, vals.description, "
                 + " vals.fromTime, vals.toTime, vals.amount, "
-                + " vals.teaspoons, potency, '" + item.getUnitType().toString() + "' unitType, "
+                + " vals.teaspoons, potency, i.unitType, "
 
                 + " coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
 
-                + " vals.dateCreated, vals.dateModified from "
-                + this.tableName + " vals "
+                + " vals.dateCreated, vals.dateModified, i.name items_name from "
+                + this.tableName + " vals join DoableItem i "
+                + " on vals.itemId = i.id "
 
-                + " where itemId = ?"
+                + " where "
+                + (itemId == 0 ? "" : " itemId = ? ")
+                + (itemId == 0 ? " appliesToDate > ? " : "")
                 + " order by appliesToDate desc, appliesToTime desc";
 
-        return db.rawQuery(sql, new String[]{Integer.toString(itemId)});
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -32);
+        String timeStamp = super.DateToTimeStamp(cal.getTime());
+
+        String[] params = itemId == 0 ?
+                new String[]{timeStamp} : new String[]{Integer.toString(itemId)};
+
+        return db.rawQuery(sql, params);
     }
 
     //returns a cursor of doable items:

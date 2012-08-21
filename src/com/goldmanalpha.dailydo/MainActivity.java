@@ -17,7 +17,6 @@ import com.goldmanalpha.dailydo.model.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Array;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -85,9 +84,12 @@ public class MainActivity extends Activity {
 
         public static final int DeleteItem = 8;
 
-        public static final int ItemHistory = 9;
+        public static final int SingleItemHistory = 9;
+        public static final int MultiItemHistory = 10;
 
-        public static final int RestoreFromBackup = 10;
+        public static final int RestoreFromBackup = 11;
+
+
     }
 
     MenuItem PublicPrivateMenuItem;
@@ -106,11 +108,13 @@ public class MainActivity extends Activity {
 
         menu.add(0, MenuItems.Quit, 0, "Quit");
 
-        menu.add(1, MenuItems.BackupFolder, 0, "Backup Folder");
+        menu.add(1, MenuItems.MultiItemHistory, 0, "History");
 
         menu.add(1, MenuItems.Backup, 0, "Backup");
 
-        menu.add(1, MenuItems.RestoreFromBackup, 0, "RestoreDB");
+        menu.add(1, MenuItems.BackupFolder, 0, "Backup Folder");
+
+        menu.add(1, MenuItems.RestoreFromBackup, 0, "Restore DB");
 
         //menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
 
@@ -132,7 +136,7 @@ public class MainActivity extends Activity {
 
             menu.setHeaderTitle(name);
 
-            menu.add(Menu.NONE, MenuItems.ItemHistory, 0, "Item History");
+            menu.add(Menu.NONE, MenuItems.SingleItemHistory, 0, "Item History");
             menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
             menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
 
@@ -222,12 +226,12 @@ public class MainActivity extends Activity {
 
                 break;
 
-            case MenuItems.ItemHistory:
+            case MenuItems.SingleItemHistory:
 
-                Intent intent = new Intent(this, SingleItemHistoryActivity.class);
+                Intent intent = new Intent(this, ItemHistoryActivity.class);
 
-                intent.putExtra(SingleItemHistoryActivity.ExtraValueItemName, name);
-                intent.putExtra(SingleItemHistoryActivity.ExtraValueItemId, ids.ItemId);
+                intent.putExtra(ItemHistoryActivity.ExtraValueItemName, name);
+                intent.putExtra(ItemHistoryActivity.ExtraValueItemId, ids.ItemId);
 
                 startActivity(intent);
 
@@ -323,6 +327,16 @@ public class MainActivity extends Activity {
             case (MenuItems.AddItem):
                 cachedCursor.close();
                 startActivity(new Intent(this, AddItemActivity.class));
+                break;
+
+            case MenuItems.MultiItemHistory:
+
+                Intent intent = new Intent(this, ItemHistoryActivity.class);
+
+                intent.putExtra(ItemHistoryActivity.ExtraValueIsMultiMode, true);
+
+                startActivity(intent);
+
                 break;
 
             case (MenuItems.RestoreFromBackup):

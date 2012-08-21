@@ -24,17 +24,19 @@ import java.util.Date;
  * Time: 5:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SingleItemHistoryActivity extends Activity {
+public class ItemHistoryActivity extends Activity {
 
     ListView mainList;
     DoableItemValueTableAdapter doableItemValueTableAdapter;
     Cursor cachedCursor;
     int itemId;
     SharedPreferences preferences;
+    Boolean multiMode;
 
     DoableValueCursorHelper cursorHelper;
     public static String ExtraValueItemId = "itemId";
     public static String ExtraValueItemName = "itemName";
+    public static String ExtraValueIsMultiMode = "Mode";
 
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d");
@@ -49,13 +51,16 @@ public class SingleItemHistoryActivity extends Activity {
 
         Intent intent = getIntent();
 
+
+        multiMode= intent.getBooleanExtra(ExtraValueIsMultiMode, false);
+
         itemId = intent.getIntExtra(ExtraValueItemId, 0);
         String itemName = intent.getStringExtra(ExtraValueItemName);
 
         setContentView(R.layout.single_history);
 
         TextView nameView = (TextView) findViewById(R.id.single_history_name);
-        nameView.setText(itemName);
+        nameView.setText(this.multiMode ? "History" : itemName);
 
         mainList = (ListView) findViewById(R.id.single_history_list);
         SetupList(itemId);
@@ -65,7 +70,7 @@ public class SingleItemHistoryActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 
-                Intent intent = new Intent(SingleItemHistoryActivity.this, MainActivity.class);
+                Intent intent = new Intent(ItemHistoryActivity.this, MainActivity.class);
 
                 SetCursor(view, cachedCursor);
 
@@ -82,7 +87,7 @@ public class SingleItemHistoryActivity extends Activity {
                             
                 } catch (ParseException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    Toast.makeText(SingleItemHistoryActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG)
+                    Toast.makeText(ItemHistoryActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG)
                             .show();
                 }
             }
@@ -140,8 +145,8 @@ public class SingleItemHistoryActivity extends Activity {
                 DoableItemValueTableAdapter.ColDescription,
                 DoableItemValueTableAdapter.ColAppliesToDate,
                 DoableItemValueTableAdapter.ColAppliesToTime,
-                DoableItemValueTableAdapter.ColFromTime
-
+                DoableItemValueTableAdapter.ColFromTime,
+                DoableItemValueTableAdapter.ColItemName
         };
 
         int[] to = new int[]{
@@ -151,7 +156,8 @@ public class SingleItemHistoryActivity extends Activity {
                 R.id.single_history_item_description,
                 R.id.single_history_item_date,
                 R.id.single_history_item_applies_to_time,
-                R.id.single_history_item_time_value
+                R.id.single_history_item_time_value,
+                R.id.single_history_item_name
         };
 
         final int teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
@@ -168,7 +174,7 @@ public class SingleItemHistoryActivity extends Activity {
         final int itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
         final int descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
         final int createdDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDateCreated);
-
+        final int itemNameColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
 
         SimpleCursorAdapter listCursorAdapter = new SimpleCursorAdapter(mainList.getContext(),
                 R.layout.single_history_item, cachedCursor, from, to);
@@ -178,6 +184,12 @@ public class SingleItemHistoryActivity extends Activity {
         listCursorAdapter.setViewBinder(
                 new SimpleCursorAdapter.ViewBinder() {
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+
+                        if (columnIndex == itemNameColIdx)
+                        {
+                            TextView tv = (TextView) view;
+                            tv.setText(multiMode ? cursor.getString(columnIndex) : "");
+                        }
 
                         if (columnIndex == descriptionColumnIndex)
                         {
