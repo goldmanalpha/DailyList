@@ -93,7 +93,7 @@ public class SingleItemHistoryActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        android.view.MenuItem  item = menu.add(0, MenuItems.ToggleLongDescription, 0, "Long Description");
+        android.view.MenuItem  item = menu.add(0, MenuItems.ToggleLongDescription, 0, (showLongDescription ? "Short" : "Long") + " Description");
         item.setCheckable(true);
         item.setChecked(showLongDescription);
 
@@ -112,6 +112,7 @@ public class SingleItemHistoryActivity extends Activity {
             case MenuItems.ToggleLongDescription:
                 showLongDescription = !item.isChecked();
 
+                item.setTitle((showLongDescription ? "Short" : "Long") + " Description");
                 item.setChecked(showLongDescription);
                 preferences.edit().putBoolean(ShowLongDescriptionKey, showLongDescription).commit();
 
