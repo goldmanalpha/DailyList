@@ -185,10 +185,7 @@ public class DoableItemValueTableAdapter
         //todo: add always show the the params here...
         String categoryWhere = "";
 
-        if (itemId == 0 && limitToCategoryId > 0)
-        {
-            categoryWhere = " and i.CategoryId = ?";
-        }
+        String whereClauseToken = "{WhereClause}";
 
         String sql = "select vals.appliesToDate, vals.appliesToTime, "
                 + " vals.id as _id, vals.id, vals.description, "
@@ -200,38 +197,36 @@ public class DoableItemValueTableAdapter
                 + " vals.dateCreated, vals.dateModified, i.name items_name from "
                 + this.tableName + " vals join DoableItem i "
                 + " on vals.itemId = i.id "
-                + " where "
-                + (itemId == 0 ? "" : " itemId = ? ")
-                + (itemId == 0 ? " appliesToDate > ? " : "")
-                + categoryWhere
+                + " " + whereClauseToken
                 + " order by appliesToDate desc, appliesToTime desc, i.id desc";
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -32);
-        String timeStamp = super.DateToTimeStamp(cal.getTime());
-
-        boolean isAllItems = itemId == 0;
+        boolean isMultipleItems = itemId == 0;
         boolean isSingleCategory = limitToCategoryId > 0;
 
         String[] params;
+        String whereClause = "";
 
-        if (isAllItems)
-        {
-            if (isSingleCategory)
-            {
-                params = new String[]{Integer.toString(itemId), Integer.toString(limitToCategoryId)};
-            }
-            else
-            {
-                params = new String[]{Integer.toString(itemId)};
-            }
+        if (isMultipleItems) {
 
-        }
-        else
-        {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, -64);    //todo: allow scroll to add days past
+            String timeStamp = super.DateToTimeStamp(cal.getTime());
+
+            whereClause = " where appliesToDate > ? ";
+
+            if (isSingleCategory) {
+                whereClause = whereClause + " and i.CategoryId = ?";
+                params = new String[]{timeStamp, Integer.toString(limitToCategoryId)};
+            } else {
                 params = new String[]{timeStamp};
+            }
+
+        } else {
+            whereClause = " where itemId = ? ";
+            params = new String[]{Integer.toString(itemId)};
         }
 
+        sql = sql.replace(whereClauseToken, whereClause);
         return db.rawQuery(sql, params);
     }
 

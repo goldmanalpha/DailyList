@@ -109,9 +109,9 @@ public class MainActivity extends Activity {
 
         menu.add(0, MenuItems.Quit, 0, "Quit");
 
-        menu.add(1, MenuItems.AllItemHistory, 0, "History");
+        menu.add(1, MenuItems.AllItemHistory, 0, "Hstry");
 
-        menu.add(1, MenuItems.ThisCategoryItemHistory, 0, "Category History");
+        menu.add(1, MenuItems.ThisCategoryItemHistory, 0, "Cat Hstry");
 
         menu.add(1, MenuItems.Backup, 0, "Backup");
 
