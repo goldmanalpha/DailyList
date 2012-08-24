@@ -1,9 +1,7 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -20,7 +18,6 @@ import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.SimpleLookup;
 import com.goldmanalpha.dailydo.model.UnitType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddItemActivity extends Activity {
@@ -34,7 +31,7 @@ public class AddItemActivity extends Activity {
         doableItemTableAdapter = new DoableItemTableAdapter();
         doableItem = new DoableItem();
 
-        setContentView(R.layout.additem);
+        setContentView(R.layout.add_item);
         findFieldsInUi();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(

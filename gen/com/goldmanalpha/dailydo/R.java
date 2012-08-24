@@ -63,7 +63,7 @@ public final class R {
         public static final int single_history_name=0x7f050027;
     }
     public static final class layout {
-        public static final int additem=0x7f020000;
+        public static final int add_item =0x7f020000;
         public static final int edit_description=0x7f020001;
         public static final int edit_lookup=0x7f020002;
         public static final int main=0x7f020003;
