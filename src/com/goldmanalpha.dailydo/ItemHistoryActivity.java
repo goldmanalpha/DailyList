@@ -16,6 +16,9 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -187,6 +190,8 @@ public class ItemHistoryActivity extends Activity {
         final int createdDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDateCreated);
         final int itemNameColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
 
+        final Map<Date, Integer> valueIdForDateDisplay = new HashMap<Date, Integer>();
+
         SimpleCursorAdapter listCursorAdapter = new SimpleCursorAdapter(mainList.getContext(),
                 R.layout.single_history_item, cachedCursor, from, to);
 
@@ -232,11 +237,27 @@ public class ItemHistoryActivity extends Activity {
                                     }
 
                                     if (tv.getId() == R.id.single_history_item_group_date) {
-                                        if (d.equals(lastDate)) {
+
+                                        int currentValueId = cursor.getInt(valueIdColumnIndex);
+
+                                        boolean applyDateHeaderHere = false;
+
+                                        if (valueIdForDateDisplay.containsKey(d))
+                                        {
+                                            //if we know where to put the date, we'll use that to reapply:
+                                            applyDateHeaderHere = currentValueId == valueIdForDateDisplay.get(d);
+                                        }
+                                        else
+                                        {
+                                            applyDateHeaderHere = !d.equals(lastDate);
+                                        }
+
+                                        if (applyDateHeaderHere) {
+                                            tv.setHeight(originalDateHeight);
+                                            valueIdForDateDisplay.put(d, currentValueId);
+                                        } else {
                                             tv.setText("");
                                             tv.setHeight(0);
-                                        } else {
-                                            tv.setHeight(originalDateHeight);
                                         }
 
                                         lastDate = d;
