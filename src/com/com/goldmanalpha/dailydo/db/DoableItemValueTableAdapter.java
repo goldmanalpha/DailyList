@@ -178,11 +178,17 @@ public class DoableItemValueTableAdapter
         }
     }
 
-    public Cursor getItems(Integer itemId) {
+    public Cursor getItems(Integer itemId, int limitToCategoryId) {
 
         DoableItemTableAdapter t = new DoableItemTableAdapter();
 
         //todo: add always show the the params here...
+        String categoryWhere = "";
+
+        if (itemId == 0 && limitToCategoryId > 0)
+        {
+            categoryWhere = " and i.CategoryId = ?";
+        }
 
         String sql = "select vals.appliesToDate, vals.appliesToTime, "
                 + " vals.id as _id, vals.id, vals.description, "
@@ -194,19 +200,37 @@ public class DoableItemValueTableAdapter
                 + " vals.dateCreated, vals.dateModified, i.name items_name from "
                 + this.tableName + " vals join DoableItem i "
                 + " on vals.itemId = i.id "
-
                 + " where "
                 + (itemId == 0 ? "" : " itemId = ? ")
                 + (itemId == 0 ? " appliesToDate > ? " : "")
+                + categoryWhere
                 + " order by appliesToDate desc, appliesToTime desc, i.id desc";
-
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -32);
         String timeStamp = super.DateToTimeStamp(cal.getTime());
 
-        String[] params = itemId == 0 ?
-                new String[]{timeStamp} : new String[]{Integer.toString(itemId)};
+        boolean isAllItems = itemId == 0;
+        boolean isSingleCategory = limitToCategoryId > 0;
+
+        String[] params;
+
+        if (isAllItems)
+        {
+            if (isSingleCategory)
+            {
+                params = new String[]{Integer.toString(itemId), Integer.toString(limitToCategoryId)};
+            }
+            else
+            {
+                params = new String[]{Integer.toString(itemId)};
+            }
+
+        }
+        else
+        {
+                params = new String[]{timeStamp};
+        }
 
         return db.rawQuery(sql, params);
     }

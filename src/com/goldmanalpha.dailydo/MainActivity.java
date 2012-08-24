@@ -85,9 +85,10 @@ public class MainActivity extends Activity {
         public static final int DeleteItem = 8;
 
         public static final int SingleItemHistory = 9;
-        public static final int MultiItemHistory = 10;
+        public static final int AllItemHistory = 10;
+        public static final int ThisCategoryItemHistory = 11;
 
-        public static final int RestoreFromBackup = 11;
+        public static final int RestoreFromBackup = 12;
 
 
     }
@@ -101,16 +102,20 @@ public class MainActivity extends Activity {
 
         //group, item, order, title
 
-        menu.add(0, MenuItems.AddItem, 0, "Add Item");
+
 
         PublicPrivateMenuItem =
                 menu.add(0, MenuItems.PublicPrivateSwitch, 0, "Pub Only");
 
         menu.add(0, MenuItems.Quit, 0, "Quit");
 
-        menu.add(1, MenuItems.MultiItemHistory, 0, "History");
+        menu.add(1, MenuItems.AllItemHistory, 0, "History");
+
+        menu.add(1, MenuItems.ThisCategoryItemHistory, 0, "Category History");
 
         menu.add(1, MenuItems.Backup, 0, "Backup");
+
+        menu.add(0, MenuItems.AddItem, 0, "Add Item");
 
         menu.add(1, MenuItems.BackupFolder, 0, "Backup Folder");
 
@@ -281,6 +286,8 @@ public class MainActivity extends Activity {
 
         String path = "data/data/" + this.getPackageName() + "/databases/";
 
+        Intent intent;
+
         switch (item.getItemId()) {
             case MenuItems.PublicPrivateSwitch:
                 this.showPrivate = !this.showPrivate;
@@ -329,14 +336,17 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(this, AddItemActivity.class));
                 break;
 
-            case MenuItems.MultiItemHistory:
-
-                Intent intent = new Intent(this, ItemHistoryActivity.class);
-
+            case MenuItems.AllItemHistory:
+                intent = new Intent(this, ItemHistoryActivity.class);
                 intent.putExtra(ItemHistoryActivity.ExtraValueIsMultiMode, true);
-
                 startActivity(intent);
+                break;
 
+            case MenuItems.ThisCategoryItemHistory:
+                intent = new Intent(this, ItemHistoryActivity.class);
+                intent.putExtra(ItemHistoryActivity.ExtraValueIsMultiMode, true);
+                intent.putExtra(ItemHistoryActivity.ExtraValueLimitToCategoryId, selectedCategoryId);
+                startActivity(intent);
                 break;
 
             case (MenuItems.RestoreFromBackup):

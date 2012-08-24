@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.*;
 import com.com.goldmanalpha.dailydo.db.*;
 import com.goldmanalpha.dailydo.model.DoableItem;
+import com.goldmanalpha.dailydo.model.SimpleLookup;
 
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,11 +35,13 @@ public class ItemHistoryActivity extends Activity {
     int itemId;
     SharedPreferences preferences;
     Boolean multiMode;
+    int limitToCategoryId;
 
     DoableValueCursorHelper cursorHelper;
     public static String ExtraValueItemId = "itemId";
     public static String ExtraValueItemName = "itemName";
     public static String ExtraValueIsMultiMode = "Mode";
+    public static String ExtraValueLimitToCategoryId = "LimitToCategory";
 
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d");
@@ -56,6 +58,7 @@ public class ItemHistoryActivity extends Activity {
 
 
         multiMode = intent.getBooleanExtra(ExtraValueIsMultiMode, false);
+        limitToCategoryId = intent.getIntExtra(ExtraValueLimitToCategoryId, SimpleLookup.UNSET_ID);
 
         itemId = intent.getIntExtra(ExtraValueItemId, 0);
         String itemName = intent.getStringExtra(ExtraValueItemName);
@@ -66,7 +69,7 @@ public class ItemHistoryActivity extends Activity {
         nameView.setText(this.multiMode ? "History" : itemName);
 
         mainList = (ListView) findViewById(R.id.single_history_list);
-        SetupList(itemId);
+        SetupList(itemId, limitToCategoryId);
 
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,7 +132,7 @@ public class ItemHistoryActivity extends Activity {
                 item.setChecked(showLongDescription);
                 preferences.edit().putBoolean(ShowLongDescriptionKey, showLongDescription).commit();
 
-                SetupList(this.itemId);
+                SetupList(this.itemId, limitToCategoryId);
 
                 break;
         }
@@ -140,11 +143,11 @@ public class ItemHistoryActivity extends Activity {
     Date lastDate;
     int originalDateHeight = 24;
 
-    private void SetupList(Integer itemId) {
+    private void SetupList(Integer itemId, int limitToCategoryId) {
 
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
-        cachedCursor = doableItemValueTableAdapter.getItems(itemId);
+        cachedCursor = doableItemValueTableAdapter.getItems(itemId, limitToCategoryId);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
 
         startManagingCursor(cachedCursor);
