@@ -43,6 +43,10 @@ public class MainActivity extends Activity {
     public static String ExtraValueDateGetTimeLong = "dateToShow";
     public static String ExtraValueCategoryId = "categoryId";
 
+    public static String SelectedCategoryIdPrefKey = "selectedCategoryId";
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +62,15 @@ public class MainActivity extends Activity {
         Long dateLong = intent.getLongExtra(ExtraValueDateGetTimeLong, new DayOnlyDate().getTime());
         updateDisplayDate(new Date(dateLong));
 
-        if (savedInstanceState != null)
-            selectedCategoryId = savedInstanceState.getInt("selectedCategoryId", SimpleLookup.ALL_ID);
-
+        selectedCategoryId = Preferences().getInt(SelectedCategoryIdPrefKey, SimpleLookup.ALL_ID);
         selectedCategoryId = intent.getIntExtra(ExtraValueCategoryId, selectedCategoryId);
 
         setupCategories();
+    }
+
+    SharedPreferences Preferences()
+    {
+        return  getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
     }
 
 
@@ -438,7 +445,6 @@ public class MainActivity extends Activity {
 
         SimpleLookup[] lookupArray = new SimpleLookup[categories.size()];
 
-        //todo: save last category on close
         int selectedPosition = ArrayHelper.IndexOfP(
                 categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
             public boolean apply(SimpleLookup simpleLookup) {
@@ -457,6 +463,8 @@ public class MainActivity extends Activity {
 
                 selectedCategoryId =
                         ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
+
+                Preferences().edit().putInt(SelectedCategoryIdPrefKey, selectedCategoryId).commit();
 
                 MainActivity.this.SetupList2(mDisplayingDate);
             }
@@ -1108,9 +1116,7 @@ public class MainActivity extends Activity {
                     int lastPos = FilePath.length() - FileName.length();
                     String Folder = FilePath.substring(0, lastPos);
 
-                    SharedPreferences preferences =
-                            getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
-                    preferences.edit().putString("BackupFolder", Folder).commit();
+                    Preferences().edit().putString("BackupFolder", Folder).commit();
 
                     Toast.makeText(this, "Saved folder: " + Folder, Toast.LENGTH_LONG).show();
 
@@ -1159,10 +1165,7 @@ public class MainActivity extends Activity {
 
                                             f.delete();
 
-                                            SharedPreferences preferences =
-                                                    getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
-
-                                            String backupDir = preferences.getString("BackupFolder", localPath);
+                                            String backupDir = Preferences().getString("BackupFolder", localPath);
 
                                             FileHelper helper = new FileHelper();
 
