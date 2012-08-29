@@ -61,17 +61,20 @@ public final class R {
         public static final int single_history_item_value=0x7f05002b;
         public static final int single_history_list=0x7f050028;
         public static final int single_history_name=0x7f050027;
+        public static final int title_bar_text_view=0x7f050032;
     }
     public static final class layout {
         public static final int add_item=0x7f020000;
-        public static final int edit_description=0x7f020001;
-        public static final int edit_lookup=0x7f020002;
-        public static final int main=0x7f020003;
-        public static final int main_list=0x7f020004;
-        public static final int main_list_item=0x7f020005;
-        public static final int short_spinner_dropdown_item=0x7f020006;
-        public static final int single_history=0x7f020007;
-        public static final int single_history_item=0x7f020008;
+        public static final int category_group_edit=0x7f020001;
+        public static final int edit_description=0x7f020002;
+        public static final int edit_lookup=0x7f020003;
+        public static final int main=0x7f020004;
+        public static final int main_list=0x7f020005;
+        public static final int main_list_item=0x7f020006;
+        public static final int short_spinner_dropdown_item=0x7f020007;
+        public static final int single_history=0x7f020008;
+        public static final int single_history_item=0x7f020009;
+        public static final int title_bar=0x7f02000a;
     }
     public static final class string {
         public static final int app_name=0x7f030000;

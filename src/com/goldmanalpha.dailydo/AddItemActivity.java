@@ -20,7 +20,7 @@ import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.util.List;
 
-public class AddItemActivity extends Activity {
+public class AddItemActivity extends ActivityBase {
 
     DoableItem doableItem;
     DoableItemTableAdapter doableItemTableAdapter;

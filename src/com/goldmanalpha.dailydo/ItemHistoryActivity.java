@@ -27,7 +27,7 @@ import java.util.Map;
  * Time: 5:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ItemHistoryActivity extends Activity {
+public class ItemHistoryActivity extends ActivityBase {
 
     ListView mainList;
     DoableItemValueTableAdapter doableItemValueTableAdapter;

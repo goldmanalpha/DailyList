@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActivityBase {
 
     DoableValueCursorHelper cursorHelper;
     private TextView mDateDisplay;
@@ -38,6 +38,8 @@ public class MainActivity extends Activity {
     HashMap<Integer, AltFocus> usesAltFocusMap = new HashMap<Integer, AltFocus>();
 
     public MainActivity() {
+        this.isFirstInstance = !instanceCreated;
+        instanceCreated = true;
     }
 
     public static String ExtraValueDateGetTimeLong = "dateToShow";
@@ -45,6 +47,8 @@ public class MainActivity extends Activity {
 
     public static String SelectedCategoryIdPrefKey = "selectedCategoryId";
 
+    private boolean isFirstInstance;
+    private static boolean instanceCreated;
 
 
     @Override
@@ -68,9 +72,8 @@ public class MainActivity extends Activity {
         setupCategories();
     }
 
-    SharedPreferences Preferences()
-    {
-        return  getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
+    SharedPreferences Preferences() {
+        return getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
     }
 
 
@@ -107,8 +110,7 @@ public class MainActivity extends Activity {
 
         //Preferences
 
-        //group, item, order, title
-
+        //group, item, order, title_bar
 
 
         PublicPrivateMenuItem =
@@ -203,7 +205,7 @@ public class MainActivity extends Activity {
 
                 String description = cachedCursor.getString(descriptionColumnIndex);
 
-                if (description != null && (description).trim() != "") {
+                if (description != null && (description).trim().length() != 0) {
                     Toast.makeText(this, "Can't delete value with description -- delete description first.",
                             Toast.LENGTH_LONG).show();
 
@@ -411,7 +413,6 @@ public class MainActivity extends Activity {
         return true;
     }
 
-
     LookupTableAdapter categoryTableAdapter;
     int selectedCategoryId = SimpleLookup.ALL_ID;
     Spinner categoryField;
@@ -493,6 +494,8 @@ public class MainActivity extends Activity {
 
     public void SetupList2(Date date) {
 
+        setWindowState(date);
+
         cachedCursor.close();
         cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, selectedCategoryId);
         startManagingCursor(cachedCursor);
@@ -525,6 +528,7 @@ public class MainActivity extends Activity {
             return;
         }
 
+        setWindowState(date);
         setupDate = true;
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
@@ -807,12 +811,9 @@ public class MainActivity extends Activity {
                                 tv.setText("");
                                 returnValue = true;
                             } else {
-                                if (columnIndex == potencyColIdx && cursor.getInt(valueIdColumnIndex) == 0)
-                                {
+                                if (columnIndex == potencyColIdx && cursor.getInt(valueIdColumnIndex) == 0) {
                                     tv.setText("p" + cursor.getInt(lastPotencyColIdx));
-                                }
-                                else
-                                {
+                                } else {
                                     tv.setText("p" + cursor.getInt(columnIndex));
                                 }
 
@@ -996,18 +997,16 @@ public class MainActivity extends Activity {
 
     DoableValue potencyClickValue;
 
-    public void potency_click(View v)
-    {
+    public void potency_click(View v) {
         //setup the value, because the intent will close the cursor
         if ((potencyClickValue = GetValue(v)) == null) return;
 
-        if (potencyClickValue.getId() == 0)
-        {
+        if (potencyClickValue.getId() == 0) {
             Toast.makeText(this, "Set a value before changing potency", Toast.LENGTH_LONG).show();
             return;
         }
 
-       Intent intent = new Intent(this, PickOneList.class);
+        Intent intent = new Intent(this, PickOneList.class);
 
         intent.putExtra(PickOneList.Title, "Pick Log Value Vs. Usual Potency");
 
@@ -1016,8 +1015,8 @@ public class MainActivity extends Activity {
         //values from -1 to neg 30 should be sufficient:
         String[] potencies = new String[29];
 
-        for (int i = -1; i > -30 ; i--) {
-            potencies[Math.abs(i)-1] = String.valueOf(i);
+        for (int i = -1; i > -30; i--) {
+            potencies[Math.abs(i) - 1] = String.valueOf(i);
         }
 
         intent.putExtra(PickOneList.Choices, potencies);
@@ -1025,7 +1024,6 @@ public class MainActivity extends Activity {
         startActivityForResult(intent, IntentRequestCodes.PotencySelection);
 
     }
-
 
 
     DoableValue teaspoonsClickValue;
@@ -1054,7 +1052,7 @@ public class MainActivity extends Activity {
     private DoableValue GetValue(View v) {
         DoableValue retVal = null;
         try {
-            retVal  = doableItemValueTableAdapter
+            retVal = doableItemValueTableAdapter
                     .get(this.GetValueIds(v).ValueId);
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -1062,7 +1060,7 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "Error loading value: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
-        return retVal ;
+        return retVal;
     }
 
     private void PickRestoreDB(String[] choices) {
@@ -1190,7 +1188,7 @@ public class MainActivity extends Activity {
                 }
                 break;
 
-                case IntentRequestCodes.PotencySelection:
+            case IntentRequestCodes.PotencySelection:
                 if (resultCode == RESULT_OK) {
 
                     String potencyString = data.getStringExtra(PickOneList.SelectedItem);
@@ -1430,7 +1428,26 @@ public class MainActivity extends Activity {
                 }
             }
 
-            doableItemValueTableAdapter.save(value);
+            if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE))
+            {
+                final DoableValue value2 = value;
+                SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                        value.getItem().getName(), "Change value on date: " + mDateDisplay.getText(),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                if (id == DialogInterface.BUTTON_POSITIVE) {
+                                    doableItemValueTableAdapter.save(value2);
+                                }
+                            }
+                        });
+
+                dlg.show();
+
+            }
+            else {
+                doableItemValueTableAdapter.save(value);
+            }
 
             SetupList2(mDisplayingDate);
 
@@ -1474,18 +1491,11 @@ public class MainActivity extends Activity {
         }
 
         mDisplayingDate = date;
-        SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
-        mDateDisplay.setText(format.format(date));
+        mDateDisplay.setText(DateToString(date));
 
         SetupList(new DayOnlyDate(date));
     }
 
-    Date addDays(Date date, int days) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, days);  // number of days to add
-        return c.getTime();  // dt is now the new date
-    }
 
 
     @Override
@@ -1494,6 +1504,7 @@ public class MainActivity extends Activity {
 
         //done with cursors -- close db...
 
-        DatabaseRoot.close();
+        if (this.isFirstInstance)
+            DatabaseRoot.close();
     }
 }

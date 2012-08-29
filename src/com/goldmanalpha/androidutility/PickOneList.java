@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 public class PickOneList extends ListActivity {
 
-    public static final String Title = "title";
+    public static final String Title = "title_bar";
     public static final String Choices = "choices";
     public static final String SelectedItem = "selItem";
 

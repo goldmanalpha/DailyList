@@ -1,6 +1,7 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.text.SimpleDateFormat;
  * Time: 5:53 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EditDescriptionActivity extends Activity{
+public class EditDescriptionActivity extends ActivityBase{
 
     DoableItemValueTableAdapter tableAdapter;
     DoableValue value;
@@ -44,15 +45,18 @@ public class EditDescriptionActivity extends Activity{
             this.finish();
         }
 
-        String date = new SimpleDateFormat("EEE, MMM d, yyyy").format(value.getAppliesToDate());
+        this.date = new SimpleDateFormat("EEE, MMM d, yyyy").format(value.getAppliesToDate());
+        setWindowState(value.getAppliesToDate());
 
-        setTitle(date + ": " + value.getItem().getName());
+        setTitle(this.date + ": " + value.getItem().getName());
 
         EditText editor = (EditText) findViewById(R.id.edit_description_entry);
 
         if (value.getDescription() != null)
             editor.setText(value.getDescription());
     }
+
+    String date;
 
     @Override
     public void onBackPressed() {
@@ -61,6 +65,32 @@ public class EditDescriptionActivity extends Activity{
 
     public void click_ok(View v)
     {
+
+        if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE))
+        {
+            final DoableValue value2 = value;
+            SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                    value.getItem().getName(), "Change value on: " + this.date,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            if (id == DialogInterface.BUTTON_POSITIVE) {
+                                Save();
+                            }
+                        }
+                    });
+
+            dlg.show();
+
+        }
+        else
+        {
+            Save();
+        }
+
+    }
+
+    private void Save() {
         EditText editor = (EditText) findViewById(R.id.edit_description_entry);
 
         value.setDescription(editor.getText().toString());
