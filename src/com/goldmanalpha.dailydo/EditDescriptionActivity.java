@@ -26,6 +26,9 @@ public class EditDescriptionActivity extends ActivityBase{
     DoableItemValueTableAdapter tableAdapter;
     DoableValue value;
     public static final String ExtraValueId = "valueId";
+    public static final String ExtraValueOutOfRangeDateOK = "ExtraValueOutOfRangeDateOK";
+
+    boolean outOfRangeDateOK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class EditDescriptionActivity extends ActivityBase{
 
         Intent intent = getIntent();
         int valueId = intent.getIntExtra(ExtraValueId, 0);
+        outOfRangeDateOK = intent.getBooleanExtra(ExtraValueOutOfRangeDateOK, false);
 
         try {
             value = tableAdapter.get(valueId);
@@ -66,7 +70,7 @@ public class EditDescriptionActivity extends ActivityBase{
     public void click_ok(View v)
     {
 
-        if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE))
+        if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) && !outOfRangeDateOK)
         {
             final DoableValue value2 = value;
             SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,

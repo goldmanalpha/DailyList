@@ -49,6 +49,7 @@ public class MainActivity extends ActivityBase {
 
     private boolean isFirstInstance;
     private static boolean instanceCreated;
+    private boolean outOfRangeDateOK;
 
 
     @Override
@@ -272,6 +273,8 @@ public class MainActivity extends ActivityBase {
             Intent intent = new Intent(this, EditDescriptionActivity.class);
 
             intent.putExtra(EditDescriptionActivity.ExtraValueId, ids.ValueId);
+            intent.putExtra(EditDescriptionActivity.ExtraValueOutOfRangeDateOK, outOfRangeDateOK);
+
 
             startActivity(intent);
         }
@@ -494,6 +497,7 @@ public class MainActivity extends ActivityBase {
 
     public void SetupList2(Date date) {
 
+        outOfRangeDateOK = false;
         setWindowState(date);
 
         cachedCursor.close();
@@ -1428,7 +1432,7 @@ public class MainActivity extends ActivityBase {
                 }
             }
 
-            if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE))
+            if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) && !outOfRangeDateOK)
             {
                 final DoableValue value2 = value;
                 SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
@@ -1438,6 +1442,7 @@ public class MainActivity extends ActivityBase {
 
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
                                     doableItemValueTableAdapter.save(value2);
+                                    SetupList2(mDisplayingDate);
                                 }
                             }
                         });
@@ -1447,10 +1452,8 @@ public class MainActivity extends ActivityBase {
             }
             else {
                 doableItemValueTableAdapter.save(value);
+                SetupList2(mDisplayingDate);
             }
-
-            SetupList2(mDisplayingDate);
-
         }
 
 
