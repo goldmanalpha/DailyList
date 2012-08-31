@@ -495,9 +495,12 @@ public class MainActivity extends ActivityBase {
     boolean setupDate = false;
     SimpleCursorAdapter listCursorAdapter;
 
+    Date lastSetupList2Date;
     public void SetupList2(Date date) {
 
-        outOfRangeDateOK = false;
+        this.outOfRangeDateOK = date.equals(lastSetupList2Date);
+        lastSetupList2Date = date;
+
         setWindowState(date);
 
         cachedCursor.close();
