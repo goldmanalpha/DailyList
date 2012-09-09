@@ -204,11 +204,14 @@ public class DoableItemValueTableAdapter
         boolean isMultipleItems = itemId == 0;
         boolean isSingleCategory = limitToCategoryId > 0;
 
-        String[] params;
+        String[] params = new String[]{};
         String whereClause = "";
 
-        whereClause = " where itemId = ? ";
-        params = new String[]{Integer.toString(itemId)};
+        if (itemId != 0)
+        {
+            whereClause = " where itemId = ?";
+            params = new String[]{Integer.toString(itemId)};
+        }
 
         sql = sql.replace(whereClauseToken, whereClause);
         return db.rawQuery(sql, params);
