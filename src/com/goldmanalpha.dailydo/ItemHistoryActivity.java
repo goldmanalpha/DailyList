@@ -1,10 +1,13 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,12 +39,15 @@ public class ItemHistoryActivity extends ActivityBase {
     SharedPreferences preferences;
     Boolean multiMode;
     int limitToCategoryId;
+    int highlightItemId;
 
     DoableValueCursorHelper cursorHelper;
     public static String ExtraValueItemId = "itemId";
     public static String ExtraValueItemName = "itemName";
     public static String ExtraValueIsMultiMode = "Mode";
     public static String ExtraValueLimitToCategoryId = "LimitToCategory";
+    public static String ExtraHighlightItemId = "ExtraHighlightItemId";
+
 
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d");
@@ -59,6 +65,7 @@ public class ItemHistoryActivity extends ActivityBase {
 
         multiMode = intent.getBooleanExtra(ExtraValueIsMultiMode, false);
         limitToCategoryId = intent.getIntExtra(ExtraValueLimitToCategoryId, SimpleLookup.UNSET_ID);
+        highlightItemId = intent.getIntExtra(ExtraHighlightItemId, 0);
 
         itemId = intent.getIntExtra(ExtraValueItemId, 0);
         String itemName = intent.getStringExtra(ExtraValueItemName);
@@ -162,7 +169,6 @@ public class ItemHistoryActivity extends ActivityBase {
                 DoableItemValueTableAdapter.ColAppliesToTime,
                 DoableItemValueTableAdapter.ColFromTime,
                 DoableItemValueTableAdapter.ColItemName
-
         };
 
         int[] to = new int[]{
@@ -207,6 +213,18 @@ public class ItemHistoryActivity extends ActivityBase {
                         if (columnIndex == itemNameColIdx) {
                             TextView tv = (TextView) view;
                             tv.setText(multiMode ? cursor.getString(columnIndex) : "");
+
+                            if (cursor.getInt(itemIdColumnIndex) ==  highlightItemId)
+                            {
+                                tv.setTextColor(Color.WHITE);
+                                tv.setBackgroundColor(Color.GREEN);
+                            }
+                            else
+                            {
+                                //todo: specify global default for this to use in code and xml
+                                tv.setTextColor(Color.GRAY);
+                                tv.setBackgroundColor(Color.BLACK);
+                            }
                         }
 
                         if (columnIndex == descriptionColumnIndex) {

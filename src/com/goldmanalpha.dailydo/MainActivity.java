@@ -98,8 +98,11 @@ public class MainActivity extends ActivityBase {
         public static final int SingleItemHistory = 9;
         public static final int AllItemHistory = 10;
         public static final int ThisCategoryItemHistory = 11;
+        public static final int AllItemHistoryHighlightItem = 12;
+        public static final int ThisCategoryItemHistoryHighlightItem = 13;
 
-        public static final int RestoreFromBackup = 12;
+
+        public static final int RestoreFromBackup = 999912;
 
 
     }
@@ -152,6 +155,10 @@ public class MainActivity extends ActivityBase {
             menu.setHeaderTitle(name);
 
             menu.add(Menu.NONE, MenuItems.SingleItemHistory, 0, "Item History");
+
+            menu.add(Menu.NONE, MenuItems.ThisCategoryItemHistoryHighlightItem, 0, "Cat History");
+            menu.add(Menu.NONE, MenuItems.AllItemHistoryHighlightItem, 0, "All History");
+
             menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
             menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
 
@@ -247,11 +254,30 @@ public class MainActivity extends ActivityBase {
 
                 intent.putExtra(ItemHistoryActivity.ExtraValueItemName, name);
                 intent.putExtra(ItemHistoryActivity.ExtraValueItemId, ids.ItemId);
+                intent.putExtra(ItemHistoryActivity.ExtraValueIsMultiMode, false);
 
                 startActivity(intent);
 
                 break;
 
+            case MenuItems.AllItemHistoryHighlightItem:
+                intent = new Intent(this, ItemHistoryActivity.class);
+                intent.putExtra(ItemHistoryActivity.ExtraValueIsMultiMode, true);
+
+                intent.putExtra(ItemHistoryActivity.ExtraHighlightItemId, ids.ItemId);
+
+                startActivity(intent);
+                break;
+
+            case MenuItems.ThisCategoryItemHistoryHighlightItem:
+                intent = new Intent(this, ItemHistoryActivity.class);
+                intent.putExtra(ItemHistoryActivity.ExtraValueIsMultiMode, true);
+                intent.putExtra(ItemHistoryActivity.ExtraValueLimitToCategoryId, selectedCategoryId);
+
+                intent.putExtra(ItemHistoryActivity.ExtraHighlightItemId, ids.ItemId);
+
+                startActivity(intent);
+                break;
         }
 
         return handled;

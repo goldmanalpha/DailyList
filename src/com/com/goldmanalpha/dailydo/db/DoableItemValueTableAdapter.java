@@ -194,11 +194,12 @@ public class DoableItemValueTableAdapter
 
                 + " coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
 
-                + " vals.dateCreated, vals.dateModified, i.name items_name from "
+                + " vals.dateCreated, vals.dateModified, i.name items_name, "
+                + " vals.itemId  as items_id from "
                 + this.tableName + " vals join DoableItem i "
                 + " on vals.itemId = i.id "
                 + " " + whereClauseToken
-                + " order by appliesToDate desc, appliesToTime desc, i.id desc";
+                + " order by appliesToDate desc, i.CategoryId, appliesToTime desc, i.id desc";
 
         boolean isMultipleItems = itemId == 0;
         boolean isSingleCategory = limitToCategoryId > 0;
@@ -209,7 +210,7 @@ public class DoableItemValueTableAdapter
         if (isMultipleItems) {
 
             Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, -64);    //todo: allow scroll to add days past
+            cal.add(Calendar.DATE, -99);    //todo: allow scroll to add days past
             String timeStamp = super.DateToTimeStamp(cal.getTime());
 
             whereClause = " where appliesToDate > ? ";

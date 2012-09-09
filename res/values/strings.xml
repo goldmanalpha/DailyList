@@ -3,6 +3,7 @@
     <string name="app_name">Daily Do</string>
 
     <string name="unittypeprompt">Select Unit Type</string>
+
     <string name="unittypeDrops">drops</string>
     <string name="unittypeTsp">tsp</string>
     <string name="unittypeTime">time</string>
