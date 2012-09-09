@@ -7,7 +7,7 @@
         android:layout_weight="1"
         >
 
-        <TextView
+    <TextView
                 android:id="@+id/single_history_name"
                 android:text="Name"
                 android:layout_gravity="center_horizontal"
@@ -21,12 +21,12 @@
             android:layout_weight="1"
             />
 
-    <LinearLayout
+    <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal"
-            android:layout_weight="1"
+            android:layout_weight="10"
             >
 
         <TextView
@@ -39,13 +39,13 @@
         <TextView
                 android:id="@+id/single_history_next"
                 android:text="   &gt;"
-                android:layout_gravity="right"
                 style="@style/ClickableText"
                 android:onClick="next_click"
+                android:layout_gravity="right"
                 />
 
 
-    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
 
 
