@@ -444,31 +444,44 @@ public class ItemHistoryActivity extends ActivityBase {
     }
 
     public void previous_click(View view) {
-        Intent intent = new Intent(this, AddItemActivity.class);
-        intent.putExtra("itemId", itemId);
-        startActivity(intent);
+        MoveToMatch(false);
     }
 
     public void next_click(View view) {
 
+        MoveToMatch(true);
+    }
+
+    private void MoveToMatch(Boolean forward) {
         boolean found = false;
 
         String highlightText = highlightText().toLowerCase();
         final int descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
+        final int itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
+
+
 
         int currentPosition = mainList.getFirstVisiblePosition();
         cachedCursor.moveToPosition(currentPosition);
 
-        while(!found && cachedCursor.moveToNext())
+        while(!found && (forward ? cachedCursor.moveToNext() : cachedCursor.moveToPrevious()))
         {
             String description = cachedCursor.getString(descriptionColumnIndex);
-            found = description != null && description.toLowerCase().contains(highlightText);
+            Integer itemId = cachedCursor.getInt(itemIdColumnIndex);
+
+            Boolean descriptionMatch = description != null && highlightText != null
+                    && highlightText.trim().length() > 0
+                    && description.toLowerCase().contains(highlightText);
+
+            Boolean itemMatch = highlightItemIds.contains(itemId);
+            found = descriptionMatch || itemMatch;
         }
 
         if (!found)
         {
-            String msg =  "No next occurrence of '" + highlightText + "' found";
-            Toast.makeText(ItemHistoryActivity.this,msg , Toast.LENGTH_LONG)
+
+            String msg =  "No " + (forward ? "next" : "previous")  + " occurrence of '" + highlightText + "' found";
+            Toast.makeText(ItemHistoryActivity.this, msg, Toast.LENGTH_LONG)
                     .show();;
         }
         else

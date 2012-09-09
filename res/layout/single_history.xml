@@ -42,7 +42,7 @@
 
         <EditText
                 android:id="@+id/highlight_text"
-                android:hint="Highlight Text"
+                android:hint="Hilite/Search Text"
                 android:layout_weight="10"
                 android:layout_gravity="center"
                 android:layout_height="40dp"
