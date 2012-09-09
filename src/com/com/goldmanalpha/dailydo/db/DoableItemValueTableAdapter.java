@@ -207,25 +207,8 @@ public class DoableItemValueTableAdapter
         String[] params;
         String whereClause = "";
 
-        if (isMultipleItems) {
-
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, -99);    //todo: allow scroll to add days past
-            String timeStamp = super.DateToTimeStamp(cal.getTime());
-
-            whereClause = " where appliesToDate > ? ";
-
-            if (isSingleCategory) {
-                whereClause = whereClause + " and i.CategoryId = ?";
-                params = new String[]{timeStamp, Integer.toString(limitToCategoryId)};
-            } else {
-                params = new String[]{timeStamp};
-            }
-
-        } else {
-            whereClause = " where itemId = ? ";
-            params = new String[]{Integer.toString(itemId)};
-        }
+        whereClause = " where itemId = ? ";
+        params = new String[]{Integer.toString(itemId)};
 
         sql = sql.replace(whereClauseToken, whereClause);
         return db.rawQuery(sql, params);
