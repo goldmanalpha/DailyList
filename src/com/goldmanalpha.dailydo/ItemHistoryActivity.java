@@ -409,7 +409,13 @@ public class ItemHistoryActivity extends ActivityBase {
     }
 
 
-    public void item_click(View view) {
+    public void previous_click(View view) {
+        Intent intent = new Intent(this, AddItemActivity.class);
+        intent.putExtra("itemId", itemId);
+        startActivity(intent);
+    }
+
+    public void next_click(View view) {
         Intent intent = new Intent(this, AddItemActivity.class);
         intent.putExtra("itemId", itemId);
         startActivity(intent);

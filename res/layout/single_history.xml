@@ -21,6 +21,31 @@
             android:layout_weight="1"
             />
 
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+
+        <TextView
+                android:id="@+id/single_history_previous"
+                android:text="&lt;  "
+                android:layout_gravity="left"
+                style="@style/ClickableText"
+                android:onClick="previous_click"
+                />
+        <TextView
+                android:id="@+id/single_history_next"
+                android:text="   &gt;"
+                android:layout_gravity="right"
+                style="@style/ClickableText"
+                android:onClick="next_click"
+                />
+
+
+    </LinearLayout>
 </LinearLayout>
 
 
