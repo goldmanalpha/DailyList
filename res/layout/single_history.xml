@@ -17,11 +17,12 @@
     <ListView
             android:id="@+id/single_history_list"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             />
 
     <FrameLayout
+            android:id="@+id/history_multi_navigation_ui"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,17 +32,34 @@
 
         <TextView
                 android:id="@+id/single_history_previous"
-                android:text="&lt;  "
+                android:text=" &lt;    "
                 android:layout_gravity="left"
                 style="@style/ClickableText"
                 android:onClick="previous_click"
+                android:layout_weight="1"
                 />
+
+
+        <EditText
+                android:id="@+id/highlight_text"
+                android:hint="Highlight Text"
+                android:layout_weight="10"
+                android:layout_gravity="center"
+                android:layout_height="40dp"
+
+                android:inputType="textShortMessage"
+                android:layout_width="wrap_content"
+
+                />
+
         <TextView
                 android:id="@+id/single_history_next"
-                android:text="   &gt;"
+                android:text="    &gt; "
                 style="@style/ClickableText"
                 android:onClick="next_click"
                 android:layout_gravity="right"
+                android:layout_weight="1"
+
                 />
 
 

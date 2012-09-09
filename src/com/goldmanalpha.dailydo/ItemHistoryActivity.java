@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,6 +74,17 @@ public class ItemHistoryActivity extends ActivityBase {
         TextView nameView = (TextView) findViewById(R.id.single_history_name);
         nameView.setText(this.multiMode ? "History" : itemName);
 
+        FrameLayout multiNav = (FrameLayout) findViewById(R.id.history_multi_navigation_ui);
+
+        if (!multiMode)
+        {
+            multiNav.setVisibility(View.GONE);
+        }
+        else
+        {
+            multiNav.setVisibility(View.VISIBLE);
+        }
+
         mainList = (ListView) findViewById(R.id.single_history_list);
         SetupList(itemId, limitToCategoryId);
 
@@ -103,6 +115,17 @@ public class ItemHistoryActivity extends ActivityBase {
                 }
             }
         });
+    }
+
+    EditText highlightText;
+    String highlightText()
+    {
+        highlightText = highlightText == null ?
+                (EditText) findViewById(R.id.highlight_text) : highlightText;
+
+        String text = highlightText.getText().toString();
+        text = text == null ? "" : text;
+        return text;
     }
 
 
@@ -237,10 +260,15 @@ public class ItemHistoryActivity extends ActivityBase {
                             if (description == null || description.trim() == "") {
                                 tv.setHeight(0);
                             } else {
+
+                                String hl = highlightText();
+                                description =
+                                        description.replaceAll(hl, "<font color=\"red\">"  + highlightText() + "</font>");
                                 tv.setSingleLine(!showLongDescription);
-                                tv.setText(description);
+                                tv.setText(Html.fromHtml(description));
                             }
 
+                            return true;
                         }
 
                         if (columnIndex == appliesToDateColIdx) {
@@ -408,6 +436,11 @@ public class ItemHistoryActivity extends ActivityBase {
 
     }
 
+    public void item_click(View view) {
+        Intent intent = new Intent(this, AddItemActivity.class);
+        intent.putExtra("itemId", itemId);
+        startActivity(intent);
+    }
 
     public void previous_click(View view) {
         Intent intent = new Intent(this, AddItemActivity.class);
