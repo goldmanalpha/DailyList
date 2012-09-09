@@ -174,6 +174,7 @@ public class ItemHistoryActivity extends ActivityBase {
 
     Date lastDate;
     int originalDateHeight = 24;
+    SimpleCursorAdapter listCursorAdapter;
 
     private void SetupList(Integer itemId, int limitToCategoryId) {
 
@@ -261,9 +262,9 @@ public class ItemHistoryActivity extends ActivityBase {
                                 tv.setHeight(0);
                             } else {
 
-                                String hl = highlightText();
+                                String highlightText = highlightText();
                                 description =
-                                        description.replaceAll(hl, "<font color=\"red\">"  + highlightText() + "</font>");
+                                        description.replaceAll("(?i)" + highlightText, "<font color=\"red\">"  + highlightText() + "</font>");
                                 tv.setSingleLine(!showLongDescription);
                                 tv.setText(Html.fromHtml(description));
                             }
@@ -449,9 +450,31 @@ public class ItemHistoryActivity extends ActivityBase {
     }
 
     public void next_click(View view) {
-        Intent intent = new Intent(this, AddItemActivity.class);
-        intent.putExtra("itemId", itemId);
-        startActivity(intent);
+
+        boolean found = false;
+
+        String highlightText = highlightText().toLowerCase();
+        final int descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
+
+        int currentPosition = mainList.getFirstVisiblePosition();
+        cachedCursor.moveToPosition(currentPosition);
+
+        while(!found && cachedCursor.moveToNext())
+        {
+            String description = cachedCursor.getString(descriptionColumnIndex);
+            found = description != null && description.toLowerCase().contains(highlightText);
+        }
+
+        if (!found)
+        {
+            String msg =  "No next occurrence of '" + highlightText + "' found";
+            Toast.makeText(ItemHistoryActivity.this,msg , Toast.LENGTH_LONG)
+                    .show();;
+        }
+        else
+        {
+            mainList.setSelectionFromTop(cachedCursor.getPosition(), 0);
+        }
     }
 
     private void SetCursor(View view, Cursor c) {
