@@ -1,13 +1,10 @@
 package com.goldmanalpha.dailydo;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +16,7 @@ import com.goldmanalpha.dailydo.model.SimpleLookup;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,7 +34,7 @@ public class ItemHistoryActivity extends ActivityBase {
     SharedPreferences preferences;
     Boolean multiMode;
     int limitToCategoryId;
-    int highlightItemId;
+    List<Integer> highlightItemIds;
 
     DoableValueCursorHelper cursorHelper;
     public static String ExtraValueItemId = "itemId";
@@ -65,7 +60,10 @@ public class ItemHistoryActivity extends ActivityBase {
 
         multiMode = intent.getBooleanExtra(ExtraValueIsMultiMode, false);
         limitToCategoryId = intent.getIntExtra(ExtraValueLimitToCategoryId, SimpleLookup.UNSET_ID);
-        highlightItemId = intent.getIntExtra(ExtraHighlightItemId, 0);
+
+        highlightItemIds = new ArrayList<Integer>();
+        int highlightItemId = intent.getIntExtra(ExtraHighlightItemId, 0);
+        highlightItemIds.add(highlightItemId);
 
         itemId = intent.getIntExtra(ExtraValueItemId, 0);
         String itemName = intent.getStringExtra(ExtraValueItemName);
@@ -116,8 +114,10 @@ public class ItemHistoryActivity extends ActivityBase {
         item.setChecked(showLongDescription);
 
         if (multiMode)
-        {
-            menu.add(0, MenuItems.ToggleLongDescription, 0, "Filter (coming soon)");
+        {   menu.add(0, MenuItems.EditItemHighlights, 0, "Highlight Items");
+            menu.add(0, MenuItems.ClearItemHiglights, 0, "Clear Item Highlights");
+
+            menu.add(0, MenuItems.ToggleLongDescription, 0, "Search (coming soon)");
         }
 
         return true;
@@ -125,6 +125,8 @@ public class ItemHistoryActivity extends ActivityBase {
 
     static final class MenuItems {
         public static final int ToggleLongDescription = 0;
+        public static final int ClearItemHiglights = 1;
+        public static final int EditItemHighlights = 2;
     }
 
     boolean showLongDescription;
@@ -214,7 +216,7 @@ public class ItemHistoryActivity extends ActivityBase {
                             TextView tv = (TextView) view;
                             tv.setText(multiMode ? cursor.getString(columnIndex) : "");
 
-                            if (cursor.getInt(itemIdColumnIndex) ==  highlightItemId)
+                            if (highlightItemIds.contains(cursor.getInt(itemIdColumnIndex)))
                             {
                                 tv.setTextColor(Color.WHITE);
                                 tv.setBackgroundColor(Color.GREEN);
