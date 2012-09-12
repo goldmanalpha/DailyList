@@ -207,9 +207,17 @@ public class DoableItemValueTableAdapter
         String[] params = new String[]{};
         String whereClause = "";
 
-        if (itemId != 0)
-        {
-            whereClause = " where itemId = ?";
+
+        if (isMultipleItems) {
+
+            whereClause = " where 1 = 1 ";
+
+            if (isSingleCategory) {
+                whereClause = whereClause + " and i.CategoryId = ?";
+                params = new String[]{Integer.toString(limitToCategoryId)};
+            }
+        } else {
+            whereClause = " where itemId = ? ";
             params = new String[]{Integer.toString(itemId)};
         }
 

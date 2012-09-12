@@ -5,7 +5,9 @@ import android.app.Application;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.goldmanalpha.androidutility.DayOnlyDate;
 
@@ -114,6 +116,4 @@ public class ActivityBase extends Activity {
         YESTERDAY,
         OUT_OF_RANGE
     }
-
-
 }

@@ -178,7 +178,6 @@ public class ItemHistoryActivity extends ActivityBase {
 
     private void SetupList(Integer itemId, int limitToCategoryId) {
 
-
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
         cachedCursor = doableItemValueTableAdapter.getItems(itemId, limitToCategoryId);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
@@ -242,13 +241,13 @@ public class ItemHistoryActivity extends ActivityBase {
 
                             if (highlightItemIds.contains(cursor.getInt(itemIdColumnIndex)))
                             {
-                                tv.setTextColor(Color.WHITE);
+                               // tv.setTextColor(Color.WHITE);
                                 tv.setBackgroundColor(Color.GREEN);
                             }
                             else
                             {
                                 //todo: specify global default for this to use in code and xml
-                                tv.setTextColor(Color.GRAY);
+                               // tv.setTextColor(Color.GRAY);
                                 tv.setBackgroundColor(Color.BLACK);
                             }
                         }
@@ -355,9 +354,10 @@ public class ItemHistoryActivity extends ActivityBase {
                                     t = doableItemValueTableAdapter.IntToTime(cursor.getInt(appliesToTimeColIdx));
                                 }
 
+                                tv.setVisibility(View.VISIBLE);
                                 tv.setText(short24TimeFormat.format(t));
                             } else {
-                                tv.setText("");
+                                tv.setVisibility(View.GONE);
                             }
 
                             return true;
@@ -407,9 +407,10 @@ public class ItemHistoryActivity extends ActivityBase {
                             TextView tv = ((TextView) view);
 
                             if (!cursorHelper.isTeaspoons(cursor)) {
-                                tv.setText("");
+                                tv.setVisibility(View.GONE);
                             } else {
                                 tv.setText(cursorHelper.getTeaspoons(cursor));
+                                tv.setVisibility(View.VISIBLE);
                             }
 
                             return true;

@@ -10,9 +10,10 @@
             style="@style/BigText"
             android:id="@+id/single_history_item_group_date"
             android:layout_gravity="center_horizontal"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
-
+            android:background="@color/DarkGoldenrod"
+            android:textColor="@color/Black"
+            android:width="5000dp"
+            android:gravity="center"
             />
 
 
@@ -30,7 +31,14 @@
         <TextView
                 style="@style/BigText"
                 android:id="@+id/single_history_item_value"
-                android:layout_marginLeft="10dp"
+                android:width="40dp"
+                android:gravity="right"
+                />
+        <TextView
+                style="@style/BigText"
+                android:id="@+id/single_history_item_name"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/White"
                 />
 
         <TextView
@@ -42,7 +50,7 @@
         <TextView
                 style="@style/BigText"
                 android:id="@+id/single_history_item_tsp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="8dp"
                 />
 
         <TextView
@@ -54,20 +62,15 @@
         <TextView
                 style="@style/BigText"
                 android:id="@+id/single_history_item_applies_to_time"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="8dp"
                 />
 
-        <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_name"
-                android:layout_marginLeft="15dp"
-                />
     </LinearLayout>
 
     <TextView
                 style="@style/ClickableText"
                 android:id="@+id/single_history_item_description"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="8dp"
                 android:singleLine="false"
                 android:textStyle="normal"
                 android:onClick="single_history_item_description_click"
