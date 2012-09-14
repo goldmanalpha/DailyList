@@ -1,6 +1,7 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,12 +37,6 @@ public class MainActivity extends ActivityBase {
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
 
     HashMap<Integer, AltFocus> usesAltFocusMap = new HashMap<Integer, AltFocus>();
-
-    public MainActivity() {
-        this.isFirstInstance = !instanceCreated;
-        instanceCreated = true;
-    }
-
     public static String ExtraValueDateGetTimeLong = "dateToShow";
     public static String ExtraValueCategoryId = "categoryId";
 
@@ -51,6 +46,25 @@ public class MainActivity extends ActivityBase {
     private static boolean instanceCreated;
     private boolean outOfRangeDateOK;
 
+
+    public MainActivity() {
+        this.isFirstInstance = !instanceCreated;
+        instanceCreated = true;
+
+
+    }
+
+    static int instanceCount;
+    Boolean incrementedInstanceCount = false;
+
+    @Override
+    protected String TitleSuffix() {
+
+        String suffix = "  (" + instanceCount + ")";
+        if (!incrementedInstanceCount)
+            instanceCount++;
+        return suffix;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -522,9 +536,10 @@ public class MainActivity extends ActivityBase {
     SimpleCursorAdapter listCursorAdapter;
 
     Date lastSetupList2Date;
+
     public void SetupList2(Date date) {
 
-        this.outOfRangeDateOK = date.equals(lastSetupList2Date);
+        this.outOfRangeDateOK = this.outOfRangeDateOK && date.equals(lastSetupList2Date);
         lastSetupList2Date = date;
 
         setWindowState(date);
@@ -1461,8 +1476,7 @@ public class MainActivity extends ActivityBase {
                 }
             }
 
-            if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) && !outOfRangeDateOK)
-            {
+            if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) && !outOfRangeDateOK) {
                 final DoableValue value2 = value;
                 SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                         value.getItem().getName(), "Change value on date: " + mDateDisplay.getText(),
@@ -1471,6 +1485,7 @@ public class MainActivity extends ActivityBase {
 
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
                                     doableItemValueTableAdapter.save(value2);
+                                    outOfRangeDateOK = true;
                                     SetupList2(mDisplayingDate);
                                 }
                             }
@@ -1478,8 +1493,7 @@ public class MainActivity extends ActivityBase {
 
                 dlg.show();
 
-            }
-            else {
+            } else {
                 doableItemValueTableAdapter.save(value);
                 SetupList2(mDisplayingDate);
             }
@@ -1528,7 +1542,28 @@ public class MainActivity extends ActivityBase {
         SetupList(new DayOnlyDate(date));
     }
 
+    @Override
+    public void onBackPressed() {
+        if (this.isFirstInstance) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Closing App")
+                    .setMessage("Exit?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
 
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onDestroy() {

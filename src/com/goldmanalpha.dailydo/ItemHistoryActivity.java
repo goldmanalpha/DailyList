@@ -106,8 +106,6 @@ public class ItemHistoryActivity extends ActivityBase {
                     intent.putExtra(MainActivity.ExtraValueCategoryId, item.getCategoryId());
 
                     startActivity(intent);
-                    finish();
-
                 } catch (ParseException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     Toast.makeText(ItemHistoryActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG)
@@ -115,6 +113,17 @@ public class ItemHistoryActivity extends ActivityBase {
                 }
             }
         });
+    }
+
+    static int instanceCount;
+    Boolean incrementedInstanceCount = false;
+    @Override
+    protected String TitleSuffix() {
+
+        String suffix = "  (" + instanceCount + ")";
+        if (!incrementedInstanceCount)
+            instanceCount++;
+        return suffix;
     }
 
     EditText highlightText;

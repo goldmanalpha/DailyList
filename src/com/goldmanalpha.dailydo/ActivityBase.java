@@ -38,9 +38,14 @@ public class ActivityBase extends Activity {
 
         customTitleText.setTextColor(Color.WHITE);
         customTitleText.setText("   " +
-                this.getString(R.string.app_name));
+                this.getString(R.string.app_name) + TitleSuffix());
 
         setWindowState(WindowState.DEFAULT);
+    }
+
+    protected String TitleSuffix()
+    {
+        return "";
     }
 
     protected void setWindowState(Date date)
