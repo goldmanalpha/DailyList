@@ -101,7 +101,9 @@ public class ItemHistoryActivity extends ActivityBase {
                     Date appliesToDate = doableItemValueTableAdapter.getAppliesToDate(cachedCursor);
                     intent.putExtra(MainActivity.ExtraValueDateGetTimeLong, appliesToDate.getTime());
 
-                    DoableItem item = new DoableItemTableAdapter().get(itemId);
+                    int itemIdColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
+
+                    DoableItem item = new DoableItemTableAdapter().get(cachedCursor.getInt(itemIdColIdx));
 
                     intent.putExtra(MainActivity.ExtraValueCategoryId, item.getCategoryId());
 
