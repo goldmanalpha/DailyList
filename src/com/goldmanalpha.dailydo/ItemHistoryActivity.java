@@ -514,4 +514,11 @@ public class ItemHistoryActivity extends ActivityBase {
                 cursorHelper.getValueId(cachedCursor));
         startActivity(intent);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+
+        instanceCount--;
+    }
 }

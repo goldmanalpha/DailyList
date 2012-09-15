@@ -1569,6 +1569,8 @@ public class MainActivity extends ActivityBase {
     protected void onDestroy() {
         super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
 
+        instanceCount--;
+
         //done with cursors -- close db...
 
         if (this.isFirstInstance)
