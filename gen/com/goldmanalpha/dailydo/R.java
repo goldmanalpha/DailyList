@@ -207,7 +207,9 @@ public final class R {
         public static final int single_history_name=0x7f060027;
         public static final int single_history_next=0x7f06002c;
         public static final int single_history_previous=0x7f06002a;
-        public static final int title_bar_text_view=0x7f060036;
+        public static final int title_bar_layout_root=0x7f060036;
+        public static final int title_bar_right_text_view=0x7f060038;
+        public static final int title_bar_text_view=0x7f060037;
     }
     public static final class layout {
         public static final int add_item=0x7f020000;

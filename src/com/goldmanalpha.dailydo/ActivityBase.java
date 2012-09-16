@@ -1,13 +1,10 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.goldmanalpha.androidutility.DayOnlyDate;
 
@@ -15,17 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created with IntelliJ IDEA.
- * User: aaron
- * Date: 8/28/12
- * Time: 9:19 PM
- * To change this template use File | Settings | File Templates.
- */
 public class ActivityBase extends Activity {
 
     protected TextView customTitleText;
     protected WindowState currentWindowState = WindowState.DEFAULT;
+    private ViewGroup viewRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +25,17 @@ public class ActivityBase extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.title_bar);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
-        customTitleText = (TextView) findViewById(R.id.title_bar_text_view);
+        TextView customTitleText = (TextView) findViewById(R.id.title_bar_text_view);
+        TextView rightTitle = (TextView) findViewById(R.id.title_bar_right_text_view);
+        viewRoot = (ViewGroup) findViewById(R.id.title_bar_layout_root);
 
-        customTitleText.setTextColor(Color.WHITE);
-        customTitleText.setText("   " +
-                this.getString(R.string.app_name) + TitleSuffix());
+        customTitleText.setText(this.getString(R.string.app_name));
 
+        rightTitle.setText(RightTitle());
         setWindowState(WindowState.DEFAULT);
     }
 
-    protected String TitleSuffix()
+    protected String RightTitle()
     {
         return "";
     }
@@ -112,7 +104,7 @@ public class ActivityBase extends Activity {
                 break;
         }
 
-        customTitleText.setBackgroundColor(color);
+        viewRoot.setBackgroundColor(color);
     }
 
     public enum WindowState {

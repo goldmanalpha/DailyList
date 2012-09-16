@@ -120,9 +120,9 @@ public class ItemHistoryActivity extends ActivityBase {
     static int instanceCount;
     Boolean incrementedInstanceCount = false;
     @Override
-    protected String TitleSuffix() {
+    protected String RightTitle() {
 
-        String suffix = "  (" + instanceCount + ")";
+        String suffix = Integer.toString(instanceCount);
         if (!incrementedInstanceCount)
             instanceCount++;
         return suffix;

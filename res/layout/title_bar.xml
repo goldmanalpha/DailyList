@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/title_bar_text_view"
-        android:text="This is my new title"
+        <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:textStyle="bold"
-        />
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/title_bar_layout_root"
+        >
+    <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/title_bar_text_view"
+            android:text="This is my new title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/White"
+            />
+
+
+    <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/title_bar_right_text_view"
+            android:text="R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textColor="@color/White"
+
+            android:layout_marginRight="5sp"
+            />
+
+        </FrameLayout>
