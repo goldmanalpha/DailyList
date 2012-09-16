@@ -1,2 +1,10 @@
 <resources>
+
+    <style name="MyTheme" parent="android:Theme">
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+    </style>
+    <style name="WindowTitleBackground">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">0px</item>
+    </style>
 </resources>
