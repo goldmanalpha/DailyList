@@ -46,6 +46,16 @@ public class DoableValueCursorHelper {
         return UnitType.valueOf(unitType);
     }
 
+    public Boolean isNumeric(Cursor cursor)
+    {
+        UnitType ut = unitType(cursor);
+
+        return  ut == UnitType.check ||
+                ut == UnitType.count ||
+                ut == UnitType.drops ||
+                ut == UnitType.relativeAmount ||
+                ut == UnitType.tsp;
+    }
 
     public boolean isTeaspoons(Cursor cursor) {
 
