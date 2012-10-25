@@ -1,14 +1,6 @@
 package com.com.goldmanalpha.dailydo.db;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Aaron
- * Date: 1/6/12
- * Time: 5:36 AM
- * To change this template use File | Settings | File Templates.
- */
 public class LookupTable extends TableBase {
-
 
     int createInVersion;
 

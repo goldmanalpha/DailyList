@@ -19,13 +19,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Aaron
- * Date: 1/15/12
- * Time: 5:20 PM
- * To change this template use File | Settings | File Templates.
- */
 public class ItemHistoryActivity extends ActivityBase {
 
     ListView mainList;
@@ -36,6 +29,7 @@ public class ItemHistoryActivity extends ActivityBase {
     Boolean multiMode;
     int limitToCategoryId;
     List<Integer> highlightItemIds;
+    int sortingItemId;
 
     DoableValueCursorHelper cursorHelper;
     public static String ExtraValueItemId = "itemId";
@@ -49,9 +43,13 @@ public class ItemHistoryActivity extends ActivityBase {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d");
     private static final String ShowLongDescriptionKey = "SingleItemHistoryShowLongDescription";
 
+    private static ItemSortingTableAdapter sortingTableAdapter = new ItemSortingTableAdapter();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sortingTableAdapter.clear(this.thisInstanceNumber);
 
         preferences = getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
         this.showLongDescription = preferences.getBoolean(ShowLongDescriptionKey, true);
@@ -68,6 +66,12 @@ public class ItemHistoryActivity extends ActivityBase {
 
         itemId = intent.getIntExtra(ExtraValueItemId, 0);
         String itemName = intent.getStringExtra(ExtraValueItemName);
+
+        sortingItemId = itemId;
+        if(itemId == 0)
+        {
+            sortingItemId = highlightItemId;
+        }
 
         setContentView(R.layout.single_history);
 
@@ -118,13 +122,18 @@ public class ItemHistoryActivity extends ActivityBase {
     }
 
     static int instanceCount;
+    private int thisInstanceNumber;
     Boolean incrementedInstanceCount = false;
     @Override
     protected String RightTitle() {
 
         String suffix = Integer.toString(instanceCount);
         if (!incrementedInstanceCount)
+        {
             instanceCount++;
+            thisInstanceNumber = instanceCount;
+        }
+
         return suffix;
     }
 
@@ -147,11 +156,12 @@ public class ItemHistoryActivity extends ActivityBase {
         item.setCheckable(true);
         item.setChecked(showLongDescription);
 
-        if (multiMode)
-        {   menu.add(0, MenuItems.EditItemHighlights, 0, "Highlight Items");
-            menu.add(0, MenuItems.ClearItemHiglights, 0, "Clear Item Highlights");
-
-            menu.add(0, MenuItems.ToggleLongDescription, 0, "Search (coming soon)");
+        if (sortingItemId != 0)
+        {
+            menu.add(0, MenuItems.SortValueAscending, 0, "Sort Val Asc");
+            menu.add(0, MenuItems.SortValueDescending, 0, "Sort Val Desc");
+            //menu.add(0, MenuItems.SortDateDescending, 0, "Sort Date Desc");
+            //menu.add(0, MenuItems.SortDateAscending, 0, "Sort Date Asc");
         }
 
         return true;
@@ -159,8 +169,10 @@ public class ItemHistoryActivity extends ActivityBase {
 
     static final class MenuItems {
         public static final int ToggleLongDescription = 0;
-        public static final int ClearItemHiglights = 1;
-        public static final int EditItemHighlights = 2;
+        public static final int SortValueAscending = 1;
+        public static final int SortValueDescending = 2;
+        public static final int SortDateAscending = 3;
+        public static final int SortDateDescending = 4;
     }
 
     boolean showLongDescription;
@@ -178,6 +190,18 @@ public class ItemHistoryActivity extends ActivityBase {
                 SetupList(this.itemId, limitToCategoryId);
 
                 break;
+            case MenuItems.SortDateAscending:
+                break;
+            case MenuItems.SortDateDescending:
+                break;
+            case MenuItems.SortValueAscending:
+                sortingTableAdapter.setupValueSort(sortingItemId, this.thisInstanceNumber, true);
+                SetupList(this.itemId, limitToCategoryId);
+                break;
+            case MenuItems.SortValueDescending:
+                sortingTableAdapter.setupValueSort(sortingItemId, this.thisInstanceNumber, false);
+                SetupList(this.itemId, limitToCategoryId);
+                break;
         }
 
         return true;
@@ -190,7 +214,7 @@ public class ItemHistoryActivity extends ActivityBase {
     private void SetupList(Integer itemId, int limitToCategoryId) {
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
-        cachedCursor = doableItemValueTableAdapter.getItems(itemId, limitToCategoryId);
+        cachedCursor = doableItemValueTableAdapter.getItems(thisInstanceNumber, itemId, limitToCategoryId);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
 
         startManagingCursor(cachedCursor);

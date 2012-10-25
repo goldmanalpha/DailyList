@@ -178,7 +178,7 @@ public class DoableItemValueTableAdapter
         }
     }
 
-    public Cursor getItems(Integer itemId, int limitToCategoryId) {
+    public Cursor getItems(Integer instanceId, Integer itemId, int limitToCategoryId) {
 
         DoableItemTableAdapter t = new DoableItemTableAdapter();
 
@@ -195,11 +195,14 @@ public class DoableItemValueTableAdapter
                 + " coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
 
                 + " vals.dateCreated, vals.dateModified, i.name items_name, "
-                + " vals.itemId  as items_id from "
-                + this.tableName + " vals join DoableItem i "
+                + " vals.itemId  as items_id "
+                + " from " + this.tableName + " vals join DoableItem i "
                 + " on vals.itemId = i.id "
+                + " left join ItemSortingTemp t "
+                + " on vals.appliesToDate = t.appliesToDate "
+                + " and t.instanceId = " + instanceId.toString()
                 + " " + whereClauseToken
-                + " order by appliesToDate desc, i.CategoryId, appliesToTime desc, i.id desc";
+                + " order by case when t.orderId is null then 1 else 0 end, t.orderId, vals.appliesToDate desc, i.CategoryId, vals.appliesToTime desc, i.id desc";
 
         boolean isMultipleItems = itemId == 0;
         boolean isSingleCategory = limitToCategoryId > 0;
