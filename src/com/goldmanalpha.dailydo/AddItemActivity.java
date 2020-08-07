@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.android.internal.util.Predicate;
+import java.util.function.Predicate;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 import com.goldmanalpha.androidutility.ArrayHelper;
@@ -81,7 +81,7 @@ public class AddItemActivity extends ActivityBase {
 
         int selectedPosition = ArrayHelper.IndexOfP(
             categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
-            public boolean apply(SimpleLookup simpleLookup) {
+            public boolean test(SimpleLookup simpleLookup) {
                 if (doableItem == null)
                     return false;
 

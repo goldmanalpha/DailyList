@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.goldmanalpha.dailydo"
-          android:versionCode="2"
-          android:versionName="1.01"
-          android:debuggable="true"
+          android:versionCode="3"
+          android:versionName="1.03"
           android:installLocation="auto"
         >
-    
+    <uses-sdk android:minSdkVersion="4"
+        />
+    <!--        android:targetSdkVersion="integer"-->
+    <!--        android:maxSdkVersion="integer"-->
+
     <supports-screens android:resizeable="true"
                   android:smallScreens="true"
                   android:normalScreens="true"

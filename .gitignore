@@ -6,3 +6,9 @@ workspace.xml
 *.dex
 *.class
 \bin
+build/
+Tests\**
+.gradle/
+gen/
+gradle/
+.idea/

@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-import com.android.internal.util.Predicate;
+import java.util.function.Predicate;
 import com.com.goldmanalpha.dailydo.db.*;
 import com.goldmanalpha.androidutility.*;
 import com.goldmanalpha.dailydo.model.*;
@@ -121,6 +121,11 @@ public class MainActivity extends ActivityBase {
         public static final int RestoreFromBackup = 999912;
 
 
+    }
+
+
+    public void onShowOptionsMenu(View v){
+        this.openOptionsMenu();
     }
 
     MenuItem PublicPrivateMenuItem;
@@ -516,7 +521,7 @@ public class MainActivity extends ActivityBase {
 
         int selectedPosition = ArrayHelper.IndexOfP(
                 categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
-            public boolean apply(SimpleLookup simpleLookup) {
+            public boolean test(SimpleLookup simpleLookup) {
                 return simpleLookup.getId() == MainActivity.this.selectedCategoryId;  //To change body of implemented methods use File | Settings | File Templates.
             }
         });

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        android:id="@+id/mainFrame"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/mainFrame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,15 +16,26 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             >
-
         <TextView
                 android:id="@+id/dateDisplay"
                 android:text="Date"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 style="@style/ClickableText"
                 android:onClick="main_date_click"
                 />
+
+
+        <ImageButton
+            android:id="@+id/mainOptionsMenuButton"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:onClick="onShowOptionsMenu"
+            android:src="@drawable/baseline_more_vert_white_18dp"
+            android:background="@color/Black"
+            />
 
         <Spinner android:id="@+id/categorySpinner"
                  android:layout_width="wrap_content"
@@ -39,7 +52,6 @@
                 style="@style/ClickableText"
 
                 />
-
 
         <TextView
                 android:id="@+id/nextDate"

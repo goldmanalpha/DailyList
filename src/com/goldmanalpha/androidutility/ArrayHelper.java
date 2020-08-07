@@ -1,7 +1,6 @@
 package com.goldmanalpha.androidutility;
 
-import com.android.internal.util.Predicate;
-import com.com.goldmanalpha.dailydo.db.TableAdapterBase;
+import java.util.function.Predicate;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,7 +24,7 @@ public class ArrayHelper {
 
     public static <T> int IndexOfP(T[] items, Predicate<T> isMatch) {
         for (int i = 0; i < items.length; i++) {
-            if (isMatch.apply(items[i])) {
+            if (isMatch.test(items[i])) {
                 return i;
             }
         }
