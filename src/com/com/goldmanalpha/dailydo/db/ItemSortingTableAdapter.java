@@ -6,7 +6,7 @@ public class ItemSortingTableAdapter extends DatabaseRoot{
     public void clear(int instanceId)
     {
         String sql = "delete from ItemSortingTemp where instanceId = ? ";
-        db.execSQL(sql, new Integer[]{instanceId});
+        getDb().execSQL(sql, new Integer[]{instanceId});
     }
 
     public void setupValueSort(int itemId, int instanceId, boolean ascending)
@@ -18,7 +18,7 @@ public class ItemSortingTableAdapter extends DatabaseRoot{
                 + "where itemId = ? "
                 + "order by amount " + (ascending ? "ASC" : "DESC") + ", appliesToDate desc;";
 
-        db.execSQL(sql, new Integer[]{instanceId, itemId});
+        getDb().execSQL(sql, new Integer[]{instanceId, itemId});
     }
 
 

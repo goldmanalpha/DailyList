@@ -1,8 +1,10 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ public class ActivityBase extends Activity {
     protected TextView customTitleText;
     protected WindowState currentWindowState = WindowState.DEFAULT;
     private ViewGroup viewRoot;
+    protected String LogTag = this.getClass().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

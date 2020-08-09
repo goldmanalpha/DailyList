@@ -23,6 +23,9 @@ public class BackupHelper {
 
     //localPath: path to the file to backup
     public String backup(String localPath, String targetPath, String fileName, String prefix) {
+
+        targetPath = FileHelper.EndSlash( targetPath);
+
         String datePrefix = new SimpleDateFormat("yyyyMMdd.HHmm").format(new Date());
         FileHelper helper = new FileHelper();
 
@@ -66,19 +69,12 @@ public class BackupHelper {
     {
         File dir = new File(targetPath);
 
-        dir.list(new FilenameFilter() {
+        String[] fileNames = dir.list(new FilenameFilter() {
             @Override
             public boolean accept(File file, String s) {
                 return s.contains(".backup.");
             }
-        })      ;
-        File[] files = dir.listFiles();
-
-        String[] fileNames = new String[files.length];
-        for(int i = 0; i < files.length ; i++)
-        {
-            fileNames[i] = files[i].getName();
-        }
+        });
 
         return fileNames;
     }

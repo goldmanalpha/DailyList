@@ -1,27 +1,40 @@
 package com.goldmanalpha.dailydo;
 
-import android.app.Activity;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+
+import androidx.core.app.ShareCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
+import android.provider.MediaStore;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import java.util.function.Predicate;
 import com.com.goldmanalpha.dailydo.db.*;
 import com.goldmanalpha.androidutility.*;
 import com.goldmanalpha.dailydo.model.*;
+import com.nononsenseapps.filepicker.FilePickerActivity;
+import com.nononsenseapps.filepicker.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -130,6 +143,13 @@ public class MainActivity extends ActivityBase {
 
     MenuItem PublicPrivateMenuItem;
 
+    private SpannableString asSS(String s){
+        SpannableString ss = new SpannableString(s);
+        ss.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, s.length(), 0);
+        return ss;
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -139,21 +159,21 @@ public class MainActivity extends ActivityBase {
 
 
         PublicPrivateMenuItem =
-                menu.add(0, MenuItems.PublicPrivateSwitch, 0, "Pub Only");
+                menu.add(0, MenuItems.PublicPrivateSwitch, 0, asSS("Pub Only"));
 
-        menu.add(0, MenuItems.Quit, 0, "Quit");
+        menu.add(0, MenuItems.Quit, 0, asSS("Quit"));
 
-        menu.add(1, MenuItems.AllItemHistory, 0, "Hstry");
+        menu.add(1, MenuItems.AllItemHistory, 0, asSS("Hstry"));
 
-        menu.add(1, MenuItems.ThisCategoryItemHistory, 0, "Cat Hstry");
+        menu.add(1, MenuItems.ThisCategoryItemHistory, 0, asSS("Cat Hstry"));
 
-        menu.add(1, MenuItems.Backup, 0, "Backup");
+        menu.add(1, MenuItems.Backup, 0, asSS("Backup"));
 
-        menu.add(0, MenuItems.AddItem, 0, "Add Item");
+        menu.add(0, MenuItems.AddItem, 0, asSS("Add Item"));
 
-        menu.add(1, MenuItems.BackupFolder, 0, "Backup Folder");
+        menu.add(1, MenuItems.BackupFolder, 0, asSS("Backup Folder"));
 
-        menu.add(1, MenuItems.RestoreFromBackup, 0, "Restore DB");
+        menu.add(1, MenuItems.RestoreFromBackup, 0, asSS("Restore DB"));
 
         //menu.add(1, MenuItems.DeleteDb, 0, "DELETE DB");
 
@@ -163,7 +183,6 @@ public class MainActivity extends ActivityBase {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.main_list) {
-
 
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
@@ -352,14 +371,20 @@ public class MainActivity extends ActivityBase {
 
     void shareFile(String filePath) {
 
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("application/x-gzip");
+        Uri uri = FileProvider.getUriForFile(this,
+                this.getApplicationContext().getPackageName() + ".provider2",
+                new File(filePath));
 
-        share.putExtra(Intent.EXTRA_STREAM,
-                Uri.parse("file://" + filePath));
+        Intent intent = ShareCompat.IntentBuilder.from(this)
+                .getIntent()
+                .setAction(Intent.ACTION_SEND) //Change if needed
+                .putExtra(Intent.EXTRA_STREAM, uri)
+                .setDataAndType(uri, "application/octet-stream")
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                .putExtra(Intent.EXTRA_SUBJECT, "Upload File")
+                .putExtra(Intent.EXTRA_TEXT, "Upload File");
 
-        share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(Intent.createChooser(share, "Share Backup"));
+        startActivity(Intent.createChooser(intent, "Upload File") );
     }
 
 
@@ -440,6 +465,15 @@ public class MainActivity extends ActivityBase {
 
                 String targetPath1 = preferences1.getString("BackupFolder", path);
 
+                if(ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                    //ask for permission
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+                    }
+                }
+
+
                 String[] files = helper.BackupFiles(targetPath1);
 
                 PickRestoreDB(files);
@@ -466,10 +500,31 @@ public class MainActivity extends ActivityBase {
 
             case (MenuItems.BackupFolder):
 
-                Intent browser = new Intent(Intent.ACTION_GET_CONTENT);
-                browser.setType("file/*");
-                startActivityForResult(browser, IntentRequestCodes.BackupFolder);
+                try {
 
+                    Intent selectDirectoyIntent = new Intent(this, FilePickerActivity.class);
+                    selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+                    selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+//                    selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
+                    startActivityForResult(selectDirectoyIntent, IntentRequestCodes.BackupFolder);
+
+                } catch (Exception e) {
+                    Log.e(this.LogTag, "exception", e);
+                    e.printStackTrace();
+
+                    Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+//                Intent browser = new Intent();
+//
+//                try {
+//                    browser.addCategory(Intent.ACTION_OPEN_DOCUMENT_TREE);
+//                    startActivityForResult(browser, IntentRequestCodes.BackupFolder);
+//                } catch (ActivityNotFoundException anfe) {
+//                    Log.w("DailyDo", "couldn't complete ACTION_OPEN_DOCUMENT, no activity found. falling back.");
+//
+//                    Toast.makeText(this, "No Doc Tree App Found.", Toast.LENGTH_SHORT).show();
+//                }
                 break;
 
             case (MenuItems.Quit):
@@ -553,6 +608,12 @@ public class MainActivity extends ActivityBase {
     }
 
     @Override
+    protected void onPause(){
+        DatabaseRoot.close();
+        super.onPause();
+    }
+
+    @Override
     protected void onResume() {
 
         setupCategories();
@@ -576,7 +637,7 @@ public class MainActivity extends ActivityBase {
 
         cachedCursor.close();
         cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, selectedCategoryId);
-        startManagingCursor(cachedCursor);
+//        startManagingCursor(cachedCursor);
 
         listCursorAdapter.changeCursor(cachedCursor);
     }
@@ -619,7 +680,7 @@ public class MainActivity extends ActivityBase {
         final int unitTypeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
 
 
-        startManagingCursor(cachedCursor);
+//        startManagingCursor(cachedCursor);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
 
         String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
@@ -1159,6 +1220,9 @@ public class MainActivity extends ActivityBase {
 
         public static final int BackupFolder = 2;
 
+        public static final int NoOp = 0;
+
+
         public static final int RestoreDBSelection = 3;
 
         public static final int PotencySelection = 4;
@@ -1187,18 +1251,16 @@ public class MainActivity extends ActivityBase {
             case IntentRequestCodes.BackupFolder:
                 if (resultCode == RESULT_OK) {
 
-                    String FilePath = data.getData().getPath();
-                    String FileName = data.getData().getLastPathSegment();
-                    int lastPos = FilePath.length() - FileName.length();
-                    String Folder = FilePath.substring(0, lastPos);
+                    List<Uri> files = Utils.getSelectedFilesFromResult(data);
+                    for (Uri uri: files) {
+                        File file = Utils.getFileForUri(uri);
+                        // Do something with the result...
+                        String path = file.getAbsolutePath();
 
-                    Preferences().edit().putString("BackupFolder", Folder).commit();
+                        Preferences().edit().putString("BackupFolder", path).commit();
 
-                    Toast.makeText(this, "Saved folder: " + Folder, Toast.LENGTH_LONG).show();
-
-                    /*textFile.setText("Full Path: \n" + FilePath + "\n");
-              textFolder.setText("Folder: \n" + Folder + "\n");
-              textFileName.setText("File Name: \n" + FileName + "\n");*/
+                        Toast.makeText(this, "Saved folder: " + path, Toast.LENGTH_LONG).show();
+                    }
                 }
                 break;
             case IntentRequestCodes.RestoreDBSelection:
@@ -1247,7 +1309,7 @@ public class MainActivity extends ActivityBase {
 
                                             //todo: show backup issues in the app
                                             try {
-                                                helper.CopyFile(backupDir + restoreFile, dbFileFullPath);
+                                                helper.CopyFile(FileHelper.EndSlash(backupDir) + restoreFile, dbFileFullPath);
 
                                                 Toast.makeText(getApplication(), "Success / Restarting", Toast.LENGTH_LONG);
                                             } catch (IOException e) {

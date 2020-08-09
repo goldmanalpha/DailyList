@@ -69,7 +69,7 @@ public class DoableItemValueTableAdapter
 
 
     public int getPreviousId(int itemId, Date date) {
-        Cursor c = db.rawQuery(
+        Cursor c = getDb().rawQuery(
                 "select max(dateCreated) as maxDate from " + this.tableName
                         + " where itemId = ? "
                         + " and appliesToDate < ?"
@@ -83,7 +83,7 @@ public class DoableItemValueTableAdapter
             c.close();
 
             if (lastDate != null) {
-                Cursor c2 = db.rawQuery(
+                Cursor c2 = getDb().rawQuery(
                         "select id from " + this.tableName
                                 + " where dateCreated = ? "
                                 + " and itemId = ?",
@@ -145,7 +145,7 @@ public class DoableItemValueTableAdapter
                 + " from DoableItem i left outer join ViewItemValueMax m  "
                 + " on m.itemId = i.id order by nullif(i.id, m.itemId),  m.valueId desc ;";
 
-        Cursor c = db.rawQuery(sql, new String[]{});
+        Cursor c = getDb().rawQuery(sql, new String[]{});
 
         int order = 0;
 
@@ -225,7 +225,7 @@ public class DoableItemValueTableAdapter
         }
 
         sql = sql.replace(whereClauseToken, whereClause);
-        return db.rawQuery(sql, params);
+        return getDb().rawQuery(sql, params);
     }
 
     //returns a cursor of doable items:
@@ -301,7 +301,7 @@ public class DoableItemValueTableAdapter
 
         // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
 
-        Cursor cursor = db.rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
+        Cursor cursor = getDb().rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
 
         return cursor;
     }
@@ -369,7 +369,7 @@ public class DoableItemValueTableAdapter
         super.delete(id);    //To change body of overridden methods use File | Settings | File Templates.
 
         //if this is a single item left, make sure its dup flag is off
-        Cursor cursor = db.rawQuery("select id from " + this.tableName
+        Cursor cursor = getDb().rawQuery("select id from " + this.tableName
                 + " where itemId = ? and appliesToDate = ? ",
                 new String[]{
                         Integer.toString(deletingItem.getItem().getId()),

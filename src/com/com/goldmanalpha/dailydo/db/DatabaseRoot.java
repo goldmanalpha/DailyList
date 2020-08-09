@@ -14,10 +14,18 @@ public abstract class DatabaseRoot {
     static DailyDoDatabaseHelper dbHelper;
     private static boolean opened;
 
+    protected SQLiteDatabase getDb(){
+        if (db.isOpen()){
+            return db;
+        }
+
+        open();
+        return db;
+    }
 
     protected void open() throws SQLException {
 
-        if (!opened) {
+        if (!opened || !db.isOpen()) {
             dbHelper = new DailyDoDatabaseHelper(context);
             db = dbHelper.getWritableDatabase();
             opened = true;
@@ -25,7 +33,7 @@ public abstract class DatabaseRoot {
     }
 
     public static void close() {
-        if (opened) {
+        if (opened || db.isOpen()) {
             dbHelper.close();
             opened = false;
         }

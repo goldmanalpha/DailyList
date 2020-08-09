@@ -2,6 +2,7 @@
 
     <style name="MyTheme" parent="android:Theme">
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+        <item name="android:actionMenuTextColor">@color/Red</item>
     </style>
     <style name="WindowTitleBackground">
         <item name="android:background">@android:color/transparent</item>

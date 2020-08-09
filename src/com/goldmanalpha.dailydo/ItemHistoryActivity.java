@@ -217,7 +217,7 @@ public class ItemHistoryActivity extends ActivityBase {
         cachedCursor = doableItemValueTableAdapter.getItems(thisInstanceNumber, itemId, limitToCategoryId);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
 
-        startManagingCursor(cachedCursor);
+//        startManagingCursor(cachedCursor);
 
         String[] from = new String[]{
                 DoableItemValueTableAdapter.ColAmount,

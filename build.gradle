@@ -14,7 +14,7 @@ buildscript {
      * of the Gradle plugin for the buildscript.
      */
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
     }
 }
 
@@ -38,6 +38,9 @@ apply plugin: 'com.android.application'
  */
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.nononsenseapps:filepicker:4.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+        implementation 'androidx.core:core:1.0.0'
     // Add other library dependencies here (see the next step)
 
 //    implementation 'com.android.internal.util::+'
@@ -49,6 +52,12 @@ dependencies {
  */
 android {
     compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 21 //lower than 14 doesn't support multidex
+        targetSdkVersion 29
+        compileSdkVersion 29
+    }
 
     /**
      * This nested sourceSets block points the source code directories to the
@@ -79,5 +88,6 @@ android {
          */
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+
     }
 }
