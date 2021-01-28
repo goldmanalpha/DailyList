@@ -255,7 +255,7 @@ public class DoableItemValueTableAdapter
 
             default:
 
-                categorySql = " and categoryId = " + categoryId;
+                categorySql = " and items.categoryId = " + categoryId;
 
         }
 
