@@ -2,14 +2,24 @@ package com.goldmanalpha.dailydo.model;
 
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public abstract class DoableBase {
 
     int id;
     Date dateCreated;
     Date dateModified;
 
-    public int getId() {
-        return id;
+    DoableBase(int id) {
+        this.id = id;
+    }
+
+    DoableBase() {
+        this(0);
+        setDateModified(new Date());
     }
 
     public Date getDateCreated() {
@@ -27,22 +37,6 @@ public abstract class DoableBase {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateModified() {
-        return dateModified;
-    }
-
-    public void setDateModified(Date dateModified) {
-        this.dateModified = dateModified;
-    }
-
-    DoableBase(int id) {
-        this.id = id;
-    }
-
-    DoableBase() {
-        this(0);
-        setDateModified(new Date());
-    }
 
     @Override
     public String toString() {

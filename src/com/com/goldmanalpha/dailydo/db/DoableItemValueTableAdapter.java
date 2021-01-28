@@ -1,13 +1,16 @@
 package com.com.goldmanalpha.dailydo.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import com.goldmanalpha.dailydo.model.*;
+
+import com.goldmanalpha.dailydo.model.DoableItem;
+import com.goldmanalpha.dailydo.model.DoableValue;
+import com.goldmanalpha.dailydo.model.SimpleLookup;
+import com.goldmanalpha.dailydo.model.TeaSpoons;
+import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +39,7 @@ public class DoableItemValueTableAdapter
         values.put("description", object.getDescription());
         values.put("potency", object.getPotency());
 
+
         if (object.getItem().getUnitType() != UnitType.time
                 && object.getItem().getUnitType() != UnitType.timeSpan) {
             values.putNull("fromTime");
@@ -55,7 +59,7 @@ public class DoableItemValueTableAdapter
             values.putNull("appliesToTime");
         }
 
-        values.put("hasAnotherDayInstance", object.getHasAnotherDayInstance() ? 1 : 0);
+        values.put("hasAnotherDayInstance", object.isHasAnotherDayInstance() ? 1 : 0);
         values.put("teaspoons", object.getTeaspoons().toString());
 
         //todo: handle case of item being added out of order :(
@@ -370,7 +374,7 @@ public class DoableItemValueTableAdapter
 
         //if this is a single item left, make sure its dup flag is off
         Cursor cursor = getDb().rawQuery("select id from " + this.tableName
-                + " where itemId = ? and appliesToDate = ? ",
+                        + " where itemId = ? and appliesToDate = ? ",
                 new String[]{
                         Integer.toString(deletingItem.getItem().getId()),
                         super.DateToTimeStamp(deletingItem.getAppliesToDate())

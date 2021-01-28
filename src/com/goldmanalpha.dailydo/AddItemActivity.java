@@ -1,6 +1,5 @@
 package com.goldmanalpha.dailydo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,8 +7,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import java.util.function.Predicate;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 import com.goldmanalpha.androidutility.ArrayHelper;
@@ -19,12 +26,14 @@ import com.goldmanalpha.dailydo.model.SimpleLookup;
 import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class AddItemActivity extends ActivityBase {
 
     DoableItem doableItem;
     DoableItemTableAdapter doableItemTableAdapter;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -77,17 +86,17 @@ public class AddItemActivity extends ActivityBase {
         categoryField.setAdapter(adapter);
 
 
-        SimpleLookup [] lookupArray = new SimpleLookup[categories.size()];
+        SimpleLookup[] lookupArray = new SimpleLookup[categories.size()];
 
         int selectedPosition = ArrayHelper.IndexOfP(
-            categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
-            public boolean test(SimpleLookup simpleLookup) {
-                if (doableItem == null)
-                    return false;
+                categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
+                    public boolean test(SimpleLookup simpleLookup) {
+                        if (doableItem == null)
+                            return false;
 
-                return simpleLookup.getId() == doableItem.getCategoryId();  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
+                        return simpleLookup.getId() == doableItem.getCategoryId();  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+                });
 
         categoryField.setSelection(selectedPosition);
 
@@ -136,8 +145,8 @@ public class AddItemActivity extends ActivityBase {
             unitTypeField.setSelection(index);
         }
 
-        isPrivateCheckbox.setChecked(doableItem.getPrivate());
-        alwaysShowAppliesToTimeCheckbox.setChecked(doableItem.getAlwaysShowAppliesToTime());
+        isPrivateCheckbox.setChecked(doableItem.isPrivate());
+        alwaysShowAppliesToTimeCheckbox.setChecked(doableItem.isAlwaysShowAppliesToTime());
     }
 
     EditText nameField;
@@ -160,17 +169,19 @@ public class AddItemActivity extends ActivityBase {
         Button cancelButton = (Button) findViewById(R.id.cancelButton);
 
         okButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                AddItemActivity.this.okClick(view);
-            }
-        }
+                                        @Override
+                                        public void onClick(View view) {
+                                            AddItemActivity.this.okClick(view);
+                                        }
+                                    }
         );
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                AddItemActivity.this.finish();
-            }
-        }
+                                            @Override
+                                            public void onClick(View view) {
+                                                AddItemActivity.this.finish();
+                                            }
+                                        }
         );
 
     }
@@ -196,40 +207,42 @@ public class AddItemActivity extends ActivityBase {
             Button cancelButton = (Button) layout.findViewById(R.id.cancelButton);
 
             okButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    //save:
-                    String name =
-                            ((EditText) layout.findViewById(R.id.name)).getText().toString();
+                                            @Override
+                                            public void onClick(View view) {
+                                                //save:
+                                                String name =
+                                                        ((EditText) layout.findViewById(R.id.name)).getText().toString();
 
-                    String description =
-                            ((EditText) layout.findViewById(R.id.description))
-                                    .getText().toString();
+                                                String description =
+                                                        ((EditText) layout.findViewById(R.id.description))
+                                                                .getText().toString();
 
 
-                    if (("" + name).trim().length() > 0) {
-                        SimpleLookup lookup = new SimpleLookup();
+                                                if (("" + name).trim().length() > 0) {
+                                                    SimpleLookup lookup = new SimpleLookup();
 
-                        lookup.setName(name);
-                        lookup.setDescription(description);
+                                                    lookup.setName(name);
+                                                    lookup.setDescription(description);
 
-                        categoryTableAdapter.save(lookup);
+                                                    categoryTableAdapter.save(lookup);
 
-                        setupCategories();
+                                                    setupCategories();
 
-                        pw.dismiss();
-                    } else {
-                        Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_SHORT).show();
-                    }
+                                                    pw.dismiss();
+                                                } else {
+                                                    Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_SHORT).show();
+                                                }
 
-                }
-            }
+                                            }
+                                        }
             );
 
             cancelButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    pw.dismiss();
-                }
-            }
+                                                @Override
+                                                public void onClick(View view) {
+                                                    pw.dismiss();
+                                                }
+                                            }
             );
 
         } catch (Exception e) {

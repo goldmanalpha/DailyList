@@ -74,6 +74,18 @@ public class DoableItemValueTable extends TableBase {
             return new String[] {sql16};
 
         }
+
+        String sql;
+        if (newVersion == DBVersions.MultiCategory){
+            sql =
+                    "Alter Table " + TableName
+                            + " add column categoryId int;"
+                    ;
+
+            return new String[] {sql};
+        }
+
+
         return null;
     }
 

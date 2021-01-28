@@ -16,6 +16,23 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
     }
+
+}
+
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '4.0.0'
+}
+
+/**
+ * This line applies the com.android.application plugin. Note that you should
+ * only apply the com.android.application plugin. Applying the Java plugin as
+ * well will result in a build error.
+ */
+apply plugin: 'com.android.application'
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
 }
 
 allprojects {
@@ -25,12 +42,8 @@ allprojects {
         maven { url 'https://maven.google.com' }
     }
 }
-/**
- * This line applies the com.android.application plugin. Note that you should
- * only apply the com.android.application plugin. Applying the Java plugin as
- * well will result in a build error.
- */
-apply plugin: 'com.android.application'
+
+
 
 /**
  * This dependencies block includes any dependencies for the project itself. The

@@ -11,22 +11,42 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import android.provider.MediaStore;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.*;
-import android.widget.*;
-import java.util.function.Predicate;
-import com.com.goldmanalpha.dailydo.db.*;
-import com.goldmanalpha.androidutility.*;
-import com.goldmanalpha.dailydo.model.*;
+import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
+import com.com.goldmanalpha.dailydo.db.DatabaseRoot;
+import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
+import com.com.goldmanalpha.dailydo.db.DoableValueCursorHelper;
+import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
+import com.goldmanalpha.androidutility.ArrayHelper;
+import com.goldmanalpha.androidutility.BackupHelper;
+import com.goldmanalpha.androidutility.DateHelper;
+import com.goldmanalpha.androidutility.DayOnlyDate;
+import com.goldmanalpha.androidutility.EnumHelper;
+import com.goldmanalpha.androidutility.FileHelper;
+import com.goldmanalpha.androidutility.PickOneList;
+import com.goldmanalpha.dailydo.model.DoableValue;
+import com.goldmanalpha.dailydo.model.SimpleLookup;
+import com.goldmanalpha.dailydo.model.TeaSpoons;
+import com.goldmanalpha.dailydo.model.UnitType;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.nononsenseapps.filepicker.Utils;
 
@@ -38,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class MainActivity extends ActivityBase {
 
@@ -137,13 +158,13 @@ public class MainActivity extends ActivityBase {
     }
 
 
-    public void onShowOptionsMenu(View v){
+    public void onShowOptionsMenu(View v) {
         this.openOptionsMenu();
     }
 
     MenuItem PublicPrivateMenuItem;
 
-    private SpannableString asSS(String s){
+    private SpannableString asSS(String s) {
         SpannableString ss = new SpannableString(s);
         ss.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, s.length(), 0);
         return ss;
@@ -203,8 +224,7 @@ public class MainActivity extends ActivityBase {
             menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
 
             if (this.cursorHelper.isNumeric(cachedCursor) && cachedCursor.getInt(
-                    cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAmount)) == 0)
-            {
+                    cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAmount)) == 0) {
                 menu.add(Menu.NONE, MenuItems.SetToPreviousValue, 0, "Set to Prev Value");
             }
 
@@ -220,7 +240,6 @@ public class MainActivity extends ActivityBase {
         final String name = cachedCursor.getString(
                 cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
         );
-        ;
         boolean handled = false;
         SeriousConfirmationDialog dlg = null;
 
@@ -267,6 +286,7 @@ public class MainActivity extends ActivityBase {
                     dlg = new SeriousConfirmationDialog(this,
                             name, "Delete item?",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     if (id == DialogInterface.BUTTON_POSITIVE) {
 
@@ -384,7 +404,7 @@ public class MainActivity extends ActivityBase {
                 .putExtra(Intent.EXTRA_SUBJECT, "Upload File")
                 .putExtra(Intent.EXTRA_TEXT, "Upload File");
 
-        startActivity(Intent.createChooser(intent, "Upload File") );
+        startActivity(Intent.createChooser(intent, "Upload File"));
     }
 
 
@@ -404,6 +424,7 @@ public class MainActivity extends ActivityBase {
             case MenuItems.DeleteDb:
                 DeleteConfirmationDialog dlg = new DeleteConfirmationDialog(this,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -465,11 +486,11 @@ public class MainActivity extends ActivityBase {
 
                 String targetPath1 = preferences1.getString("BackupFolder", path);
 
-                if(ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                     //ask for permission
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
                     }
                 }
 
@@ -576,10 +597,10 @@ public class MainActivity extends ActivityBase {
 
         int selectedPosition = ArrayHelper.IndexOfP(
                 categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
-            public boolean test(SimpleLookup simpleLookup) {
-                return simpleLookup.getId() == MainActivity.this.selectedCategoryId;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
+                    public boolean test(SimpleLookup simpleLookup) {
+                        return simpleLookup.getId() == MainActivity.this.selectedCategoryId;  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+                });
 
 
         //todo: this reset to previous state doesn't exactly work
@@ -608,7 +629,7 @@ public class MainActivity extends ActivityBase {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         DatabaseRoot.close();
         super.onPause();
     }
@@ -737,6 +758,7 @@ public class MainActivity extends ActivityBase {
 
         listCursorAdapter.setViewBinder(
                 new SimpleCursorAdapter.ViewBinder() {
+                    @Override
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
                         boolean returnValue = false;
@@ -832,7 +854,7 @@ public class MainActivity extends ActivityBase {
                                 || columnIndex == lastFromTimedColumnIndex
                                 || columnIndex == toTimeColumnIndex
                                 || columnIndex == lastToTimeColumnIndex
-                                ) {
+                        ) {
 
                             returnValue = true;
 
@@ -849,7 +871,7 @@ public class MainActivity extends ActivityBase {
 
                                 if ((columnIndex == fromTimeColumnIndex && editFirstTime)
                                         || (columnIndex == toTimeColumnIndex && !editFirstTime)
-                                        )
+                                )
                                     tv.setShadowLayer(3, 3, 3, Color.GREEN);
                                 else
                                     tv.setShadowLayer(0, 0, 0, Color.BLACK);
@@ -987,6 +1009,7 @@ public class MainActivity extends ActivityBase {
         );
 
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
@@ -1110,6 +1133,7 @@ public class MainActivity extends ActivityBase {
             SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                     value.getItem().getName(), "Set " + whichTimeToSet + " to current time?",
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog, int id) {
 
                             if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -1147,15 +1171,17 @@ public class MainActivity extends ActivityBase {
 
         Intent intent = new Intent(this, PickOneList.class);
 
-        intent.putExtra(PickOneList.Title, "Pick Log Value Vs. Usual Potency");
+        intent.putExtra(PickOneList.Title, "Pick Exp Value Vs. Std Potency");
 
         intent.putExtra(PickOneList.SelectedItem, this.potencyClickValue.getPotency().toString());
 
         //values from -1 to neg 30 should be sufficient:
-        String[] potencies = new String[29];
+        String[] potencies = new String[34];
+        final int start = 3;
 
-        for (int i = -1; i > -30; i--) {
-            potencies[Math.abs(i) - 1] = String.valueOf(i);
+        for (int i = 0; i <= 33; i--) {
+            final int value = start - i;
+            potencies[i] = String.valueOf(value);
         }
 
         intent.putExtra(PickOneList.Choices, potencies);
@@ -1252,7 +1278,7 @@ public class MainActivity extends ActivityBase {
                 if (resultCode == RESULT_OK) {
 
                     List<Uri> files = Utils.getSelectedFilesFromResult(data);
-                    for (Uri uri: files) {
+                    for (Uri uri : files) {
                         File file = Utils.getFileForUri(uri);
                         // Do something with the result...
                         String path = file.getAbsolutePath();
@@ -1272,6 +1298,7 @@ public class MainActivity extends ActivityBase {
                     SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                             "Restore DB?!", "Restore db from: " + restoreFile,
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int id) {
 
                                     if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -1573,6 +1600,7 @@ public class MainActivity extends ActivityBase {
                 SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                         value.getItem().getName(), "Change value on date: " + mDateDisplay.getText(),
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -1650,9 +1678,7 @@ public class MainActivity extends ActivityBase {
                     })
                     .setNegativeButton("No", null)
                     .show();
-        }
-        else
-        {
+        } else {
             super.onBackPressed();
         }
     }

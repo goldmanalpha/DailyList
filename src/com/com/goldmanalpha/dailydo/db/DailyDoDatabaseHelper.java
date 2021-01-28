@@ -3,7 +3,6 @@ package com.com.goldmanalpha.dailydo.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.goldmanalpha.dailydo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "dailydodata.db";
 
-    private static final int DATABASE_VERSION = 19;
+    private static final int DATABASE_VERSION = DBVersions.MultiCategory;
 
     private List<TableBase> tables;
 
