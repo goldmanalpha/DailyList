@@ -1,18 +1,13 @@
 package com.com.goldmanalpha.dailydo.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
+
 import com.goldmanalpha.dailydo.model.DoableBase;
-import com.goldmanalpha.dailydo.model.DoableValue;
 
 import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public abstract class TableAdapterBase<T extends DoableBase>
         extends DatabaseRoot {
@@ -27,7 +22,7 @@ public abstract class TableAdapterBase<T extends DoableBase>
     public long save(T object) {
 
         ContentValues values = createContentValues(object);
-        DoableBase b = (DoableBase) object;
+        DoableBase b = object;
         long retVal = b.getId();
 
         open();
@@ -52,7 +47,7 @@ public abstract class TableAdapterBase<T extends DoableBase>
     protected ContentValues createContentValues(T object) {
         ContentValues values = new ContentValues();
 
-        DoableBase b = (DoableBase) object;
+        DoableBase b = object;
         //YYYY-MM-DD HH:MM:SS.SSS
 
         if (b.getId() > 0) {
@@ -80,8 +75,8 @@ public abstract class TableAdapterBase<T extends DoableBase>
         open();
 
         Cursor cursor = db.rawQuery("select * from "
-                + tableName
-                + " where id = ?"
+                        + tableName
+                        + " where id = ?"
                 , new String[]{"" + id});
 
         return cursor;
@@ -132,16 +127,16 @@ public abstract class TableAdapterBase<T extends DoableBase>
 
     float totalHours(Integer time1, Integer time2, boolean exact) {
 
-        float  hours1 = (float) Math.floor(time1/ 10000);
-        float  hours2 = (float) Math.floor(time2 / 10000);
+        float hours1 = (float) Math.floor(time1 / 10000);
+        float hours2 = (float) Math.floor(time2 / 10000);
 
-        float  minutes1Pct = (time1 % 10000f) / 6000f;
-        float  minutes2Pct = (time2 % 10000f) / 6000f;
+        float minutes1Pct = (time1 % 10000f) / 6000f;
+        float minutes2Pct = (time2 % 10000f) / 6000f;
 
         hours1 += minutes1Pct;
         hours2 += minutes2Pct;
 
-        float  diff = hours2 - hours1;
+        float diff = hours2 - hours1;
 
         if (exact)
             return diff;

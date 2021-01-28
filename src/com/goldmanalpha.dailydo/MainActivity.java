@@ -106,10 +106,10 @@ public class MainActivity extends ActivityBase {
 
         setContentView(R.layout.main);
 
-        mainList = (ListView) findViewById(R.id.main_list);
+        mainList = findViewById(R.id.main_list);
         registerForContextMenu(mainList);
 
-        mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
+        mDateDisplay = findViewById(R.id.dateDisplay);
 
         Intent intent = getIntent();
         Long dateLong = intent.getLongExtra(ExtraValueDateGetTimeLong, new DayOnlyDate().getTime());
@@ -567,7 +567,7 @@ public class MainActivity extends ActivityBase {
     Spinner categoryField;
 
     private void setupCategories() {
-        categoryField = (Spinner) findViewById(R.id.categorySpinner);
+        categoryField = findViewById(R.id.categorySpinner);
 
         categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter();
 
@@ -612,7 +612,7 @@ public class MainActivity extends ActivityBase {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
                 selectedCategoryId =
-                        ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
+                        ((SimpleLookup) parentView.getSelectedItem()).getId();
 
                 Preferences().edit().putInt(SelectedCategoryIdPrefKey, selectedCategoryId).commit();
 
@@ -892,8 +892,7 @@ public class MainActivity extends ActivityBase {
 
                             if (dashId != 0) {
 
-                                TextView dashView = (TextView)
-                                        ((ViewGroup) tv.getParent()).findViewById(dashId);
+                                TextView dashView = ((ViewGroup) tv.getParent()).findViewById(dashId);
 
                                 if (timesToShowDate < 2)
                                     dashView.setText("");
@@ -1038,7 +1037,7 @@ public class MainActivity extends ActivityBase {
         try {
             Date d = DoableItemValueTableAdapter.simpleDateFormat.parse(lastAppliesToDate);
 
-            TextView tv = (TextView) view;
+            TextView tv = view;
 
             tv.setText(shortMonthDateFormat.format(d));
 
@@ -1438,7 +1437,7 @@ public class MainActivity extends ActivityBase {
         moveCursorToCurrentRow(v);
 
         if (cursorHelper.timesToShowDate(cachedCursor) > 1) {
-            TextView otherTv = (TextView) ((ViewGroup) v.getParent()).findViewById(R.id.list_time2_value);
+            TextView otherTv = ((ViewGroup) v.getParent()).findViewById(R.id.list_time2_value);
             otherTv.setShadowLayer(0, 0, 0, Color.RED);
 
             TextView tv = (TextView) v;
@@ -1471,7 +1470,7 @@ public class MainActivity extends ActivityBase {
         usesAltFocusMap.remove(GetValueIds(v).ItemId);
 
         //brittle reliance on view composition here:
-        TextView otherTv = (TextView) ((ViewGroup) v.getParent().getParent()).findViewById(R.id.list_applies_to_time);
+        TextView otherTv = ((ViewGroup) v.getParent().getParent()).findViewById(R.id.list_applies_to_time);
         otherTv.setShadowLayer(0, 0, 0, Color.RED);
 
         TextView tv = (TextView) v;
@@ -1480,7 +1479,7 @@ public class MainActivity extends ActivityBase {
 
     public void time2_click(View v) {
 
-        TextView otherTv = (TextView) ((ViewGroup) v.getParent()).findViewById(R.id.list_time1_value);
+        TextView otherTv = ((ViewGroup) v.getParent()).findViewById(R.id.list_time1_value);
         otherTv.setShadowLayer(0, 0, 0, Color.RED);
 
 

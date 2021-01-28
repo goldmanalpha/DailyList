@@ -1,14 +1,12 @@
 package com.goldmanalpha.dailydo;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import com.com.goldmanalpha.dailydo.db.DoableItemValueTable;
+
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
-import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.DoableValue;
 
 import java.text.ParseException;
@@ -21,7 +19,7 @@ import java.text.SimpleDateFormat;
  * Time: 5:53 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EditDescriptionActivity extends ActivityBase{
+public class EditDescriptionActivity extends ActivityBase {
 
     DoableItemValueTableAdapter tableAdapter;
     DoableValue value;
@@ -54,7 +52,7 @@ public class EditDescriptionActivity extends ActivityBase{
 
         setTitle(this.date + ": " + value.getItem().getName());
 
-        EditText editor = (EditText) findViewById(R.id.edit_description_entry);
+        EditText editor = findViewById(R.id.edit_description_entry);
 
         if (value.getDescription() != null)
             editor.setText(value.getDescription());
@@ -67,15 +65,14 @@ public class EditDescriptionActivity extends ActivityBase{
         click_ok(null);
     }
 
-    public void click_ok(View v)
-    {
+    public void click_ok(View v) {
 
-        if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) && !outOfRangeDateOK)
-        {
+        if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) && !outOfRangeDateOK) {
             final DoableValue value2 = value;
             SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                     value.getItem().getName(), "Change value on: " + this.date,
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog, int id) {
 
                             if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -86,24 +83,21 @@ public class EditDescriptionActivity extends ActivityBase{
 
             dlg.show();
 
-        }
-        else
-        {
+        } else {
             Save();
         }
 
     }
 
     private void Save() {
-        EditText editor = (EditText) findViewById(R.id.edit_description_entry);
+        EditText editor = findViewById(R.id.edit_description_entry);
 
         value.setDescription(editor.getText().toString());
         tableAdapter.save(value);
         finish();
     }
 
-    public void click_cancel(View v)
-    {
+    public void click_cancel(View v) {
         finish();
     }
 

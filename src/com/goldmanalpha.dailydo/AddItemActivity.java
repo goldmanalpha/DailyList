@@ -105,7 +105,7 @@ public class AddItemActivity extends ActivityBase {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
 
-                if (((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId() == -1) {
+                if (((SimpleLookup) parentView.getSelectedItem()).getId() == -1) {
                     initiatePopupWindow();
                 }
 
@@ -158,15 +158,15 @@ public class AddItemActivity extends ActivityBase {
 
 
     void findFieldsInUi() {
-        nameField = (EditText) findViewById(R.id.name);
-        descriptionField = (EditText) findViewById(R.id.description);
-        unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
-        categoryField = (Spinner) findViewById(R.id.categorySpinner);
-        isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
+        nameField = findViewById(R.id.name);
+        descriptionField = findViewById(R.id.description);
+        unitTypeField = findViewById(R.id.UnitTypeSpinner);
+        categoryField = findViewById(R.id.categorySpinner);
+        isPrivateCheckbox = findViewById(R.id.isPrivateCheckbox);
         alwaysShowAppliesToTimeCheckbox = (CheckBox) findViewById(R.id.addItemAlwaysShowAppliesToCheckbox);
 
-        Button okButton = (Button) findViewById(R.id.okButton);
-        Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        Button okButton = findViewById(R.id.okButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
 
         okButton.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -203,8 +203,8 @@ public class AddItemActivity extends ActivityBase {
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
 
-            Button okButton = (Button) layout.findViewById(R.id.okButton);
-            Button cancelButton = (Button) layout.findViewById(R.id.cancelButton);
+            Button okButton = layout.findViewById(R.id.okButton);
+            Button cancelButton = layout.findViewById(R.id.cancelButton);
 
             okButton.setOnClickListener(new View.OnClickListener() {
                                             @Override

@@ -33,7 +33,7 @@ public class DoableItemValueTableAdapter
     protected ContentValues createContentValues(DoableValue object) {
         ContentValues values = super.createContentValues(object);
 
-        values.put("appliesToDate", super.DateToTimeStamp(object.getAppliesToDate()));
+        values.put("appliesToDate", DateToTimeStamp(object.getAppliesToDate()));
         values.put("itemId", object.getDoableItemId());
 
         values.put("description", object.getDescription());
@@ -78,7 +78,7 @@ public class DoableItemValueTableAdapter
                         + " where itemId = ? "
                         + " and appliesToDate < ?"
                         + " order by dateCreated desc",
-                new String[]{"" + itemId, super.DateToTimeStamp(date)});
+                new String[]{"" + itemId, DateToTimeStamp(date)});
 
         if (c.moveToFirst()) {
 
@@ -305,7 +305,7 @@ public class DoableItemValueTableAdapter
 
         // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
 
-        Cursor cursor = getDb().rawQuery(sql, new String[]{super.DateToTimeStamp(date)});
+        Cursor cursor = getDb().rawQuery(sql, new String[]{DateToTimeStamp(date)});
 
         return cursor;
     }
@@ -377,7 +377,7 @@ public class DoableItemValueTableAdapter
                         + " where itemId = ? and appliesToDate = ? ",
                 new String[]{
                         Integer.toString(deletingItem.getItem().getId()),
-                        super.DateToTimeStamp(deletingItem.getAppliesToDate())
+                        DateToTimeStamp(deletingItem.getAppliesToDate())
                 });
 
         if (cursor.getCount() == 1 && cursor.moveToFirst()) {

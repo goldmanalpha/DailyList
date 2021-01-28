@@ -1,13 +1,12 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
 import com.goldmanalpha.androidutility.DayOnlyDate;
 
 import java.text.SimpleDateFormat;
@@ -28,9 +27,9 @@ public class ActivityBase extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.title_bar);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
-        TextView customTitleText = (TextView) findViewById(R.id.title_bar_text_view);
-        TextView rightTitle = (TextView) findViewById(R.id.title_bar_right_text_view);
-        viewRoot = (ViewGroup) findViewById(R.id.title_bar_layout_root);
+        TextView customTitleText = findViewById(R.id.title_bar_text_view);
+        TextView rightTitle = findViewById(R.id.title_bar_right_text_view);
+        viewRoot = findViewById(R.id.title_bar_layout_root);
 
         customTitleText.setText(this.getString(R.string.app_name));
 
@@ -38,25 +37,18 @@ public class ActivityBase extends Activity {
         setWindowState(WindowState.DEFAULT);
     }
 
-    protected String RightTitle()
-    {
+    protected String RightTitle() {
         return "";
     }
 
-    protected void setWindowState(Date date)
-    {
+    protected void setWindowState(Date date) {
         DayOnlyDate today = new DayOnlyDate();
         DayOnlyDate inputDay = new DayOnlyDate(date);
-        if (new DayOnlyDate().equals(inputDay))
-        {
+        if (new DayOnlyDate().equals(inputDay)) {
             setWindowState(WindowState.TODAY);
-        }
-        else if(addDays(today, -1).equals(inputDay))
-        {
+        } else if (addDays(today, -1).equals(inputDay)) {
             setWindowState(WindowState.YESTERDAY);
-        }
-        else
-        {
+        } else {
             setWindowState(WindowState.OUT_OF_RANGE);
         }
     }
@@ -85,8 +77,7 @@ public class ActivityBase extends Activity {
 
     private WindowState lastState = WindowState.DEFAULT;
 
-    protected WindowState getLastWindowState()
-    {
+    protected WindowState getLastWindowState() {
         return lastState;
     }
 

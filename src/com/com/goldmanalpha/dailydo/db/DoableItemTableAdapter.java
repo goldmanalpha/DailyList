@@ -98,7 +98,7 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
             item.setDisplayOrder(c.getInt(c.getColumnIndex("displayOrder")));
             item.setCategoryId(c.getInt(c.getColumnIndex("categoryId")));
 
-            item.setAlwaysShowAppliesToTime(c.getInt(c.getColumnIndex("showAppliesToTime")) == 1 ? true : false);
+            item.setAlwaysShowAppliesToTime(c.getInt(c.getColumnIndex("showAppliesToTime")) == 1);
         }
 
         c.close();

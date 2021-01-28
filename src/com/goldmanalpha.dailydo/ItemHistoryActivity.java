@@ -9,15 +9,29 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-import com.com.goldmanalpha.dailydo.db.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
+import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
+import com.com.goldmanalpha.dailydo.db.DoableValueCursorHelper;
+import com.com.goldmanalpha.dailydo.db.ItemSortingTableAdapter;
 import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.SimpleLookup;
 
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ItemHistoryActivity extends ActivityBase {
 
@@ -68,28 +82,24 @@ public class ItemHistoryActivity extends ActivityBase {
         String itemName = intent.getStringExtra(ExtraValueItemName);
 
         sortingItemId = itemId;
-        if(itemId == 0)
-        {
+        if (itemId == 0) {
             sortingItemId = highlightItemId;
         }
 
         setContentView(R.layout.single_history);
 
-        TextView nameView = (TextView) findViewById(R.id.single_history_name);
+        TextView nameView = findViewById(R.id.single_history_name);
         nameView.setText(this.multiMode ? "History" : itemName);
 
-        FrameLayout multiNav = (FrameLayout) findViewById(R.id.history_multi_navigation_ui);
+        FrameLayout multiNav = findViewById(R.id.history_multi_navigation_ui);
 
-        if (!multiMode)
-        {
+        if (!multiMode) {
             multiNav.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             multiNav.setVisibility(View.VISIBLE);
         }
 
-        mainList = (ListView) findViewById(R.id.single_history_list);
+        mainList = findViewById(R.id.single_history_list);
         SetupList(itemId, limitToCategoryId);
 
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -124,12 +134,12 @@ public class ItemHistoryActivity extends ActivityBase {
     static int instanceCount;
     private int thisInstanceNumber;
     Boolean incrementedInstanceCount = false;
+
     @Override
     protected String RightTitle() {
 
         String suffix = Integer.toString(instanceCount);
-        if (!incrementedInstanceCount)
-        {
+        if (!incrementedInstanceCount) {
             instanceCount++;
             thisInstanceNumber = instanceCount;
         }
@@ -138,8 +148,8 @@ public class ItemHistoryActivity extends ActivityBase {
     }
 
     EditText highlightText;
-    String highlightText()
-    {
+
+    String highlightText() {
         highlightText = highlightText == null ?
                 (EditText) findViewById(R.id.highlight_text) : highlightText;
 
@@ -156,8 +166,7 @@ public class ItemHistoryActivity extends ActivityBase {
         item.setCheckable(true);
         item.setChecked(showLongDescription);
 
-        if (sortingItemId != 0)
-        {
+        if (sortingItemId != 0) {
             menu.add(0, MenuItems.SortValueAscending, 0, "Sort Val Asc");
             menu.add(0, MenuItems.SortValueDescending, 0, "Sort Val Desc");
             //menu.add(0, MenuItems.SortDateDescending, 0, "Sort Date Desc");
@@ -268,21 +277,19 @@ public class ItemHistoryActivity extends ActivityBase {
 
         listCursorAdapter.setViewBinder(
                 new SimpleCursorAdapter.ViewBinder() {
+                    @Override
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
                         if (columnIndex == itemNameColIdx) {
                             TextView tv = (TextView) view;
                             tv.setText(multiMode ? cursor.getString(columnIndex) : "");
 
-                            if (highlightItemIds.contains(cursor.getInt(itemIdColumnIndex)))
-                            {
-                               // tv.setTextColor(Color.WHITE);
+                            if (highlightItemIds.contains(cursor.getInt(itemIdColumnIndex))) {
+                                // tv.setTextColor(Color.WHITE);
                                 tv.setBackgroundColor(Color.GREEN);
-                            }
-                            else
-                            {
+                            } else {
                                 //todo: specify global default for this to use in code and xml
-                               // tv.setTextColor(Color.GRAY);
+                                // tv.setTextColor(Color.GRAY);
                                 tv.setBackgroundColor(Color.BLACK);
                             }
                         }
@@ -298,7 +305,7 @@ public class ItemHistoryActivity extends ActivityBase {
 
                                 String highlightText = highlightText();
                                 description =
-                                        description.replaceAll("(?i)" + highlightText, "<font color=\"red\">"  + highlightText() + "</font>");
+                                        description.replaceAll("(?i)" + highlightText, "<font color=\"red\">" + highlightText() + "</font>");
                                 tv.setSingleLine(!showLongDescription);
                                 tv.setText(Html.fromHtml(description));
                             }
@@ -328,13 +335,10 @@ public class ItemHistoryActivity extends ActivityBase {
 
                                         boolean applyDateHeaderHere = false;
 
-                                        if (valueIdForDateDisplay.containsKey(d))
-                                        {
+                                        if (valueIdForDateDisplay.containsKey(d)) {
                                             //if we know where to put the date, we'll use that to reapply:
                                             applyDateHeaderHere = currentValueId == valueIdForDateDisplay.get(d);
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             applyDateHeaderHere = !d.equals(lastDate);
                                         }
 
@@ -458,7 +462,7 @@ public class ItemHistoryActivity extends ActivityBase {
                             if (!cursorHelper.isDrops(cursor)) {
                                 tv.setText("");
                             } else {
-                                tv.setText("p" + Integer.toString(cursor.getInt(potencyColIdx)));
+                                tv.setText("p" + cursor.getInt(potencyColIdx));
                             }
 
                             return true;
@@ -496,12 +500,10 @@ public class ItemHistoryActivity extends ActivityBase {
         final int itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
 
 
-
         int currentPosition = mainList.getFirstVisiblePosition();
         cachedCursor.moveToPosition(currentPosition);
 
-        while(!found && (forward ? cachedCursor.moveToNext() : cachedCursor.moveToPrevious()))
-        {
+        while (!found && (forward ? cachedCursor.moveToNext() : cachedCursor.moveToPrevious())) {
             String description = cachedCursor.getString(descriptionColumnIndex);
             Integer itemId = cachedCursor.getInt(itemIdColumnIndex);
 
@@ -513,15 +515,12 @@ public class ItemHistoryActivity extends ActivityBase {
             found = descriptionMatch || itemMatch;
         }
 
-        if (!found)
-        {
+        if (!found) {
 
-            String msg =  "No " + (forward ? "next" : "previous")  + " occurrence of '" + highlightText + "' found";
+            String msg = "No " + (forward ? "next" : "previous") + " occurrence of '" + highlightText + "' found";
             Toast.makeText(ItemHistoryActivity.this, msg, Toast.LENGTH_LONG)
-                    .show();;
-        }
-        else
-        {
+                    .show();
+        } else {
             mainList.setSelectionFromTop(cachedCursor.getPosition(), 0);
         }
     }
