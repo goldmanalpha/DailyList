@@ -64,8 +64,6 @@ dependencies {
  * You must provide a value for at least the compilation target.
  */
 android {
-    compileSdkVersion 30
-
     defaultConfig {
         minSdkVersion 24 //lower than 14 doesn't support multidex
         //noinspection OldTargetApi
@@ -103,5 +101,10 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
 
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
     }
 }

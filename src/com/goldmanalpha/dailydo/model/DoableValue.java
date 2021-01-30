@@ -37,6 +37,9 @@ public class DoableValue extends DoableBase {
      * can be null,
      * in which case caller might want to default to
      * crDate
+     * <p>
+     * when showing duplicates show time
+     * TODO: rename - dupShowTime
      *
      * @return
      */

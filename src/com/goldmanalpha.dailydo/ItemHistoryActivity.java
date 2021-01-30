@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -16,6 +17,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
@@ -52,9 +55,8 @@ public class ItemHistoryActivity extends ActivityBase {
     public static String ExtraValueLimitToCategoryId = "LimitToCategory";
     public static String ExtraHighlightItemId = "ExtraHighlightItemId";
 
-
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d/yy");
     private static final String ShowLongDescriptionKey = "SingleItemHistoryShowLongDescription";
 
     private static ItemSortingTableAdapter sortingTableAdapter = new ItemSortingTableAdapter();
@@ -69,7 +71,6 @@ public class ItemHistoryActivity extends ActivityBase {
         this.showLongDescription = preferences.getBoolean(ShowLongDescriptionKey, true);
 
         Intent intent = getIntent();
-
 
         multiMode = intent.getBooleanExtra(ExtraValueIsMultiMode, false);
         limitToCategoryId = intent.getIntExtra(ExtraValueLimitToCategoryId, SimpleLookup.UNSET_ID);
@@ -157,7 +158,6 @@ public class ItemHistoryActivity extends ActivityBase {
         text = text == null ? "" : text;
         return text;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -282,16 +282,24 @@ public class ItemHistoryActivity extends ActivityBase {
 
                         if (columnIndex == itemNameColIdx) {
                             TextView tv = (TextView) view;
-                            tv.setText(multiMode ? cursor.getString(columnIndex) : "");
 
-                            if (highlightItemIds.contains(cursor.getInt(itemIdColumnIndex))) {
-                                // tv.setTextColor(Color.WHITE);
-                                tv.setBackgroundColor(Color.GREEN);
+                            if (multiMode) {
+                                tv.setText(cursor.getString(columnIndex));
+
+                                if (highlightItemIds.contains(cursor.getInt(itemIdColumnIndex))) {
+                                    // tv.setTextColor(Color.WHITE);
+                                    tv.setBackgroundColor(Color.GREEN);
+                                } else {
+                                    //todo: specify global default for this to use in code and xml
+                                    // tv.setTextColor(Color.GRAY);
+
+                                    tv.setBackgroundColor(ContextCompat.getColor(mainList.getContext(), R.color.transparent));
+                                }
                             } else {
-                                //todo: specify global default for this to use in code and xml
-                                // tv.setTextColor(Color.GRAY);
-                                tv.setBackgroundColor(Color.BLACK);
+                                tv.setWidth(0);
                             }
+
+                            return true;
                         }
 
                         if (columnIndex == descriptionColumnIndex) {
@@ -354,12 +362,9 @@ public class ItemHistoryActivity extends ActivityBase {
                                     }
                                 } else {
                                     if (tv.getId() == R.id.single_history_item_group_date) {
-                                        tv.setText("");
-                                        tv.setHeight(0);
+                                        ((ViewGroup) tv.getParent()).removeView(tv);
                                     }
                                 }
-
-
                             } catch (ParseException e) {
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                 tv.setText("ERR: " + e.getMessage());
@@ -434,7 +439,6 @@ public class ItemHistoryActivity extends ActivityBase {
                                 }
 
                                 tv.setText(timeToShow);
-
                             } else {
                                 //stupid android seems to hold old values and apply them automatically when handled = true
                                 tv.setText("");
@@ -453,7 +457,6 @@ public class ItemHistoryActivity extends ActivityBase {
                             }
 
                             return true;
-
                         }
 
                         if (columnIndex == potencyColIdx) {
@@ -466,15 +469,12 @@ public class ItemHistoryActivity extends ActivityBase {
                             }
 
                             return true;
-
                         }
 
                         return false;
                     }
                 }
         );
-
-
     }
 
     public void item_click(View view) {
@@ -498,7 +498,6 @@ public class ItemHistoryActivity extends ActivityBase {
         String highlightText = highlightText().toLowerCase();
         final int descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
         final int itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
-
 
         int currentPosition = mainList.getFirstVisiblePosition();
         cachedCursor.moveToPosition(currentPosition);

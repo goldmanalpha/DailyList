@@ -3,9 +3,17 @@
     <style name="MyTheme" parent="android:Theme">
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
         <item name="android:actionMenuTextColor">@color/Red</item>
+        <item name="android:overlapAnchor">true</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
     </style>
+
     <style name="WindowTitleBackground">
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/transparent</item>
         <item name="android:padding">0px</item>
     </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@android:color/darker_gray</item>
+    </style>
+
 </resources>
