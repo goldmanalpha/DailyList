@@ -1,33 +1,24 @@
 Easy
-	*    History date divider too short
-	*    2 digit year in history
-    *   Fix history date display
-            Date gets cut off
-    * Item history text too tiny and needs 2 digit year. 2 char day.
+    * Bug unused date divider needs to be removed
 
+    * Category selector text too tall
+	* Bug. No change in history note shows change warning
 
-    *   Category selector text too tall
-    * Cat history. Date titles too short. Needs year.
+    make new items private by default
+        update all items to private
 
-
-	*    Bug. No change in history note shows change warning
-	*    Toast when initiating a value
-            disable initiating value for first x msec after date change or MainActivity show event
-	*    Toast on click so I can find the stray clicks. Maybe as an option. Need options screen
-	*    Daily do. Show dates in history ui
-
-
-
-
-Item menu displayed at top is small. Out it in the middle
-
+    Edit description should show full context:
+        date, name, value?
 
 Med
-    *    Right swipe to change day would be nice
-    *    Default show only has value in section for old dates
 	*    Daily do item search
 	        not being able to find items is ridiculous
 	        near matching
+
+
+Low Priority
+
+Med
     *   change drops to exp
 
 	*    Highlight a group in history
@@ -38,14 +29,9 @@ Med
 	        instead of single highlight, highlight several?
     *   rename category
 
+    *    Right swipe to change day would be nice
+    *    show only has value in section for old dates
 
-Low Priority
-
-Easy
-    make new items private by default
-        update all items to private
-
-Med
     Note: Some input files use or override a deprecated API.
     Note: Recompile with -Xlint:deprecation for details.
 

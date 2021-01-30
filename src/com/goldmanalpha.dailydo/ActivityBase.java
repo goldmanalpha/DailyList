@@ -53,7 +53,6 @@ public class ActivityBase extends Activity {
         }
     }
 
-
     //todo: move to dateHelper:
     protected Date addDays(Date date, int days) {
         Calendar c = Calendar.getInstance();
@@ -63,10 +62,9 @@ public class ActivityBase extends Activity {
     }
 
     protected String DateToString(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("EEE. MMM d, yy");
         return format.format(date);
     }
-
 
     @Override
     protected void onResume() {

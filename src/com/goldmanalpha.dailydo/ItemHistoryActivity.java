@@ -56,7 +56,7 @@ public class ItemHistoryActivity extends ActivityBase {
     public static String ExtraHighlightItemId = "ExtraHighlightItemId";
 
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MM/d/yy");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE. MM/d/yy");
     private static final String ShowLongDescriptionKey = "SingleItemHistoryShowLongDescription";
 
     private static ItemSortingTableAdapter sortingTableAdapter = new ItemSortingTableAdapter();

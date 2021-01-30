@@ -32,7 +32,6 @@ public class EditDescriptionActivity extends ActivityBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
 
-
         setContentView(R.layout.edit_description);
         tableAdapter = new DoableItemValueTableAdapter();
 
@@ -47,7 +46,7 @@ public class EditDescriptionActivity extends ActivityBase {
             this.finish();
         }
 
-        this.date = new SimpleDateFormat("EEE, MMM d, yyyy").format(value.getAppliesToDate());
+        this.date = new SimpleDateFormat("EEE. MMM d, yyyy").format(value.getAppliesToDate());
         setWindowState(value.getAppliesToDate());
 
         setTitle(this.date + ": " + value.getItem().getName());
@@ -82,11 +81,9 @@ public class EditDescriptionActivity extends ActivityBase {
                     });
 
             dlg.show();
-
         } else {
             Save();
         }
-
     }
 
     private void Save() {
@@ -100,5 +97,4 @@ public class EditDescriptionActivity extends ActivityBase {
     public void click_cancel(View v) {
         finish();
     }
-
 }
