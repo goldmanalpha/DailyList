@@ -194,6 +194,8 @@ public class MainActivity extends ActivityBase {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
         if (v.getId() == binding.mainList.getId()) {
 
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
@@ -476,7 +478,6 @@ public class MainActivity extends ActivityBase {
                     Intent selectDirectoyIntent = new Intent(this, FilePickerActivity.class);
                     selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
                     selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-//                    selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
                     startActivityForResult(selectDirectoyIntent, IntentRequestCodes.BackupFolder);
                 } catch (Exception e) {
                     Log.e(this.LogTag, "exception", e);
@@ -484,17 +485,6 @@ public class MainActivity extends ActivityBase {
 
                     Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
-
-//                Intent browser = new Intent();
-//
-//                try {
-//                    browser.addCategory(Intent.ACTION_OPEN_DOCUMENT_TREE);
-//                    startActivityForResult(browser, IntentRequestCodes.BackupFolder);
-//                } catch (ActivityNotFoundException anfe) {
-//                    Log.w("DailyDo", "couldn't complete ACTION_OPEN_DOCUMENT, no activity found. falling back.");
-//
-//                    Toast.makeText(this, "No Doc Tree App Found.", Toast.LENGTH_SHORT).show();
-//                }
                 break;
 
             case (MenuItems.Quit):

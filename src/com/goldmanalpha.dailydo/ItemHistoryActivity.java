@@ -246,7 +246,7 @@ public class ItemHistoryActivity extends ActivityBase {
                 R.id.single_history_item_potency,
                 R.id.single_history_item_description,
                 R.id.single_history_item_date,
-                R.id.single_history_item_group_date,
+                R.id.item_group_header,
                 R.id.single_history_item_applies_to_time,
                 R.id.single_history_item_time_value,
                 R.id.single_history_item_name
@@ -337,7 +337,7 @@ public class ItemHistoryActivity extends ActivityBase {
                                         tv.setWidth(0);
                                     }
 
-                                    if (tv.getId() == R.id.single_history_item_group_date) {
+                                    if (tv.getId() == R.id.item_group_header) {
 
                                         int currentValueId = cursor.getInt(valueIdColumnIndex);
 
@@ -354,14 +354,13 @@ public class ItemHistoryActivity extends ActivityBase {
                                             tv.setHeight(originalDateHeight);
                                             valueIdForDateDisplay.put(d, currentValueId);
                                         } else {
-                                            tv.setText("");
-                                            tv.setHeight(0);
+                                            ((ViewGroup) tv.getParent()).removeView(tv);
                                         }
 
                                         lastDate = d;
                                     }
                                 } else {
-                                    if (tv.getId() == R.id.single_history_item_group_date) {
+                                    if (tv.getId() == R.id.item_group_header) {
                                         ((ViewGroup) tv.getParent()).removeView(tv);
                                     }
                                 }

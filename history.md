@@ -1,5 +1,5 @@
 
-# Jan 2021 - Misc Fixes
+# Jan 2021 - Misc Fixes v 1.0.4
 
     * bugfix: Item menu displayed at top is small.
 	*  Allow 0 as a choice in drops/exponent potency (+3 - -30)
