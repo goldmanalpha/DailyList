@@ -10,6 +10,11 @@ Easy
 
 	* Bug. No change in history note shows change warning
 
+    Maybe opening sort with has values at top?
+        might be an issue because things jump around?
+        but haven't used it that way lately
+        maybe keep sorted as long as all have values are in top 10?
+
 Med
 	* item search
 	        not being able to find items is ridiculous
