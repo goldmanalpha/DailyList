@@ -136,7 +136,7 @@ public class MainActivity extends ActivityBase {
 
         public static final int PublicPrivateSwitch = 5;
 
-        public static final int DuplicateItem = 6;
+        public static final int AddSeparateValue = 6;
 
         public static final int BackupFolder = 7;
 
@@ -213,7 +213,7 @@ public class MainActivity extends ActivityBase {
             menu.add(Menu.NONE, MenuItems.ThisCategoryItemHistoryHighlightItem, 0, "Cat History");
             menu.add(Menu.NONE, MenuItems.AllItemHistoryHighlightItem, 0, "All History");
 
-            menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
+            menu.add(Menu.NONE, MenuItems.AddSeparateValue, 0, "Add Separate Value");
             menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
         }
     }
@@ -229,7 +229,7 @@ public class MainActivity extends ActivityBase {
         SeriousConfirmationDialog dlg = null;
 
         switch (item.getItemId()) {
-            case MenuItems.DuplicateItem:
+            case MenuItems.AddSeparateValue:
 
                 if (ids == null || ids.ValueId == 0) {
                     Toast.makeText(this, "No value to duplicate", Toast.LENGTH_LONG).show();
@@ -1481,7 +1481,7 @@ public class MainActivity extends ActivityBase {
                         Time t = value.getAppliesToTime();
                         //only other current else is applies to time:
                         if (t == null) {
-                            t = new Time(value.getDateCreated().getTime());
+                            t = value.getLocalTimeCreated();
                         }
 
                         Date updatedTime = DateHelper.addMinutes(t, addAmount);

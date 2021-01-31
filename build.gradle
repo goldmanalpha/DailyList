@@ -65,7 +65,7 @@ dependencies {
  */
 android {
     defaultConfig {
-        minSdkVersion 24 //lower than 14 doesn't support multidex
+        minSdkVersion 26 //local dates
         //noinspection OldTargetApi
         targetSdkVersion 29 // Android 10 -- Note 10 2021
         compileSdkVersion 30 // latest Jan 2021: avoids using deprecating apis
