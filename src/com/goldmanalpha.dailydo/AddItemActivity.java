@@ -51,12 +51,13 @@ public class AddItemActivity extends ActivityBase {
 
         unitTypeField.setAdapter(adapter);
 
+        isPrivateCheckbox.setChecked(true);
+
         if (getIntent().hasExtra("itemId")) {
             loadItem(getIntent().getIntExtra("itemId", 0));
         }
 
         setupCategories();
-
     }
 
     LookupTableAdapter categoryTableAdapter;
@@ -78,13 +79,12 @@ public class AddItemActivity extends ActivityBase {
         categories.add(addItem);
 
         ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
-                this, android.R.layout.simple_spinner_item,
+                this, R.layout.spinner_row,
                 categories);
 
         adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
 
         categoryField.setAdapter(adapter);
-
 
         SimpleLookup[] lookupArray = new SimpleLookup[categories.size()];
 
@@ -109,7 +109,6 @@ public class AddItemActivity extends ActivityBase {
                     initiatePopupWindow();
                 }
 
-
                 SimpleLookup lookup = categories.get(position);
 
                 if (lookup.getId() > 0) {
@@ -121,7 +120,6 @@ public class AddItemActivity extends ActivityBase {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
-
         });
     }
 
@@ -131,7 +129,6 @@ public class AddItemActivity extends ActivityBase {
     }
 
     static final String[] unitTypes = EnumHelper.EnumNameToStringArray(UnitType.values());
-
 
     void loadItem(int itemId) {
         doableItem = doableItemTableAdapter.get(itemId);
@@ -155,7 +152,6 @@ public class AddItemActivity extends ActivityBase {
     Spinner categoryField;
     CheckBox isPrivateCheckbox;
     Checkable alwaysShowAppliesToTimeCheckbox;
-
 
     void findFieldsInUi() {
         nameField = findViewById(R.id.name);
@@ -183,9 +179,7 @@ public class AddItemActivity extends ActivityBase {
                                             }
                                         }
         );
-
     }
-
 
     private PopupWindow pw;
 
@@ -202,7 +196,6 @@ public class AddItemActivity extends ActivityBase {
             // display the popup in the center
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-
             Button okButton = layout.findViewById(R.id.okButton);
             Button cancelButton = layout.findViewById(R.id.cancelButton);
 
@@ -216,7 +209,6 @@ public class AddItemActivity extends ActivityBase {
                                                 String description =
                                                         ((EditText) layout.findViewById(R.id.description))
                                                                 .getText().toString();
-
 
                                                 if (("" + name).trim().length() > 0) {
                                                     SimpleLookup lookup = new SimpleLookup();
@@ -232,7 +224,6 @@ public class AddItemActivity extends ActivityBase {
                                                 } else {
                                                     Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_SHORT).show();
                                                 }
-
                                             }
                                         }
             );
@@ -244,7 +235,6 @@ public class AddItemActivity extends ActivityBase {
                                                 }
                                             }
             );
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,10 +242,8 @@ public class AddItemActivity extends ActivityBase {
 
     public void okClick(View view) {
 
-
         try {
             DoableItem item = doableItem;
-
 
             item.setName(nameField.getText().toString());
 
@@ -273,7 +261,6 @@ public class AddItemActivity extends ActivityBase {
                 doableItemTableAdapter.save(item);
                 //doableItemTableAdapter.close();
 
-
                 Toast toast = Toast.makeText(this, item.getName() + " saved.", Toast.LENGTH_SHORT);
                 toast.show();
 
@@ -283,8 +270,6 @@ public class AddItemActivity extends ActivityBase {
                 Toast toast = Toast.makeText(this, "Fill in name and unit type to save.", Toast.LENGTH_SHORT);
                 toast.show();
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 

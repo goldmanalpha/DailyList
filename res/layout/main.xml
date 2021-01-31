@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
 
     android:id="@+id/mainFrame"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_weight="1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_weight="1"
 
-        >
+    >
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
-        <TextView
-                android:id="@+id/dateDisplay"
-                android:text="Date"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                style="@style/ClickableText"
-                android:onClick="main_date_click"
-                />
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/dateDisplay"
+            android:text="Date"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            style="@style/ClickableText"
+            android:onClick="main_date_click" />
 
         <ImageButton
             android:id="@+id/mainOptionsMenuButton"
@@ -34,42 +31,44 @@
             android:layout_weight="1"
             android:onClick="onShowOptionsMenu"
             android:src="@drawable/baseline_more_vert_white_18dp"
-            android:background="@color/Black"
-            />
+            android:background="@color/Black" />
 
-        <Spinner android:id="@+id/categorySpinner"
-                 android:layout_width="wrap_content"
-                 android:layout_height="36dp"
-                 android:layout_weight="1"
-                 />
-
-        <TextView
-                android:id="@+id/prevDate"
-                android:text="  &lt; &lt;  "
-                android:clickable="true"
-                android:onClick="prevDayClick"
-                android:layout_gravity="right"
-                style="@style/ClickableText"
-
-                />
-
-        <TextView
-                android:id="@+id/nextDate"
-                android:layout_gravity="right"
-                android:text="  &gt; &gt;  "
-                android:clickable="true"
-                android:onClick="nextDayClick"
-
-                style="@style/ClickableText"
-
-                />
-    </LinearLayout>
-    <ListView
-            android:id="@+id/main_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/popupBackground"
+            android:padding="0dp"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/prevDate"
+            android:text="  &lt; &lt;  "
+            android:clickable="true"
+            android:onClick="prevDayClick"
+            android:layout_gravity="right"
+            style="@style/ClickableText"
+
             />
+
+        <TextView
+            android:id="@+id/nextDate"
+            android:layout_gravity="right"
+            android:text="  &gt; &gt;  "
+            android:clickable="true"
+            android:onClick="nextDayClick"
+
+            style="@style/ClickableText"
+
+            />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/main_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" />
 
 </LinearLayout>
 

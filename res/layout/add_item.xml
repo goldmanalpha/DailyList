@@ -1,95 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
-        >
-    <EditText
-            android:id="@+id/name"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:inputType="textShortMessage"
-            android:layout_width="fill_parent">
-    </EditText>
-    <Spinner
-            android:id="@+id/UnitTypeSpinner"
-            android:layout_height="wrap_content"
-            android:prompt="@string/unittypeprompt"
-            android:layout_width="fill_parent"
-            >
-    </Spinner>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <EditText
-            android:id="@+id/description"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:inputType="textMultiLine"
-            android:layout_weight="1"
-            android:gravity="top"
-            android:layout_width="fill_parent">
-    </EditText>
+        android:id="@+id/name"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textShortMessage"
+        android:layout_width="fill_parent"></EditText>
+
+    <Spinner
+        android:id="@+id/UnitTypeSpinner"
+        android:layout_height="wrap_content"
+        android:prompt="@string/unittypeprompt"
+        android:layout_width="fill_parent"></Spinner>
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:layout_weight="2"
+        android:gravity="top"
+        android:layout_width="fill_parent"></EditText>
+
     <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+
+        >
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:orientation="horizontal"
-            >
-        <Spinner android:id="@+id/categorySpinner"
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                />
+            android:layout_weight="1"
+            android:background="@color/popupBackground"
+            android:padding="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp" />
 
         <LinearLayout
-                style="@style/WrapStyle"
-
-                android:layout_gravity="right|center_vertical"
-
-                >
+            style="@style/WrapStyle"
+            android:layout_gravity="right|center_vertical">
 
             <TextView
-                    android:text="Private"
+                android:text="Show Time in Dups"
+                style="@style/WrapStyle" />
 
-                    style="@style/WrapStyle"
-                    />
             <CheckBox
-                    android:id="@+id/isPrivateCheckbox"
-                    style="@style/WrapStyle"
-                    />
-
+                android:id="@+id/addItemAlwaysShowAppliesToCheckbox"
+                style="@style/inlineCheckBox"
+                android:layout_marginRight="8dp" />
 
             <TextView
-                    android:text="AppliesTo Time"
-                    style="@style/WrapStyle"
-                    />
+                android:text="Private"
+
+                style="@style/WrapStyle" />
+
             <CheckBox
-                    android:id="@+id/addItemAlwaysShowAppliesToCheckbox"
-                    style="@style/WrapStyle"
-                    />
+                android:id="@+id/isPrivateCheckbox"
+                style="@style/inlineCheckBox" />
+
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+
+        <Button
+            android:id="@+id/okButton"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:layout_marginTop="15dp"
-            >
+            android:text="D o n e"
+            android:clickable="true"
+            android:layout_marginRight="15dp"
+            android:width="75dp"
+            android:layout_weight="1" />
+
         <Button
-                android:id="@+id/okButton"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:text="D o n e"
-                android:clickable="true"
-                android:layout_marginRight="15dp"
-                android:width="75dp"
-                android:layout_weight="1"
-                />
-        <Button
-                android:id="@+id/cancelButton"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Cancel"
-                android:clickable="true"
-                android:width="75dp"
-                />
+            android:id="@+id/cancelButton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Cancel"
+            android:clickable="true"
+            android:width="75dp" />
 
     </LinearLayout>
 </LinearLayout>

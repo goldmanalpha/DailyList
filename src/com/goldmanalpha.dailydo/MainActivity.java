@@ -503,10 +503,9 @@ public class MainActivity extends ActivityBase {
 
     LookupTableAdapter categoryTableAdapter;
     int selectedCategoryId = SimpleLookup.ALL_ID;
-    Spinner categoryField;
 
     private void setupCategories() {
-        categoryField = findViewById(R.id.categorySpinner);
+        Spinner categorySelector = findViewById(R.id.categorySpinner);
 
         categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter();
 
@@ -525,12 +524,11 @@ public class MainActivity extends ActivityBase {
         categories.add(2, addItem);
 
         ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
-                this, android.R.layout.simple_spinner_item,
+                this, R.layout.spinner_row,
                 categories);
-
         adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
 
-        categoryField.setAdapter(adapter);
+        categorySelector.setAdapter(adapter);
 
         SimpleLookup[] lookupArray = new SimpleLookup[categories.size()];
 
@@ -543,9 +541,9 @@ public class MainActivity extends ActivityBase {
 
         //todo: this reset to previous state doesn't exactly work
         //the display text in the spinner is wrong.
-        categoryField.setSelection(selectedPosition, true);
+        categorySelector.setSelection(selectedPosition, true);
 
-        categoryField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        categorySelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 

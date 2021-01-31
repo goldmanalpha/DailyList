@@ -62,7 +62,11 @@ public class ActivityBase extends Activity {
     }
 
     protected String DateToString(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("EEE. MMM d, yy");
+        return DateToString(date, "EEE. MMM d, yyyy");
+    }
+
+    protected String DateToString(Date date, String dateFormat) {
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
         return format.format(date);
     }
 
