@@ -736,10 +736,7 @@ public class MainActivity extends ActivityBase {
                                         tv.setShadowLayer(6, 0, 0, Color.YELLOW);
 
                                     try {
-                                        Date crDate =
-                                                doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx));
-
-                                        t = new Time(crDate.getHours(), crDate.getMinutes(), crDate.getSeconds());
+                                        t = DateHelper.getLocalTime(doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx)));
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }
@@ -1481,7 +1478,7 @@ public class MainActivity extends ActivityBase {
                         Time t = value.getAppliesToTime();
                         //only other current else is applies to time:
                         if (t == null) {
-                            t = value.getLocalTimeCreated();
+                            t = DateHelper.getLocalTime(value.getDateCreated());
                         }
 
                         Date updatedTime = DateHelper.addMinutes(t, addAmount);

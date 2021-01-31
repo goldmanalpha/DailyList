@@ -1,8 +1,5 @@
 Easy
 
-    bug Time in in value is correct time zone but in created time is wrong utc display
-        Fix applies to time local time
-
     Always show time option?  good for pm vits
 
     Default to has values with category for dates beyond recent

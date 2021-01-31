@@ -9,4 +9,5 @@
     * new items private by default
     * bugfix: Item menu displayed at top is small.
     * bugfix: Category selector too tall
+    * bugfix: applies to time was utc - now displays and edits in local time 
  
