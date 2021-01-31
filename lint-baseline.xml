@@ -1,0 +1,2721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="5" by="lint 4.0.1">
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="197"/>
+    </issue>
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="197"/>
+    </issue>
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="553"/>
+    </issue>
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="553"/>
+    </issue>
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="1197"/>
+    </issue>
+
+    <issue
+        id="ApplySharedPref"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="1197"/>
+    </issue>
+
+    <issue
+        id="ShowToast"
+        message="Toast created but not shown: did you forget to call `show()` ?">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="1251"/>
+    </issue>
+
+    <issue
+        id="ShowToast"
+        message="Toast created but not shown: did you forget to call `show()` ?">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="1251"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ActivityBase.java"
+            line="69"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ActivityBase.java"
+            line="69"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha\androidutility\BackupHelper.java"
+            line="29"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha\androidutility\BackupHelper.java"
+            line="29"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha\androidutility\BackupHelper.java"
+            line="48"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha\androidutility\BackupHelper.java"
+            line="48"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\com\goldmanalpha\dailydo\db\DatabaseRoot.java"
+            line="48"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\com\goldmanalpha\dailydo\db\DatabaseRoot.java"
+            line="48"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\EditDescriptionActivity.java"
+            line="49"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\EditDescriptionActivity.java"
+            line="49"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="58"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="58"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="59"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="59"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="71"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="71"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="72"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="72"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `requestLegacyExternalStorage` is only used in API level 29 and higher (current min is 24)">
+        <location
+            file="AndroidManifest.xml"
+            line="22"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `tooltipText` is only used in API level 26 and higher (current min is 24)">
+        <location
+            file="res\layout\add_item.xml"
+            line="55"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `tooltipText` is only used in API level 26 and higher (current min is 24)">
+        <location
+            file="res\layout\add_item.xml"
+            line="65"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes">
+        <location
+            file="res\layout\spinner_row.xml"
+            line="6"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes">
+        <location
+            file="res\values\styles.xml"
+            line="17"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes">
+        <location
+            file="res\values\styles.xml"
+            line="22"/>
+    </issue>
+
+    <issue
+        id="AllowBackup"
+        message="On SDK version 23 and up, your app data will be automatically backed up and restored on app install. Consider adding the attribute `android:fullBackupContent` to specify an `@xml` resource which configures which files to backup. More info: https://developer.android.com/training/backup/autosyncapi.html">
+        <location
+            file="AndroidManifest.xml"
+            line="18"/>
+    </issue>
+
+    <issue
+        id="AllowBackup"
+        message="Should explicitly set `android:allowBackup` to `true` or `false` (it&apos;s `true` by default, and that can have some security implications for the application&apos;s data)">
+        <location
+            file="AndroidManifest.xml"
+            line="18"/>
+    </issue>
+
+    <issue
+        id="Recycle"
+        message="This `Cursor` should be freed up after use with `#close()`">
+        <location
+            file="src\com\com\goldmanalpha\dailydo\db\DoableItemValueTableAdapter.java"
+            line="376"/>
+    </issue>
+
+    <issue
+        id="Recycle"
+        message="This `Cursor` should be freed up after use with `#close()`">
+        <location
+            file="src\com\com\goldmanalpha\dailydo\db\DoableItemValueTableAdapter.java"
+            line="376"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_toRightOf`">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="53"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_below`">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="54"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_below`">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="63"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_toRightOf`">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="64"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `FrameLayout`: `layout_weight`">
+        <location
+            file="res\layout\single_history.xml"
+            line="34"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `FrameLayout`: `layout_weight`">
+        <location
+            file="res\layout\single_history.xml"
+            line="45"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `FrameLayout`: `layout_weight`">
+        <location
+            file="res\layout\single_history.xml"
+            line="54"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="446"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="446"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields; this is a memory leak">
+        <location
+            file="src\com\com\goldmanalpha\dailydo\db\DatabaseRoot.java"
+            line="11"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields; this is a memory leak">
+        <location
+            file="src\com\com\goldmanalpha\dailydo\db\DatabaseRoot.java"
+            line="11"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields (static reference to `ItemSortingTableAdapter` which has field `context` pointing to `Context`); this is a memory leak">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="62"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields (static reference to `ItemSortingTableAdapter` which has field `context` pointing to `Context`); this is a memory leak">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="62"/>
+    </issue>
+
+    <issue
+        id="MergeRootFrame"
+        message="This `&lt;FrameLayout>` can be replaced with a `&lt;merge>` tag">
+        <location
+            file="res\layout\title_bar.xml"
+            line="2"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_height` of `0dp` instead of `wrap_content` for better performance">
+        <location
+            file="res\layout\add_item.xml"
+            line="23"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `wrap_content` for better performance">
+        <location
+            file="res\layout\add_item.xml"
+            line="39"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `fill_parent` for better performance">
+        <location
+            file="res\layout\add_item.xml"
+            line="81"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_height` of `0dp` instead of `fill_parent` for better performance">
+        <location
+            file="res\layout\edit_description.xml"
+            line="12"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `wrap_content` for better performance">
+        <location
+            file="res\layout\edit_description.xml"
+            line="27"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_height` of `0dp` instead of `wrap_content` for better performance">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="19"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `fill_parent` for better performance">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="35"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_height` of `0dp` instead of `fill_parent` for better performance">
+        <location
+            file="res\layout\main.xml"
+            line="70"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_height` of `0dp` instead of `wrap_content` for better performance">
+        <location
+            file="res\layout\main_list.xml"
+            line="11"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.baseline_more_vert_black_18dp` appears to be unused">
+        <location
+            file="res\drawable\baseline_more_vert_black_18dp.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.layout.category_group_edit` appears to be unused">
+        <location
+            file="res\layout\category_group_edit.xml"
+            line="3"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.primaryBackground` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="3"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Ivory` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="20"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightYellow` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="21"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Yellow` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="22"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Snow` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="23"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.FloralWhite` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="24"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LemonChiffon` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="25"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Cornsilk` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="26"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Seashell` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="27"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LavenderBlush` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="28"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.PapayaWhip` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="29"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.BlanchedAlmond` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="30"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MistyRose` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="31"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Bisque` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="32"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Moccasin` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="33"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.NavajoWhite` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="34"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.PeachPuff` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="35"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Gold` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="36"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Pink` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="37"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightPink` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="38"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Orange` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="39"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightSalmon` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="40"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkOrange` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="41"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Coral` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="42"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.HotPink` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="43"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Tomato` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="44"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.OrangeRed` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="45"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DeepPink` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="46"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Fuchsia` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="47"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Magenta` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="48"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.OldLace` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="50"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightGoldenrodYellow` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="51"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Linen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="52"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.AntiqueWhite` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="53"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Salmon` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="54"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.GhostWhite` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="55"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MintCream` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="56"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.WhiteSmoke` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="57"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Beige` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="58"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Wheat` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="59"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SandyBrown` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="60"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Azure` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="61"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Honeydew` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="62"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.AliceBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="63"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Khaki` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="64"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightCoral` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="65"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.PaleGoldenrod` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="66"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Violet` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="67"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkSalmon` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="68"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Lavender` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="69"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightCyan` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="70"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.BurlyWood` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="71"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Plum` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="72"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Gainsboro` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="73"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Crimson` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="74"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.PaleVioletRed` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="75"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Orchid` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="77"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Thistle` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="78"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightGrey` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="79"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Tan` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="80"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Chocolate` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="81"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Peru` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="82"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.IndianRed` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="83"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumVioletRed` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="84"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Silver` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="85"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkKhaki` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="86"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.RosyBrown` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="87"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumOrchid` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="88"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkGoldenrod` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="89"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.FireBrick` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="90"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.PowderBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="91"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightSteelBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="92"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.PaleTurquoise` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="93"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.GreenYellow` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="94"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="95"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkGray` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="96"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Brown` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="97"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Sienna` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="98"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.YellowGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="99"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkOrchid` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="100"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.PaleGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="101"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkViolet` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="102"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumPurple` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="103"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="104"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkSeaGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="105"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SaddleBrown` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="106"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkMagenta` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="107"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkRed` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="108"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.BlueViolet` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="109"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightSkyBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="110"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SkyBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="111"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Gray` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="112"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Olive` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="113"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Purple` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="114"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Maroon` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="115"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Aquamarine` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="116"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Chartreuse` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="117"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LawnGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="118"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumSlateBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="119"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightSlateGray` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="120"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SlateGray` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="121"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.OliveDrab` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="122"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SlateBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="123"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DimGray` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="124"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumAquamarine` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="125"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.CornflowerBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="126"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.CadetBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="127"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkOliveGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="128"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Indigo` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="129"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumTurquoise` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="130"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkSlateBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="131"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SteelBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="132"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.RoyalBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="133"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Turquoise` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="134"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumSeaGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="135"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LimeGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="136"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkSlateGray` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="137"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SeaGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="138"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.ForestGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="139"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.LightSeaGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="140"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DodgerBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="141"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Aqua` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="143"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Cyan` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="144"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.SpringGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="145"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Lime` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="146"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumSpringGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="147"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkTurquoise` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="148"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DeepSkyBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="149"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkCyan` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="150"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Teal` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="151"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.DarkGreen` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="153"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.MediumBlue` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="155"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.Navy` appears to be unused">
+        <location
+            file="res\values\colors.xml"
+            line="157"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.layout.main_list` appears to be unused">
+        <location
+            file="res\layout\main_list.xml"
+            line="2"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.unittypeDrops` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="7"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.unittypeTsp` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="8"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.unittypeTime` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.unittypeTimeSpan2Times` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="10"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.unittypeCheck` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="11"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.unittypeCount` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.unittypeRelativeAmount` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.tspFull` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="15"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.tspQtr` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="16"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.tspEighth` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="17"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.tspSixteenth` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="18"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.tsp32` appears to be unused">
+        <location
+            file="res\values\strings.xml"
+            line="19"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="res\layout\edit_description.xml"
+            line="18"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="40"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="92"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="148"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="res\layout\single_history.xml"
+            line="22"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="res\layout\title_bar.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="res\layout\title_bar.xml"
+            line="21"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/baseline_more_vert_black_18dp.png` in densityless folder">
+        <location
+            file="res\drawable\baseline_more_vert_black_18dp.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/baseline_more_vert_white_18dp.png` in densityless folder">
+        <location
+            file="res\drawable\baseline_more_vert_white_18dp.png"/>
+    </issue>
+
+    <issue
+        id="MissingApplicationIcon"
+        message="Should explicitly set `android:icon`, there is no default">
+        <location
+            file="AndroidManifest.xml"
+            line="18"/>
+    </issue>
+
+    <issue
+        id="ButtonOrder"
+        message="Cancel button should be on the left (was &quot;&quot;D o n e&quot; | Cancel&quot;, should be &quot;Cancel | &quot;D o n e&quot;&quot;)">
+        <location
+            file="res\layout\add_item.xml"
+            line="88"/>
+    </issue>
+
+    <issue
+        id="ButtonOrder"
+        message="Cancel button should be on the left (was &quot;&quot;D o n e&quot; | Cancel&quot;, should be &quot;Cancel | &quot;D o n e&quot;&quot;)">
+        <location
+            file="res\layout\edit_description.xml"
+            line="32"/>
+    </issue>
+
+    <issue
+        id="ButtonOrder"
+        message="Cancel button should be on the left (was &quot;&quot;D o n e&quot; | Cancel&quot;, should be &quot;Cancel | &quot;D o n e&quot;&quot;)">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="42"/>
+    </issue>
+
+    <issue
+        id="ButtonStyle"
+        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
+        <location
+            file="res\layout\add_item.xml"
+            line="78"/>
+    </issue>
+
+    <issue
+        id="ButtonStyle"
+        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
+        <location
+            file="res\layout\add_item.xml"
+            line="88"/>
+    </issue>
+
+    <issue
+        id="ButtonStyle"
+        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
+        <location
+            file="res\layout\edit_description.xml"
+            line="25"/>
+    </issue>
+
+    <issue
+        id="ButtonStyle"
+        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
+        <location
+            file="res\layout\edit_description.xml"
+            line="32"/>
+    </issue>
+
+    <issue
+        id="ButtonStyle"
+        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="32"/>
+    </issue>
+
+    <issue
+        id="ButtonStyle"
+        message="Buttons in button bars should be borderless; use `style=&quot;?android:attr/buttonBarButtonStyle&quot;` (and `?android:attr/buttonBarStyle` on the parent)">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="42"/>
+    </issue>
+
+    <issue
+        id="TextFields"
+        message="This text field does not specify an `inputType`">
+        <location
+            file="res\layout\edit_description.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute">
+        <location
+            file="res\layout\add_item.xml"
+            line="8"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute">
+        <location
+            file="res\layout\add_item.xml"
+            line="21"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute">
+        <location
+            file="res\layout\edit_description.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="10"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="17"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute">
+        <location
+            file="res\layout\single_history.xml"
+            line="40"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image">
+        <location
+            file="res\layout\main.xml"
+            line="26"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\add_item.xml"
+            line="83"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\add_item.xml"
+            line="93"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="37"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="47"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main.xml"
+            line="48"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main.xml"
+            line="59"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="15"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="23"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="34"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="55"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="66"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="76"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="86"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="162"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="172"/>
+    </issue>
+
+    <issue
+        id="KeyboardInaccessibleWidget"
+        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="188"/>
+    </issue>
+
+    <issue
+        id="LabelFor"
+        message="Missing accessibility label: provide either a view with an `android:labelFor` that references this view or provide an `android:hint`">
+        <location
+            file="res\layout\edit_description.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="369"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="369"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="369"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="369"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="467"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\ItemHistoryActivity.java"
+            line="467"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="862"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="862"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="899"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="899"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="901"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="901"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="920"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="src\com\goldmanalpha.dailydo\MainActivity.java"
+            line="920"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Name&quot;, should use `@string` resource">
+        <location
+            file="res\layout\add_item.xml"
+            line="11"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Description&quot;, should use `@string` resource">
+        <location
+            file="res\layout\add_item.xml"
+            line="24"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Show Time in Dups&quot;, should use `@string` resource">
+        <location
+            file="res\layout\add_item.xml"
+            line="53"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Private&quot;, should use `@string` resource">
+        <location
+            file="res\layout\add_item.xml"
+            line="63"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;D o n e&quot;, should use `@string` resource">
+        <location
+            file="res\layout\add_item.xml"
+            line="82"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Cancel&quot;, should use `@string` resource">
+        <location
+            file="res\layout\add_item.xml"
+            line="92"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;D o n e&quot;, should use `@string` resource">
+        <location
+            file="res\layout\edit_description.xml"
+            line="26"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Cancel&quot;, should use `@string` resource">
+        <location
+            file="res\layout\edit_description.xml"
+            line="33"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Name&quot;, should use `@string` resource">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Description&quot;, should use `@string` resource">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="20"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;D o n e&quot;, should use `@string` resource">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="36"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Cancel&quot;, should use `@string` resource">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="46"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Date&quot;, should use `@string` resource">
+        <location
+            file="res\layout\main.xml"
+            line="20"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;  &lt; &lt;  &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main.xml"
+            line="47"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;  > >  &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main.xml"
+            line="58"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;No data&quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list.xml"
+            line="20"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;now&quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="22"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;D&quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="75"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;: &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="108"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot; - &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="119"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot; - &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="180"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;   &lt;&lt;&quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="197"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;   -   &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="203"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;  +   &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="209"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;>>   &quot;, should use `@string` resource">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="215"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Name&quot;, should use `@string` resource">
+        <location
+            file="res\layout\single_history.xml"
+            line="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot; &lt;    &quot;, should use `@string` resource">
+        <location
+            file="res\layout\single_history.xml"
+            line="36"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Hilite/Search Text&quot;, should use `@string` resource">
+        <location
+            file="res\layout\single_history.xml"
+            line="46"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;    > &quot;, should use `@string` resource">
+        <location
+            file="res\layout\single_history.xml"
+            line="56"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;This is my new title&quot;, should use `@string` resource">
+        <location
+            file="res\layout\title_bar.xml"
+            line="11"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;R&quot;, should use `@string` resource">
+        <location
+            file="res\layout\title_bar.xml"
+            line="23"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginRight` with `android:layout_marginEnd=&quot;8dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\add_item.xml"
+            line="45"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;4dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\add_item.xml"
+            line="46"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\add_item.xml"
+            line="50"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginRight` with `android:layout_marginEnd=&quot;8dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\add_item.xml"
+            line="60"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginRight` with `android:layout_marginEnd=&quot;15dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\add_item.xml"
+            line="84"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginRight` with `android:layout_marginEnd=&quot;15dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\edit_lookup.xml"
+            line="38"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\main.xml"
+            line="50"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\main.xml"
+            line="57"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginRight` with `android:layout_marginEnd=&quot;3dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="6"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;25dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="21"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@id/list_unit_type&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="44"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;5dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="52"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@id/list_unit_type&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="53"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@id/list_unit_type&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="64"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;5dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="65"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;5dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="72"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@id/layout_tsp_or_potency&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="73"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;5dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="82"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@id/list_description&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="83"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentRight` with `android:layout_alignParentEnd=&quot;true&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="96"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignRight` with `android:layout_alignEnd=&quot;@id/list_name&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="97"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;15dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="102"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;2dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="134"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;2dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="142"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentRight` with `android:layout_alignParentEnd=&quot;true&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="152"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="164"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="173"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\main_list_item.xml"
+            line="189"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`start`&quot; instead of &quot;`left`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\single_history.xml"
+            line="32"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;15sp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history.xml"
+            line="33"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\single_history.xml"
+            line="52"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginRight` with `android:layout_marginEnd=&quot;15sp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history.xml"
+            line="53"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\single_history_item.xml"
+            line="32"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history_item.xml"
+            line="37"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;10dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history_item.xml"
+            line="42"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history_item.xml"
+            line="49"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;15dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history_item.xml"
+            line="54"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history_item.xml"
+            line="59"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\single_history_item.xml"
+            line="66"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`start`&quot; instead of &quot;`left`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\spinner_row.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:paddingLeft` with `android:paddingStart=&quot;8dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\spinner_row.xml"
+            line="10"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:paddingRight` with `android:paddingEnd=&quot;4dp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\spinner_row.xml"
+            line="11"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales">
+        <location
+            file="res\layout\title_bar.xml"
+            line="26"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginRight` with `android:layout_marginEnd=&quot;5sp&quot;` to better support right-to-left layouts">
+        <location
+            file="res\layout\title_bar.xml"
+            line="29"/>
+    </issue>
+
+</issues>

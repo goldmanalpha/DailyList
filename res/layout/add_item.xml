@@ -51,7 +51,8 @@
 
             <TextView
                 android:text="Show Time in Dups"
-                style="@style/WrapStyle" />
+                style="@style/WrapStyle"
+                android:tooltipText="When there are 2 instances of a value, the time will show." />
 
             <CheckBox
                 android:id="@+id/addItemAlwaysShowAppliesToCheckbox"
@@ -60,8 +61,8 @@
 
             <TextView
                 android:text="Private"
-
-                style="@style/WrapStyle" />
+                style="@style/WrapStyle"
+                android:tooltipText="Item won't display in 'Public Only'/Share mode" />
 
             <CheckBox
                 android:id="@+id/isPrivateCheckbox"

@@ -107,4 +107,8 @@ android {
         dataBinding true
         viewBinding true
     }
+
+    lintOptions {
+        baseline file("lint-baseline.xml")
+    }
 }

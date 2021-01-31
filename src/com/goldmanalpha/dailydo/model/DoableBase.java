@@ -1,6 +1,7 @@
 package com.goldmanalpha.dailydo.model;
 
 import java.util.Date;
+import java.util.Locale;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,10 +38,9 @@ public abstract class DoableBase {
         this.dateCreated = dateCreated;
     }
 
-
     @Override
     public String toString() {
 
-        return String.format("%d", id);
+        return String.format(Locale.getDefault(), "%d", id);
     }
 }
