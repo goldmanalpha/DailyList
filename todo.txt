@@ -5,8 +5,6 @@ Easy
     Default to has values with category for dates beyond recent
         need ui to settle back or maybe use main menu?
 
-	* Bug. No change in history note shows change warning
-
     Maybe opening sort with has values at top?
         might be an issue because things jump around?
         but haven't used it that way lately

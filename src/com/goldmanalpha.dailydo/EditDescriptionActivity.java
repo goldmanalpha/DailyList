@@ -27,6 +27,7 @@ public class EditDescriptionActivity extends ActivityBase {
     public static final String ExtraValueOutOfRangeDateOK = "ExtraValueOutOfRangeDateOK";
 
     boolean outOfRangeDateOK;
+    String startingValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,13 @@ public class EditDescriptionActivity extends ActivityBase {
 
         setTitle(this.date + ": " + value.getItem().getName());
 
-        EditText editor = findViewById(R.id.edit_description_entry);
+        EditText editor = getEditor();
 
-        if (value.getDescription() != null)
-            editor.setText(value.getDescription());
+        startingValue = value.getDescription();
+
+        if (startingValue != null) {
+            editor.setText(startingValue);
+        }
     }
 
     String date;
@@ -68,26 +72,35 @@ public class EditDescriptionActivity extends ActivityBase {
 
         if (this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) && !outOfRangeDateOK) {
             final DoableValue value2 = value;
-            SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
-                    value.getItem().getName(), "Change value on: " + this.date,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
 
-                            if (id == DialogInterface.BUTTON_POSITIVE) {
-                                Save();
+            if (getEditor().getText().toString().equals(startingValue)) {
+                finish();
+            } else {
+                SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
+                        value.getItem().getName(), "Change value on: " + this.date,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                if (id == DialogInterface.BUTTON_POSITIVE) {
+                                    Save();
+                                }
                             }
-                        }
-                    });
+                        });
 
-            dlg.show();
+                dlg.show();
+            }
         } else {
             Save();
         }
     }
 
+    private EditText getEditor() {
+        return findViewById(R.id.edit_description_entry);
+    }
+
     private void Save() {
-        EditText editor = findViewById(R.id.edit_description_entry);
+        EditText editor = getEditor();
 
         value.setDescription(editor.getText().toString());
         tableAdapter.save(value);

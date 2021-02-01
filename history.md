@@ -10,4 +10,5 @@
     * bugfix: Item menu displayed at top is small.
     * bugfix: Category selector too tall
     * bugfix: applies to time was utc - now displays and edits in local time 
+    * bugfix: No change in history note shows change warning
  
