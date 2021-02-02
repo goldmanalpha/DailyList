@@ -601,7 +601,8 @@ public class MainActivity extends ActivityBase {
             public boolean select(Cursor cursor) {
 
                 if (!showOldItemsWithoutValues
-                        && MainActivity.this.getLastWindowState().equals(WindowState.OUT_OF_RANGE)) {
+                        && isOldDate()
+                ) {
 
                     int[] fieldIndices =
                             {
@@ -627,10 +628,16 @@ public class MainActivity extends ActivityBase {
 
     Date lastSetupList2Date;
 
+    private boolean isOldDate() {
+        boolean isOutOfRange = MainActivity.this.getLastWindowState().equals(WindowState.OUT_OF_RANGE);
+        boolean isHistory = new Date().after(mDisplayingDate);
+        return isHistory && isOutOfRange;
+    }
+
     private void setDateOptions(Date date) {
         setWindowState(date);
 
-        int visibility = MainActivity.this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) ?
+        int visibility = isOldDate() ?
                 LinearLayout.VISIBLE : LinearLayout.GONE;
         binding.oldDateOptions.setVisibility(visibility);
     }

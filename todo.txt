@@ -3,8 +3,6 @@ Easy
     Default to has values with category for dates beyond recent
         need ui to settle back or maybe use main menu?
 
-         tomorrow/future needs to show all
-
         bug display new created time is utc
 
     bug: history dates are 1 day past phone
