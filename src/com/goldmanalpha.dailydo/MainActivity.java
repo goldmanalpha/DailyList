@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -61,6 +63,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 
+import filteredcursor.android.FilteredCursorFactory;
+
+import static com.goldmanalpha.androidutility.DateHelper.sameTimeGmt;
+
 public class MainActivity extends ActivityBase {
 
     DoableValueCursorHelper cursorHelper;
@@ -97,6 +103,7 @@ public class MainActivity extends ActivityBase {
     }
 
     private MainBinding binding;
+    private boolean showOldItemsWithoutValues = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +126,14 @@ public class MainActivity extends ActivityBase {
         selectedCategoryId = intent.getIntExtra(ExtraValueCategoryId, selectedCategoryId);
 
         setupCategories();
+
+        binding.showAllItems.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                showOldItemsWithoutValues = isChecked;
+                SetupList2(mDisplayingDate);
+            }
+        });
     }
 
     SharedPreferences Preferences() {
@@ -579,22 +594,56 @@ public class MainActivity extends ActivityBase {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    private Cursor filterCursor(Cursor cursorToFilter) {
+        return FilteredCursorFactory.createUsingSelector(cursorToFilter, new FilteredCursorFactory.Selector() {
+
+            @Override
+            public boolean select(Cursor cursor) {
+
+                if (!showOldItemsWithoutValues
+                        && MainActivity.this.getLastWindowState().equals(WindowState.OUT_OF_RANGE)) {
+
+                    int[] fieldIndices =
+                            {
+                                    amountColumnIndex, fromTimeColumnIndex, toTimeColumnIndex
+                            };
+
+                    for (int idx : fieldIndices) {
+                        if (cursor.getInt(idx) != 0) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+                return true;
+            }
+        });
+    }
+
     boolean setupDate = false;
     SimpleCursorAdapter listCursorAdapter;
 
     Date lastSetupList2Date;
+
+    private void setDateOptions(Date date) {
+        setWindowState(date);
+
+        int visibility = MainActivity.this.getLastWindowState().equals(WindowState.OUT_OF_RANGE) ?
+                LinearLayout.VISIBLE : LinearLayout.GONE;
+        binding.oldDateOptions.setVisibility(visibility);
+    }
 
     public void SetupList2(Date date) {
 
         this.outOfRangeDateOK = this.outOfRangeDateOK && date.equals(lastSetupList2Date);
         lastSetupList2Date = date;
 
-        setWindowState(date);
+        setDateOptions(date);
 
         cachedCursor.close();
-        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, selectedCategoryId);
-//        startManagingCursor(cachedCursor);
-
+        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(sameTimeGmt(date), showPrivate, selectedCategoryId));
         listCursorAdapter.changeCursor(cachedCursor);
     }
 
@@ -608,6 +657,7 @@ public class MainActivity extends ActivityBase {
     int lastFromTimedColumnIndex;
     int lastToTimeColumnIndex;
     int descriptionColumnIndex;
+    int amountColumnIndex;
 
     int teaspoonColIdx;
     int lastTeaspoonColIdx;
@@ -622,11 +672,11 @@ public class MainActivity extends ActivityBase {
             return;
         }
 
-        setWindowState(date);
+        setDateOptions(date);
         setupDate = true;
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
-        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, SimpleLookup.ALL_ID);
+        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(sameTimeGmt(date), showPrivate, SimpleLookup.ALL_ID));
 
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
@@ -681,6 +731,7 @@ public class MainActivity extends ActivityBase {
         fromTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColFromTime);
         toTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColToTime);
         lastToTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastToTime);
+        amountColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAmount);
 
         listCursorAdapter = new SimpleCursorAdapter(mainList.getContext(),
                 R.layout.main_list_item, cachedCursor, from, to);
@@ -737,13 +788,13 @@ public class MainActivity extends ActivityBase {
                                         tv.setShadowLayer(6, 0, 0, Color.YELLOW);
 
                                     try {
-                                        Date createdDate = doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx));
+                                        Date createdDate = DateHelper.TimeStampToDate(cursor.getString(createdDateColIdx));
                                         t = DateHelper.getLocalTime(createdDate);
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }
                                 } else {
-                                    t = doableItemValueTableAdapter.IntToTime(cursor.getInt(appliesToTimeColIdx));
+                                    t = DateHelper.IntToTime(cursor.getInt(appliesToTimeColIdx));
                                 }
 
                                 tv.setText(short24TimeFormat.format(t));
@@ -838,7 +889,7 @@ public class MainActivity extends ActivityBase {
                             if (fromShows || toShows) {
 
                                 int timeAsInt = cursor.getInt(columnIndex);
-                                Time t = doableItemValueTableAdapter
+                                Time t = DateHelper
                                         .IntToTime(timeAsInt);
 
                                 String totalHours = "";
@@ -854,7 +905,7 @@ public class MainActivity extends ActivityBase {
                                     }
 
                                     totalHours = " ("
-                                            + doableItemValueTableAdapter.totalHours(startTimeAsInt, timeAsInt)
+                                            + DateHelper.totalHours(doableItemValueTableAdapter, startTimeAsInt, timeAsInt)
                                             + ")";
                                 }
 
@@ -955,7 +1006,7 @@ public class MainActivity extends ActivityBase {
         }
 
         try {
-            Date d = DoableItemValueTableAdapter.simpleDateFormat.parse(lastAppliesToDate);
+            Date d = DateHelper.simpleDateFormatLocal.parse(lastAppliesToDate);
 
             TextView tv = view;
 
@@ -1287,7 +1338,7 @@ public class MainActivity extends ActivityBase {
         if (value.getId() != 0)
             return;
 
-        value.setAppliesToDate(mDisplayingDate);
+        value.setAppliesToDate(sameTimeGmt(mDisplayingDate));
 
         value.setDoableItemId(GetValueIds(null).ItemId);
 
@@ -1297,11 +1348,11 @@ public class MainActivity extends ActivityBase {
             if (timesToShow > 0) {
 
                 int sqlFromTime = cachedCursor.getInt(lastFromTimedColumnIndex);
-                value.setFromTime(doableItemValueTableAdapter.IntToTime(sqlFromTime));
+                value.setFromTime(DateHelper.IntToTime(sqlFromTime));
 
                 if (timesToShow > 1) {
                     int sqlToTime = cachedCursor.getInt(lastToTimeColumnIndex);
-                    value.setToTime(doableItemValueTableAdapter.IntToTime(sqlToTime));
+                    value.setToTime(DateHelper.IntToTime(sqlToTime));
                 }
             }
 
@@ -1440,11 +1491,11 @@ public class MainActivity extends ActivityBase {
                 if (timesToShow > 0) {
 
                     int sqlFromTime = cachedCursor.getInt(lastFromTimedColumnIndex);
-                    value.setFromTime(doableItemValueTableAdapter.IntToTime(sqlFromTime));
+                    value.setFromTime(DateHelper.IntToTime(sqlFromTime));
 
                     if (timesToShow > 1) {
                         int sqlToTime = cachedCursor.getInt(lastToTimeColumnIndex);
-                        value.setToTime(doableItemValueTableAdapter.IntToTime(sqlToTime));
+                        value.setToTime(DateHelper.IntToTime(sqlToTime));
                     }
                 } else {
                     //its a new value, start with last value used
@@ -1518,7 +1569,7 @@ public class MainActivity extends ActivityBase {
         DoableValue value = doableItemValueTableAdapter
                 .get(ids.ValueId);
 
-        value.setAppliesToDate(this.mDisplayingDate);
+        value.setAppliesToDate(DateHelper.sameTimeGmt(this.mDisplayingDate));
 
         SetDefaultsForNewValue(value);
 
@@ -1530,14 +1581,14 @@ public class MainActivity extends ActivityBase {
                      v) {
 
         doableItemValueTableAdapter.recalcDisplayOrder();
-        updateDisplayDate(addDays(mDisplayingDate, 1));
+        updateDisplayDate(DateHelper.addDays(mDisplayingDate, 1));
     }
 
     public void prevDayClick
             (View
                      v) {
         doableItemValueTableAdapter.recalcDisplayOrder();
-        updateDisplayDate(addDays(mDisplayingDate, -1));
+        updateDisplayDate(DateHelper.addDays(mDisplayingDate, -1));
     }
 
     private void updateDisplayDate(Date date) {
@@ -1547,7 +1598,7 @@ public class MainActivity extends ActivityBase {
         }
 
         mDisplayingDate = date;
-        mDateDisplay.setText(DateToString(date));
+        mDateDisplay.setText(DateHelper.DateToString(this, date));
 
         SetupList(new DayOnlyDate(date));
     }

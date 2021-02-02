@@ -3,10 +3,16 @@ Easy
     Default to has values with category for dates beyond recent
         need ui to settle back or maybe use main menu?
 
-    Maybe opening sort with has values at top?
-        might be an issue because things jump around?
-        but haven't used it that way lately
-        maybe keep sorted as long as all have values are in top 10?
+         tomorrow/future needs to show all
+
+        bug display new created time is utc
+
+    bug: history dates are 1 day past phone
+        could easily relate to local time
+
+
+     bug first history date missing
+        due to bug in hiding extra separators
 
 Med
 	* item search

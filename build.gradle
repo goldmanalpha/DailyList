@@ -50,6 +50,7 @@ allprojects {
  * following line includes all the JAR files in the libs directory.
  */
 dependencies {
+    implementation project(path: ':android-filteredcursor')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.nononsenseapps:filepicker:4.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'

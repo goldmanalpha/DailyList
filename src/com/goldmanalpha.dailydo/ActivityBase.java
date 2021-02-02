@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.goldmanalpha.androidutility.DateHelper;
 import com.goldmanalpha.androidutility.DayOnlyDate;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ActivityBase extends Activity {
@@ -46,28 +45,11 @@ public class ActivityBase extends Activity {
         DayOnlyDate inputDay = new DayOnlyDate(date);
         if (new DayOnlyDate().equals(inputDay)) {
             setWindowState(WindowState.TODAY);
-        } else if (addDays(today, -1).equals(inputDay)) {
+        } else if (DateHelper.addDays(today, -1).equals(inputDay)) {
             setWindowState(WindowState.YESTERDAY);
         } else {
             setWindowState(WindowState.OUT_OF_RANGE);
         }
-    }
-
-    //todo: move to dateHelper:
-    protected Date addDays(Date date, int days) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, days);  // number of days to add
-        return c.getTime();  // dt is now the new date
-    }
-
-    protected String DateToString(Date date) {
-        return DateToString(date, "EEE. MMM d, yyyy");
-    }
-
-    protected String DateToString(Date date, String dateFormat) {
-        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-        return format.format(date);
     }
 
     @Override

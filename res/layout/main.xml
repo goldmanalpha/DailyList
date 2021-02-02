@@ -64,6 +64,23 @@
             />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/old_date_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Show all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/show_all_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/inlineCheckBox" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/main_list"
         android:layout_width="fill_parent"

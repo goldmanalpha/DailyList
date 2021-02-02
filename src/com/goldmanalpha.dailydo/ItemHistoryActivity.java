@@ -24,6 +24,7 @@ import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 import com.com.goldmanalpha.dailydo.db.DoableValueCursorHelper;
 import com.com.goldmanalpha.dailydo.db.ItemSortingTableAdapter;
+import com.goldmanalpha.androidutility.DateHelper;
 import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.SimpleLookup;
 
@@ -327,7 +328,7 @@ public class ItemHistoryActivity extends ActivityBase {
                             String appliesToDate = cursor.getString(columnIndex);
 
                             try {
-                                Date d = doableItemValueTableAdapter.TimeStampToDate(appliesToDate);
+                                Date d = DateHelper.TimeStampToDate(appliesToDate, DateHelper.simpleDateFormatLocal);
 
                                 tv.setText(dateFormat.format(d));
 
@@ -387,14 +388,14 @@ public class ItemHistoryActivity extends ActivityBase {
 
                                     try {
                                         Date crDate =
-                                                doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx));
+                                                DateHelper.TimeStampToDate(cursor.getString(createdDateColIdx));
 
                                         t = new Time(crDate.getHours(), crDate.getMinutes(), crDate.getSeconds());
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }
                                 } else {
-                                    t = doableItemValueTableAdapter.IntToTime(cursor.getInt(appliesToTimeColIdx));
+                                    t = DateHelper.IntToTime(cursor.getInt(appliesToTimeColIdx));
                                 }
 
                                 tv.setVisibility(View.VISIBLE);
@@ -418,7 +419,7 @@ public class ItemHistoryActivity extends ActivityBase {
 
                                 int startTimeAsInt = cursor.getInt(columnIndex);
 
-                                Time t = doableItemValueTableAdapter
+                                Time t = DateHelper
                                         .IntToTime(startTimeAsInt);
 
                                 String timeToShow = short24TimeFormat.format(t);
@@ -426,14 +427,14 @@ public class ItemHistoryActivity extends ActivityBase {
                                 if (toShows) {
 
                                     int endTimeAsInt = cursor.getInt(toTimeColumnIndex);
-                                    t = doableItemValueTableAdapter
+                                    t = DateHelper
                                             .IntToTime(endTimeAsInt);
 
                                     timeToShow = timeToShow
                                             + " - "
                                             + short24TimeFormat.format(t)
                                             + " ("
-                                            + doableItemValueTableAdapter.totalHours(startTimeAsInt, endTimeAsInt)
+                                            + DateHelper.totalHours(doableItemValueTableAdapter, startTimeAsInt, endTimeAsInt)
                                             + ")";
                                 }
 

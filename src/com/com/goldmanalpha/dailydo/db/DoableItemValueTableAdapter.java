@@ -3,6 +3,7 @@ package com.com.goldmanalpha.dailydo.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.goldmanalpha.androidutility.DateHelper;
 import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.DoableValue;
 import com.goldmanalpha.dailydo.model.SimpleLookup;
@@ -13,6 +14,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.goldmanalpha.androidutility.DateHelper.simpleDateFormatGmt;
 
 public class DoableItemValueTableAdapter
         extends TableAdapterBase<DoableValue> {
@@ -31,7 +34,7 @@ public class DoableItemValueTableAdapter
     protected ContentValues createContentValues(DoableValue object) {
         ContentValues values = super.createContentValues(object);
 
-        values.put("appliesToDate", DateToTimeStamp(object.getAppliesToDate()));
+        values.put("appliesToDate", simpleDateFormatGmt.format(object.getAppliesToDate()));
         values.put("itemId", object.getDoableItemId());
 
         values.put("description", object.getDescription());
@@ -45,13 +48,13 @@ public class DoableItemValueTableAdapter
             if (object.getAppliesToTime() == null)
                 values.putNull("appliesToTime");
             else
-                values.put("appliesToTime", TimeToInt(object.getAppliesToTime()));
+                values.put("appliesToTime", DateHelper.TimeToInt(object.getAppliesToTime()));
 
             values.put("amount", object.getAmount());
         } else {
             values.putNull("amount");
-            values.put("fromTime", TimeToInt(object.getFromTime()));
-            values.put("toTime", TimeToInt(object.getToTime()));
+            values.put("fromTime", DateHelper.TimeToInt(object.getFromTime()));
+            values.put("toTime", DateHelper.TimeToInt(object.getToTime()));
 
             values.putNull("appliesToTime");
         }
@@ -74,7 +77,7 @@ public class DoableItemValueTableAdapter
                         + " where itemId = ? "
                         + " and appliesToDate < ?"
                         + " order by dateCreated desc",
-                new String[]{"" + itemId, DateToTimeStamp(date)});
+                new String[]{"" + itemId, simpleDateFormatGmt.format(date)});
 
         if (c.moveToFirst()) {
 
@@ -227,7 +230,7 @@ public class DoableItemValueTableAdapter
         return getDb().rawQuery(sql, params);
     }
 
-    //returns a cursor of doable items:
+    //returns a cursor of doable items:  date should be midnight gmt
     public Cursor getItems(Date date, boolean showPrivate, int categoryId) {
 
         open();
@@ -298,7 +301,7 @@ public class DoableItemValueTableAdapter
 
         // + " order by valueMaxJunction.valueId desc, items.dateCreated desc";
 
-        Cursor cursor = getDb().rawQuery(sql, new String[]{DateToTimeStamp(date)});
+        Cursor cursor = getDb().rawQuery(sql, new String[]{simpleDateFormatGmt.format(date)});
 
         return cursor;
     }
@@ -316,10 +319,10 @@ public class DoableItemValueTableAdapter
             super.setCommonValues(val, c);
 
             val.setAmount(c.getFloat(c.getColumnIndex("amount")));
-            val.setAppliesToDate(simpleDateFormat.parse(c.getString(c.getColumnIndex("appliesToDate"))));
+            val.setAppliesToDate(simpleDateFormatGmt.parse(c.getString(c.getColumnIndex("appliesToDate"))));
 
-            val.setFromTime(IntToTime(c.getInt(c.getColumnIndex("fromTime"))));
-            val.setToTime(IntToTime(c.getInt(c.getColumnIndex("toTime"))));
+            val.setFromTime(DateHelper.IntToTime(c.getInt(c.getColumnIndex("fromTime"))));
+            val.setToTime(DateHelper.IntToTime(c.getInt(c.getColumnIndex("toTime"))));
 
             val.setDoableItemId(c.getInt(c.getColumnIndex("itemId")));
 
@@ -335,7 +338,7 @@ public class DoableItemValueTableAdapter
 
             int appliesToCol = c.getColumnIndex("appliesToTime");
             if (!c.isNull(appliesToCol)) {
-                val.setAppliesToTime(IntToTime(c.getInt(appliesToCol)));
+                val.setAppliesToTime(DateHelper.IntToTime(c.getInt(appliesToCol)));
             }
         }
 
@@ -369,7 +372,7 @@ public class DoableItemValueTableAdapter
                         + " where itemId = ? and appliesToDate = ? ",
                 new String[]{
                         Integer.toString(deletingItem.getItem().getId()),
-                        DateToTimeStamp(deletingItem.getAppliesToDate())
+                        DateHelper.simpleDateFormatGmt.format(deletingItem.getAppliesToDate())
                 });
 
         if (cursor.getCount() == 1 && cursor.moveToFirst()) {
@@ -380,12 +383,12 @@ public class DoableItemValueTableAdapter
         }
     }
 
-    public Date getAppliesToDate(Cursor cursor) throws ParseException {
+    public static Date getAppliesToDate(Cursor cursor) throws ParseException {
 
         String appliesToDate =
                 cursor.getString(cursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToDate));
 
-        return TimeStampToDate(appliesToDate);
+        return DateHelper.TimeStampToDate(appliesToDate);
     }
 }
 

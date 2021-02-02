@@ -4,10 +4,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 public abstract class DatabaseRoot {
     protected static Context context;
 
@@ -42,17 +38,5 @@ public abstract class DatabaseRoot {
 
     public static void setContext(Context contextIn) {
         context = contextIn;
-    }
-
-    private static SimpleDateFormat createSimpleDateFormat() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return format;
-    }
-
-    public static final SimpleDateFormat simpleDateFormat = createSimpleDateFormat();
-
-    public static String DateToTimeStamp(Date d) {
-        return simpleDateFormat.format(d);
     }
 }
