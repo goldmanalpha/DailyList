@@ -1,5 +1,6 @@
 package com.com.goldmanalpha.dailydo.db;
 
-public class DBVersions{
-    public static final int MultiCategory = 20;
+public class DBVersions {
+
+    public static final int DBVersion = 19;
 }

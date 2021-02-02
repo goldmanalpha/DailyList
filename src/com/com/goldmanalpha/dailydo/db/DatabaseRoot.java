@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public abstract class DatabaseRoot {
     protected static Context context;
@@ -14,8 +15,8 @@ public abstract class DatabaseRoot {
     static DailyDoDatabaseHelper dbHelper;
     private static boolean opened;
 
-    protected SQLiteDatabase getDb(){
-        if (db.isOpen()){
+    protected SQLiteDatabase getDb() {
+        if (db.isOpen()) {
             return db;
         }
 
@@ -41,14 +42,17 @@ public abstract class DatabaseRoot {
 
     public static void setContext(Context contextIn) {
         context = contextIn;
-
-
     }
 
-    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat createSimpleDateFormat() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return format;
+    }
+
+    public static final SimpleDateFormat simpleDateFormat = createSimpleDateFormat();
 
     public static String DateToTimeStamp(Date d) {
         return simpleDateFormat.format(d);
     }
-
 }

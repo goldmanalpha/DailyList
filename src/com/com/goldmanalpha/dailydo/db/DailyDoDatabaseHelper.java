@@ -7,17 +7,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
+public class DailyDoDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "dailydodata.db";
 
-    private static final int DATABASE_VERSION = DBVersions.MultiCategory;
+    private static final int DATABASE_VERSION = DBVersions.DBVersion;
 
     private List<TableBase> tables;
 
-
-    public DailyDoDatabaseHelper(Context context)
-    {
+    public DailyDoDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         tables = new ArrayList<TableBase>();
@@ -30,8 +28,7 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        for (TableBase t: tables)
-        {
+        for (TableBase t : tables) {
             t.onCreate(sqLiteDatabase);
         }
 
@@ -40,8 +37,7 @@ public class DailyDoDatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        for (TableBase t: tables)
-        {
+        for (TableBase t : tables) {
             t.onUpgrade(sqLiteDatabase, oldVersion, newVersion);
         }
     }

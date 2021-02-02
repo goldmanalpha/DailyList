@@ -3,10 +3,8 @@ package com.goldmanalpha.androidutility;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,11 +24,7 @@ public class DateHelper {
     }
 
     public static Time getLocalTime(Date date) {
-        LocalDateTime utcTime = date.toInstant()
-                .atZone(TimeZone.getTimeZone("UTC").toZoneId())
-                .toLocalDateTime();
-
-        ZonedDateTime localCreated = utcTime.atZone(ZoneId.systemDefault());
+        LocalDateTime localCreated = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
         int hours = localCreated.getHour();
         int minutes = localCreated.getMinute();

@@ -50,9 +50,9 @@
             android:layout_gravity="right|center_vertical">
 
             <TextView
-                android:text="Show Time in Dups"
+                android:text="Always Show Time"
                 style="@style/WrapStyle"
-                android:tooltipText="When there are 2 instances of a value, the time will show." />
+                android:tooltipText="Always show create/applies to time for set values.  This is better than putting time in description." />
 
             <CheckBox
                 android:id="@+id/addItemAlwaysShowAppliesToCheckbox"

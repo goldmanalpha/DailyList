@@ -534,6 +534,7 @@ public class MainActivity extends ActivityBase {
 
         int selectedPosition = ArrayHelper.IndexOfP(
                 categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
+                    @Override
                     public boolean test(SimpleLookup simpleLookup) {
                         return simpleLookup.getId() == MainActivity.this.selectedCategoryId;  //To change body of implemented methods use File | Settings | File Templates.
                     }
@@ -736,7 +737,8 @@ public class MainActivity extends ActivityBase {
                                         tv.setShadowLayer(6, 0, 0, Color.YELLOW);
 
                                     try {
-                                        t = DateHelper.getLocalTime(doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx)));
+                                        Date createdDate = doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx));
+                                        t = DateHelper.getLocalTime(createdDate);
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }

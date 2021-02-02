@@ -1,7 +1,5 @@
 Easy
 
-    Always show time option?  good for pm vits
-
     Default to has values with category for dates beyond recent
         need ui to settle back or maybe use main menu?
 

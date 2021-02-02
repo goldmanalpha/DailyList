@@ -17,7 +17,6 @@ import java.util.List;
 public class DoableItemValueTableAdapter
         extends TableAdapterBase<DoableValue> {
 
-
     public DoableItemValueTableAdapter() {
         super(DoableItemValueTable.TableName);
     }
@@ -28,7 +27,6 @@ public class DoableItemValueTableAdapter
         return id;
     }
 
-
     @Override
     protected ContentValues createContentValues(DoableValue object) {
         ContentValues values = super.createContentValues(object);
@@ -38,7 +36,6 @@ public class DoableItemValueTableAdapter
 
         values.put("description", object.getDescription());
         values.put("potency", object.getPotency());
-
 
         if (object.getItem().getUnitType() != UnitType.time
                 && object.getItem().getUnitType() != UnitType.timeSpan) {
@@ -70,7 +67,6 @@ public class DoableItemValueTableAdapter
 
         return values;
     }
-
 
     public int getPreviousId(int itemId, Date date) {
         Cursor c = getDb().rawQuery(
@@ -196,7 +192,7 @@ public class DoableItemValueTableAdapter
                 + " vals.fromTime, vals.toTime, vals.amount, "
                 + " vals.teaspoons, potency, i.unitType, "
 
-                + " coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
+                + " coalesce(i.showAppliesToTime, 0) + coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
 
                 + " vals.dateCreated, vals.dateModified, i.name items_name, "
                 + " vals.itemId  as items_id "
@@ -213,7 +209,6 @@ public class DoableItemValueTableAdapter
 
         String[] params = new String[]{};
         String whereClause = "";
-
 
         if (isMultipleItems) {
 
@@ -256,7 +251,6 @@ public class DoableItemValueTableAdapter
             default:
 
                 categorySql = " and items.categoryId = " + categoryId;
-
         }
 
         String sql = "select "
@@ -276,7 +270,6 @@ public class DoableItemValueTableAdapter
 
                 //when 0 don't show, otherwise show
                 + " coalesce(items.showAppliesToTime, 0) + coalesce(vals.hasAnotherDayInstance, 0) showAppliesToTimeCount, "
-
 
                 //can be null
                 + " vals.appliesToTime appliesToTime, "
@@ -340,7 +333,6 @@ public class DoableItemValueTableAdapter
 
             val.setHasAnotherDayInstance(c.getInt(c.getColumnIndex("hasAnotherDayInstance")) > 0);
 
-
             int appliesToCol = c.getColumnIndex("appliesToTime");
             if (!c.isNull(appliesToCol)) {
                 val.setAppliesToTime(IntToTime(c.getInt(appliesToCol)));
@@ -394,7 +386,6 @@ public class DoableItemValueTableAdapter
                 cursor.getString(cursor.getColumnIndex(DoableItemValueTableAdapter.ColAppliesToDate));
 
         return TimeStampToDate(appliesToDate);
-
     }
 }
 
