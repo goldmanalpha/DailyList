@@ -1,13 +1,5 @@
 Easy
 
-    Default to has values with category for dates beyond recent
-        need ui to settle back or maybe use main menu?
-
-        bug display new created time is utc
-
-    bug: history dates are 1 day past phone
-        could easily relate to local time
-
 
      bug first history date missing
         due to bug in hiding extra separators

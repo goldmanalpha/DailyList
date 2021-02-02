@@ -66,6 +66,7 @@ import java.util.function.Predicate;
 import filteredcursor.android.FilteredCursorFactory;
 
 import static com.goldmanalpha.androidutility.DateHelper.sameTimeGmt;
+import static com.goldmanalpha.androidutility.DateHelper.simpleDateFormatGmt;
 
 public class MainActivity extends ActivityBase {
 
@@ -795,7 +796,7 @@ public class MainActivity extends ActivityBase {
                                         tv.setShadowLayer(6, 0, 0, Color.YELLOW);
 
                                     try {
-                                        Date createdDate = DateHelper.TimeStampToDate(cursor.getString(createdDateColIdx));
+                                        Date createdDate = DateHelper.TimeStampToDate(cursor.getString(createdDateColIdx), simpleDateFormatGmt);
                                         t = DateHelper.getLocalTime(createdDate);
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
