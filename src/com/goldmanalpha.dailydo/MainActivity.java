@@ -49,6 +49,7 @@ import com.goldmanalpha.dailydo.databinding.MainBinding;
 import com.goldmanalpha.dailydo.model.DoableValue;
 import com.goldmanalpha.dailydo.model.SimpleLookup;
 import com.goldmanalpha.dailydo.model.TeaSpoons;
+import com.goldmanalpha.dailydo.model.TeaspoonHelper;
 import com.goldmanalpha.dailydo.model.UnitType;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.nononsenseapps.filepicker.Utils;
@@ -925,14 +926,12 @@ public class MainActivity extends ActivityBase {
                         if (columnIndex == teaspoonColIdx) {
                             TextView tv = ((TextView) view);
 
-                            if (!cursorHelper.isTeaspoons(cursor)) {
-                                tv.setText("");
-                                returnValue = true;
+                            if (cursorHelper.isTeaspoons(cursor)) {
+                                tv.setText(TeaspoonHelper.shortName(getTeaspoonsForCursorPosition(cursor)));
                             } else {
-
-                                tv.setText(getTeaspoonsForCursorPosition(cursor));
-                                returnValue = true;
+                                tv.setText("");
                             }
+                            returnValue = true;
                         }
 
                         if (columnIndex == lastTeaspoonsColIdx) {

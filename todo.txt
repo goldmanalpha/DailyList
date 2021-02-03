@@ -1,7 +1,3 @@
-Easy
-
-    history display quarter -> qtr -- make all units 4 chars max
-
 Med
 	* item search
 	        not being able to find items is ridiculous

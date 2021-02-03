@@ -26,6 +26,7 @@ import com.com.goldmanalpha.dailydo.db.ItemSortingTableAdapter;
 import com.goldmanalpha.androidutility.DateHelper;
 import com.goldmanalpha.dailydo.model.DoableItem;
 import com.goldmanalpha.dailydo.model.SimpleLookup;
+import com.goldmanalpha.dailydo.model.TeaspoonHelper;
 
 import java.sql.Time;
 import java.text.ParseException;
@@ -437,7 +438,7 @@ public class ItemHistoryActivity extends ActivityBase {
                             if (!cursorHelper.isTeaspoons(cursor)) {
                                 tv.setVisibility(View.GONE);
                             } else {
-                                tv.setText(cursorHelper.getTeaspoons(cursor));
+                                tv.setText(TeaspoonHelper.shortName(cursorHelper.getTeaspoons(cursor)));
                                 tv.setVisibility(View.VISIBLE);
                             }
 

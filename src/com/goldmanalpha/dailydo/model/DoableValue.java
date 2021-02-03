@@ -68,7 +68,7 @@ public class DoableValue extends DoableBase {
                 return String.format("%d @ p%d", this.amount, this.potency.intValue());
 
             case tsp:
-                return String.format("%d %s tsp", this.amount.intValue(), this.teaspoons.toString());
+                return String.format("%d %s tsp", this.amount.intValue(), TeaspoonHelper.shortName(this.teaspoons));
 
             case time:
                 return String.format("%s", short24TimeFormat.format(this.fromTime));

@@ -8,6 +8,7 @@
     * Toast on change value to find stray clicks
     * new items private by default
     * Edit description should shows context: date, name, value
+    * short names for tsp
     * bugfix: Item menu displayed at top is small.
     * bugfix: Category selector too tall
     * bugfix: applies to time was utc - now displays and edits in local time 
