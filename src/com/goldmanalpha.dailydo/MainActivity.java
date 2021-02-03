@@ -57,7 +57,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +65,8 @@ import java.util.function.Predicate;
 import filteredcursor.android.FilteredCursorFactory;
 
 import static com.goldmanalpha.androidutility.DateHelper.sameTimeGmt;
+import static com.goldmanalpha.androidutility.DateHelper.short24TimeFormat;
+import static com.goldmanalpha.androidutility.DateHelper.shortMonthDateFormat;
 import static com.goldmanalpha.androidutility.DateHelper.simpleDateFormatGmt;
 
 public class MainActivity extends ActivityBase {
@@ -74,9 +75,6 @@ public class MainActivity extends ActivityBase {
     private TextView mDateDisplay;
     Date mDisplayingDate;
     DoableItemValueTableAdapter doableItemValueTableAdapter;
-
-    private static final SimpleDateFormat shortMonthDateFormat = new SimpleDateFormat("MMM-dd");
-    private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
 
     HashMap<Integer, AltFocus> usesAltFocusMap = new HashMap<Integer, AltFocus>();
     public static String ExtraValueDateGetTimeLong = "dateToShow";
@@ -1606,7 +1604,7 @@ public class MainActivity extends ActivityBase {
         }
 
         mDisplayingDate = date;
-        mDateDisplay.setText(DateHelper.DateToString(this, date));
+        mDateDisplay.setText(DateHelper.LongDateString(date));
 
         SetupList(new DayOnlyDate(date));
     }

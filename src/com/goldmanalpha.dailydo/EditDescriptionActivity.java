@@ -7,10 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
+import com.goldmanalpha.dailydo.databinding.EditDescriptionBinding;
 import com.goldmanalpha.dailydo.model.DoableValue;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import static com.goldmanalpha.androidutility.DateHelper.LongDateString;
+import static com.goldmanalpha.androidutility.DateHelper.sameTimeGmt;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,12 +31,14 @@ public class EditDescriptionActivity extends ActivityBase {
 
     boolean outOfRangeDateOK;
     String startingValue;
+    private EditDescriptionBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+        binding = EditDescriptionBinding.inflate(getLayoutInflater());
 
-        setContentView(R.layout.edit_description);
+        setContentView(binding.getRoot());
         tableAdapter = new DoableItemValueTableAdapter();
 
         Intent intent = getIntent();
@@ -47,18 +52,20 @@ public class EditDescriptionActivity extends ActivityBase {
             this.finish();
         }
 
-        this.date = new SimpleDateFormat("EEE. MMM d, yyyy").format(value.getAppliesToDate());
+        this.date = LongDateString(sameTimeGmt(value.getAppliesToDate()));
         setWindowState(value.getAppliesToDate());
 
         setTitle(this.date + ": " + value.getItem().getName());
 
-        EditText editor = getEditor();
-
         startingValue = value.getDescription();
 
         if (startingValue != null) {
-            editor.setText(startingValue);
+            binding.editDescriptionEntry.setText(startingValue);
         }
+
+        binding.headerStartText.setText(this.date);
+        binding.headerMiddleText.setText(value.getItem().getName());
+        binding.headerEndText.setText(value.valueDisplayString());
     }
 
     String date;
@@ -96,7 +103,7 @@ public class EditDescriptionActivity extends ActivityBase {
     }
 
     private EditText getEditor() {
-        return findViewById(R.id.edit_description_entry);
+        return binding.editDescriptionEntry;
     }
 
     private void Save() {

@@ -1,7 +1,6 @@
 package com.goldmanalpha.androidutility;
 
 import com.com.goldmanalpha.dailydo.db.TableAdapterBase;
-import com.goldmanalpha.dailydo.ActivityBase;
 import com.goldmanalpha.dailydo.model.DoableBase;
 
 import java.sql.Time;
@@ -26,6 +25,9 @@ public class DateHelper {
     public static final SimpleDateFormat simpleDateFormatGmt = createSimpleDateFormat("GMT");
     public static final SimpleDateFormat simpleDateFormatLocal = createSimpleDateFormat(null);
 
+    public static final SimpleDateFormat shortMonthDateFormat = new SimpleDateFormat("MMM-dd");
+    public static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
+
     public static final Date addMinutes(Date startDate, int minutesToAdd) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
@@ -39,6 +41,8 @@ public class DateHelper {
         return toTime(localDate);
     }
 
+    //given a GMT date, retrieves the same date, but as local
+    // ex: midnight GMT is 7pm NY, this will return a midnight NY date
     public static Date sameTimeGmt(Date date) {
         String midnightDate = simpleDateFormatLocal.format(date);
         LocalDateTime localDateTime = LocalDateTime.parse(midnightDate, DateTimeFormatter.ofPattern(DATE_FORMAT));
@@ -136,11 +140,11 @@ public class DateHelper {
         return c.getTime();  // dt is now the new date
     }
 
-    public static String DateToString(ActivityBase activityBase, Date date) {
-        return DateToString(date, "EEE. MMM d, yyyy");
+    public static String LongDateString(Date date) {
+        return LongDateString(date, "EEE. MMM d, yyyy");
     }
 
-    protected static String DateToString(Date date, String dateFormat) {
+    protected static String LongDateString(Date date, String dateFormat) {
         SimpleDateFormat format = new SimpleDateFormat(dateFormat);
         return format.format(date);
     }

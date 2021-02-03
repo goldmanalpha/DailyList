@@ -1,8 +1,5 @@
 Easy
 
-    Edit description should show full context:
-        date, name, value?
-
     history display quarter -> qtr -- make all units 4 chars max
 
 Med

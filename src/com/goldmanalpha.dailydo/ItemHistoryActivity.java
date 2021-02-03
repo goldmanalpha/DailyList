@@ -309,7 +309,7 @@ public class ItemHistoryActivity extends ActivityBase {
                             if (description == null || description.trim() == "") {
                                 tv.setVisibility(View.GONE);
                             } else {
-
+                                tv.setVisibility(View.VISIBLE);
                                 String highlightText = highlightText();
                                 description =
                                         description.replaceAll("(?i)" + highlightText, "<font color=\"red\">" + highlightText() + "</font>");
@@ -367,6 +367,7 @@ public class ItemHistoryActivity extends ActivityBase {
                                     && cursorHelper.timesToShowDate(cursor) < 1;
 
                             if (showAppliesToTime) {
+                                tv.setVisibility(View.VISIBLE);
                                 Time t = new Time(0, 0, 0);
                                 if (cursor.isNull(appliesToTimeColIdx)) {
 

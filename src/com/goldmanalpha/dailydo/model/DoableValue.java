@@ -8,6 +8,8 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.goldmanalpha.androidutility.DateHelper.short24TimeFormat;
+
 @Getter
 @Setter
 public class DoableValue extends DoableBase {
@@ -52,14 +54,42 @@ public class DoableValue extends DoableBase {
         this.setTeaspoons(copyItem.teaspoons);
         this.setPotency(copyItem.potency);
         this.setDoableItemId(copyItem.getItem().getId());
-
     }
 
+    public String valueDisplayString() {
+        UnitType unitType = this.getItem().unitType;
+
+        switch (unitType) {
+
+            case unset:
+                return "unset unit!";
+
+            case drops:
+                return String.format("%d @ p%d", this.amount, this.potency.intValue());
+
+            case tsp:
+                return String.format("%d %s tsp", this.amount.intValue(), this.teaspoons.toString());
+
+            case time:
+                return String.format("%s", short24TimeFormat.format(this.fromTime));
+
+            case timeSpan:
+                return String.format("%s - %s", short24TimeFormat.format(this.fromTime), short24TimeFormat.format(this.toTime));
+
+            case check:
+                return String.format("%b", this.amount.intValue() != 0);
+
+            case count:
+            case relativeAmount:
+                return String.format("%d @ ", this.amount.intValue());
+        }
+
+        return "unhandled unit!";
+    }
 
     public DoableValue(int id) {
         super(id);
     }
-
 
     public DoableValue() {
     }
