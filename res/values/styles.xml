@@ -19,7 +19,7 @@
     </style>
 
     <style name="MedText" parent="WrapStyle">
-        <item name="android:textSize">12dip</item>
+        <item name="android:textSize">10dip</item>
     </style>
 
     <style name="ClickableText" parent="BigText">

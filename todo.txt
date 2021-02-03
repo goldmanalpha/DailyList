@@ -1,12 +1,5 @@
 Easy
 
-    history header
-        either top doesn't show
-        or new bug: dates have multiple headers
-
-
-        why doesn't 11/24 header show?
-
     Edit description should show full context:
         date, name, value?
 
