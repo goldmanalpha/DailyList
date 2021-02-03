@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ItemHistoryActivity extends ActivityBase {
 
@@ -216,7 +217,6 @@ public class ItemHistoryActivity extends ActivityBase {
         return true;
     }
 
-    Date lastDate;
     SimpleCursorAdapter listCursorAdapter;
 
     private void SetupList(Integer itemId, int limitToCategoryId) {
@@ -267,7 +267,7 @@ public class ItemHistoryActivity extends ActivityBase {
         final int createdDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDateCreated);
         final int itemNameColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
 
-        final Map<String, Integer> valueIdForDateDisplay = new HashMap<>();
+        final Map<Date, Integer> valueIdForDateDisplay = new HashMap<>();
 
         SimpleCursorAdapter listCursorAdapter = new SimpleCursorAdapter(mainList.getContext(),
                 R.layout.single_history_item, cachedCursor, from, to);
@@ -329,7 +329,7 @@ public class ItemHistoryActivity extends ActivityBase {
                                 Date d = DateHelper.TimeStampToDate(appliesToDate, DateHelper.simpleDateFormatLocal);
                                 String formattedDate = dateFormat.format(d);
 
-                                tv.setText(tv.getText() + " " + formattedDate);
+                                tv.setText(formattedDate);
 
                                 if (multiMode) {
                                     if (tv.getId() == R.id.single_history_item_date) {
@@ -337,29 +337,12 @@ public class ItemHistoryActivity extends ActivityBase {
                                     }
 
                                     if (tv.getId() == R.id.item_group_header) {
+                                        final int currentValueId = cursor.getInt(valueIdColumnIndex);
+                                        final int headerValueId = Optional.ofNullable(valueIdForDateDisplay.putIfAbsent(d, currentValueId)).orElse(currentValueId);
 
-                                        int currentValueId = cursor.getInt(valueIdColumnIndex);
+                                        boolean applyDateHeaderHere = headerValueId == currentValueId;
 
-                                        boolean applyDateHeaderHere = false;
-
-                                        if (valueIdForDateDisplay.containsKey(formattedDate)) {
-                                            //if we know where to put the date, we'll use that to reapply:
-                                            applyDateHeaderHere = currentValueId == valueIdForDateDisplay.get(formattedDate);
-                                        } else {
-                                            applyDateHeaderHere = !d.equals(lastDate);
-                                        }
-
-                                        final String SET_HEADER = "SET";
-                                        if (applyDateHeaderHere) {
-                                            valueIdForDateDisplay.put(formattedDate, currentValueId);
-                                            tv.setTag(SET_HEADER);
-                                        } else {
-                                            if (!SET_HEADER.equals(tv.getTag())) {  // nasty fix for inexplicable problem where item is repeated with top item's textview so it deletes
-//                                                tv.setVisibility(View.GONE);
-                                            }
-                                        }
-
-                                        lastDate = d;
+                                        tv.setVisibility(applyDateHeaderHere ? View.VISIBLE : View.GONE);
                                     }
                                 } else {
                                     if (tv.getId() == R.id.item_group_header) {
