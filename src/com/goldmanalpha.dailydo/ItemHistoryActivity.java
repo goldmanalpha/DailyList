@@ -9,7 +9,6 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -57,7 +56,7 @@ public class ItemHistoryActivity extends ActivityBase {
     public static String ExtraHighlightItemId = "ExtraHighlightItemId";
 
     private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE. MM/d/yy");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE. M/d/yy");
     private static final String ShowLongDescriptionKey = "SingleItemHistoryShowLongDescription";
 
     private static ItemSortingTableAdapter sortingTableAdapter = new ItemSortingTableAdapter();
@@ -218,7 +217,6 @@ public class ItemHistoryActivity extends ActivityBase {
     }
 
     Date lastDate;
-    int originalDateHeight = 24;
     SimpleCursorAdapter listCursorAdapter;
 
     private void SetupList(Integer itemId, int limitToCategoryId) {
@@ -269,7 +267,7 @@ public class ItemHistoryActivity extends ActivityBase {
         final int createdDateColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDateCreated);
         final int itemNameColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
 
-        final Map<Date, Integer> valueIdForDateDisplay = new HashMap<Date, Integer>();
+        final Map<String, Integer> valueIdForDateDisplay = new HashMap<>();
 
         SimpleCursorAdapter listCursorAdapter = new SimpleCursorAdapter(mainList.getContext(),
                 R.layout.single_history_item, cachedCursor, from, to);
@@ -297,7 +295,7 @@ public class ItemHistoryActivity extends ActivityBase {
                                     tv.setBackgroundColor(ContextCompat.getColor(mainList.getContext(), R.color.transparent));
                                 }
                             } else {
-                                tv.setWidth(0);
+                                tv.setVisibility(View.GONE);
                             }
 
                             return true;
@@ -309,7 +307,7 @@ public class ItemHistoryActivity extends ActivityBase {
                             String description = cursor.getString(columnIndex);
 
                             if (description == null || description.trim() == "") {
-                                tv.setHeight(0);
+                                tv.setVisibility(View.GONE);
                             } else {
 
                                 String highlightText = highlightText();
@@ -325,17 +323,17 @@ public class ItemHistoryActivity extends ActivityBase {
                         if (columnIndex == appliesToDateColIdx) {
                             TextView tv = (TextView) view;
 
-                            String appliesToDate = cursor.getString(columnIndex);
+                            String appliesToDate = cursor.getString(appliesToDateColIdx);
 
                             try {
                                 Date d = DateHelper.TimeStampToDate(appliesToDate, DateHelper.simpleDateFormatLocal);
+                                String formattedDate = dateFormat.format(d);
 
-                                tv.setText(dateFormat.format(d));
+                                tv.setText(tv.getText() + " " + formattedDate);
 
                                 if (multiMode) {
                                     if (tv.getId() == R.id.single_history_item_date) {
-                                        tv.setText("");
-                                        tv.setWidth(0);
+                                        tv.setVisibility(View.GONE);
                                     }
 
                                     if (tv.getId() == R.id.item_group_header) {
@@ -344,25 +342,28 @@ public class ItemHistoryActivity extends ActivityBase {
 
                                         boolean applyDateHeaderHere = false;
 
-                                        if (valueIdForDateDisplay.containsKey(d)) {
+                                        if (valueIdForDateDisplay.containsKey(formattedDate)) {
                                             //if we know where to put the date, we'll use that to reapply:
-                                            applyDateHeaderHere = currentValueId == valueIdForDateDisplay.get(d);
+                                            applyDateHeaderHere = currentValueId == valueIdForDateDisplay.get(formattedDate);
                                         } else {
                                             applyDateHeaderHere = !d.equals(lastDate);
                                         }
 
+                                        final String SET_HEADER = "SET";
                                         if (applyDateHeaderHere) {
-                                            tv.setHeight(originalDateHeight);
-                                            valueIdForDateDisplay.put(d, currentValueId);
+                                            valueIdForDateDisplay.put(formattedDate, currentValueId);
+                                            tv.setTag(SET_HEADER);
                                         } else {
-                                            ((ViewGroup) tv.getParent()).removeView(tv);
+                                            if (!SET_HEADER.equals(tv.getTag())) {  // nasty fix for inexplicable problem where item is repeated with top item's textview so it deletes
+//                                                tv.setVisibility(View.GONE);
+                                            }
                                         }
 
                                         lastDate = d;
                                     }
                                 } else {
                                     if (tv.getId() == R.id.item_group_header) {
-                                        ((ViewGroup) tv.getParent()).removeView(tv);
+                                        tv.setVisibility(View.GONE);
                                     }
                                 }
                             } catch (ParseException e) {
@@ -390,7 +391,7 @@ public class ItemHistoryActivity extends ActivityBase {
                                         Date crDate =
                                                 DateHelper.TimeStampToDate(cursor.getString(createdDateColIdx));
 
-                                        t = new Time(crDate.getHours(), crDate.getMinutes(), crDate.getSeconds());
+                                        t = DateHelper.getLocalTime(DateHelper.sameTimeGmt(crDate));
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }

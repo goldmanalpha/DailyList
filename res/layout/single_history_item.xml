@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
-        style="@style/BigText"
         android:id="@+id/item_group_header"
+        style="@style/BigText"
+        android:layout_width="fill_parent"
         android:layout_gravity="center_horizontal"
         android:background="@color/listInlineHeaderBackground"
-        android:textColor="@color/listInlineHeader"
         android:gravity="center"
-        android:layout_width="fill_parent"
-        android:minHeight="20dp" />
+        android:minHeight="24dp"
+        android:textColor="@color/listInlineHeader"
+        tools:text="@tools:sample/date/mmddyy" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -21,13 +23,14 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/MedText"
             android:id="@+id/single_history_item_date"
-            android:width="80dp" />
+            style="@style/MedText"
+            android:width="80dp"
+            tools:text="@tools:sample/date/ddmmyy" />
 
         <TextView
-            style="@style/BigText"
             android:id="@+id/single_history_item_value"
+            style="@style/BigText"
             android:width="40dp"
             android:gravity="right" />
 
