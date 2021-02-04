@@ -213,15 +213,15 @@ public class MainActivity extends ActivityBase {
         PublicPrivateMenuItem =
                 menu.add(0, MenuItems.PublicPrivateSwitch, 0, asSS("Pub Only"));
 
+        menu.add(0, MenuItems.AddItem, 0, asSS("Add Item"));
+
+        menu.add(1, MenuItems.Backup, 0, asSS("Backup"));
+
         menu.add(0, MenuItems.Quit, 0, asSS("Quit"));
 
         menu.add(1, MenuItems.AllItemHistory, 0, asSS("Hstry"));
 
         menu.add(1, MenuItems.ThisCategoryItemHistory, 0, asSS("Cat Hstry"));
-
-        menu.add(1, MenuItems.Backup, 0, asSS("Backup"));
-
-        menu.add(0, MenuItems.AddItem, 0, asSS("Add Item"));
 
         menu.add(1, MenuItems.BackupFolder, 0, asSS("Backup Folder"));
 
