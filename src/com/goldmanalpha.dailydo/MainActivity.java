@@ -1578,7 +1578,8 @@ public class MainActivity extends ActivityBase {
                         Time t = value.getAppliesToTime();
                         //only other current else is applies to time:
                         if (t == null) {
-                            t = DateHelper.getLocalTime(value.getDateCreated());
+                            Date dateInLocalTime = DateHelper.gmtToLocalTime(value.getDateCreated());
+                            t = DateHelper.getLocalTime(dateInLocalTime);
                         }
 
                         Date updatedTime = DateHelper.addMinutes(t, addAmount);
