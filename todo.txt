@@ -1,15 +1,11 @@
 Med
-	* item search
-	        not being able to find items is ridiculous
-	        near matching
 
+    * backup doesn't set name in share
 
 Low Priority
+************************************************************
 
 Easy
-    update all items to private
-
-
 
 Med
     *   change drops to exp
