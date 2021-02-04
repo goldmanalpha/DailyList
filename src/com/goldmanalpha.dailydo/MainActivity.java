@@ -393,13 +393,15 @@ public class MainActivity extends ActivityBase {
                 this.getApplicationContext().getPackageName() + ".provider2",
                 new File(filePath));
 
+        File f = new File(filePath);
+
         Intent intent = ShareCompat.IntentBuilder.from(this)
                 .getIntent()
                 .setAction(Intent.ACTION_SEND) //Change if needed
                 .putExtra(Intent.EXTRA_STREAM, uri)
                 .setDataAndType(uri, "application/octet-stream")
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                .putExtra(Intent.EXTRA_SUBJECT, "Upload File")
+                .putExtra(Intent.EXTRA_SUBJECT, f.getName())    // google drive uses this :(
                 .putExtra(Intent.EXTRA_TEXT, "Upload File");
 
         startActivity(Intent.createChooser(intent, "Upload File"));
