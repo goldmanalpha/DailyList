@@ -376,7 +376,7 @@ public class ItemHistoryActivity extends ActivityBase {
                                         Date crDate =
                                                 DateHelper.TimeStampToDate(cursor.getString(createdDateColIdx));
 
-                                        t = DateHelper.getLocalTime(DateHelper.sameTimeGmt(crDate));
+                                        t = DateHelper.getLocalTime(DateHelper.gmtToLocalTime(crDate));
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }

@@ -12,8 +12,7 @@ import com.goldmanalpha.dailydo.model.DoableValue;
 
 import java.text.ParseException;
 
-import static com.goldmanalpha.androidutility.DateHelper.LongDateString;
-import static com.goldmanalpha.androidutility.DateHelper.sameTimeGmt;
+import static com.goldmanalpha.androidutility.DateHelper.longSimpleDateFormatGmt;
 
 /**
  * Created by IntelliJ IDEA.
@@ -52,7 +51,7 @@ public class EditDescriptionActivity extends ActivityBase {
             this.finish();
         }
 
-        this.date = LongDateString(sameTimeGmt(value.getAppliesToDate()));
+        this.date = longSimpleDateFormatGmt.format(value.getAppliesToDate());
         setWindowState(value.getAppliesToDate());
 
         setTitle(this.date + ": " + value.getItem().getName());

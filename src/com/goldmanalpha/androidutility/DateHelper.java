@@ -21,9 +21,12 @@ import java.util.TimeZone;
  * To change this template use File | Settings | File Templates.
  */
 public class DateHelper {
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String LONG_DATE_FORMAT = "EEE. MMM d, yyyy";
 
     public static final SimpleDateFormat simpleDateFormatGmt = createSimpleDateFormat("GMT");
     public static final SimpleDateFormat simpleDateFormatLocal = createSimpleDateFormat(null);
+    public static final SimpleDateFormat longSimpleDateFormatGmt = createSimpleDateFormat("GMT", LONG_DATE_FORMAT);
 
     public static final SimpleDateFormat shortMonthDateFormat = new SimpleDateFormat("MMM-dd");
     public static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
@@ -43,7 +46,7 @@ public class DateHelper {
 
     //given a GMT date, retrieves the same date, but as local
     // ex: midnight GMT is 7pm NY, this will return a midnight NY date
-    public static Date sameTimeGmt(Date date) {
+    public static Date gmtToLocalTime(Date date) {
         String midnightDate = simpleDateFormatLocal.format(date);
         LocalDateTime localDateTime = LocalDateTime.parse(midnightDate, DateTimeFormatter.ofPattern(DATE_FORMAT));
 
@@ -60,10 +63,12 @@ public class DateHelper {
         return new Time(hours, minutes, seconds);
     }
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
     private static SimpleDateFormat createSimpleDateFormat(String timeZone) {
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+        return createSimpleDateFormat(timeZone, DATE_FORMAT);
+    }
+
+    private static SimpleDateFormat createSimpleDateFormat(String timeZone, String dateFormat) {
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
         format.setTimeZone(timeZone == null ? TimeZone.getDefault() : TimeZone.getTimeZone(timeZone));
         return format;
     }
@@ -141,7 +146,7 @@ public class DateHelper {
     }
 
     public static String LongDateString(Date date) {
-        return LongDateString(date, "EEE. MMM d, yyyy");
+        return LongDateString(date, LONG_DATE_FORMAT);
     }
 
     protected static String LongDateString(Date date, String dateFormat) {

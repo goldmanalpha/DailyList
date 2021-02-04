@@ -68,7 +68,7 @@ import java.util.function.Predicate;
 
 import filteredcursor.android.FilteredCursorFactory;
 
-import static com.goldmanalpha.androidutility.DateHelper.sameTimeGmt;
+import static com.goldmanalpha.androidutility.DateHelper.gmtToLocalTime;
 import static com.goldmanalpha.androidutility.DateHelper.short24TimeFormat;
 import static com.goldmanalpha.androidutility.DateHelper.shortMonthDateFormat;
 import static com.goldmanalpha.androidutility.DateHelper.simpleDateFormatGmt;
@@ -685,7 +685,7 @@ public class MainActivity extends ActivityBase {
         setDateOptions(date);
 
         cachedCursor.close();
-        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(sameTimeGmt(date), showPrivate, selectedCategoryId));
+        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(gmtToLocalTime(date), showPrivate, selectedCategoryId));
         listCursorAdapter.changeCursor(cachedCursor);
     }
 
@@ -719,7 +719,7 @@ public class MainActivity extends ActivityBase {
         setupDate = true;
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
-        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(sameTimeGmt(date), showPrivate, SimpleLookup.ALL_ID));
+        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(gmtToLocalTime(date), showPrivate, SimpleLookup.ALL_ID));
 
         nameColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
@@ -1381,7 +1381,7 @@ public class MainActivity extends ActivityBase {
         if (value.getId() != 0)
             return;
 
-        value.setAppliesToDate(sameTimeGmt(mDisplayingDate));
+        value.setAppliesToDate(gmtToLocalTime(mDisplayingDate));
 
         value.setDoableItemId(GetValueIds(null).ItemId);
 
@@ -1616,7 +1616,7 @@ public class MainActivity extends ActivityBase {
         DoableValue value = doableItemValueTableAdapter
                 .get(ids.ValueId);
 
-        value.setAppliesToDate(DateHelper.sameTimeGmt(this.mDisplayingDate));
+        value.setAppliesToDate(DateHelper.gmtToLocalTime(this.mDisplayingDate));
 
         SetDefaultsForNewValue(value);
 
