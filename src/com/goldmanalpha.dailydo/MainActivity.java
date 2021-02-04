@@ -11,7 +11,9 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -45,6 +47,7 @@ import com.goldmanalpha.androidutility.DayOnlyDate;
 import com.goldmanalpha.androidutility.EnumHelper;
 import com.goldmanalpha.androidutility.FileHelper;
 import com.goldmanalpha.androidutility.PickOneList;
+import com.goldmanalpha.dailydo.Main.SearchSupport;
 import com.goldmanalpha.dailydo.databinding.MainBinding;
 import com.goldmanalpha.dailydo.model.DoableValue;
 import com.goldmanalpha.dailydo.model.SimpleLookup;
@@ -132,6 +135,28 @@ public class MainActivity extends ActivityBase {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 showOldItemsWithoutValues = isChecked;
                 SetupList2(mDisplayingDate);
+            }
+        });
+
+        setupSearchListener();
+    }
+
+    private void setupSearchListener() {
+        binding.searchItemEditor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchSupport.setSearchString(String.valueOf(s));
+                MainActivity.this.SetupList2(mDisplayingDate);
             }
         });
     }
@@ -566,6 +591,9 @@ public class MainActivity extends ActivityBase {
                 selectedCategoryId =
                         ((SimpleLookup) parentView.getSelectedItem()).getId();
 
+                searchSupport.setCategory(selectedCategoryId);
+                binding.allCategoryOptions.setVisibility(searchSupport.isSearchMode() ? View.VISIBLE : View.GONE);
+
                 Preferences().edit().putInt(SelectedCategoryIdPrefKey, selectedCategoryId).commit();
 
                 MainActivity.this.SetupList2(mDisplayingDate);
@@ -577,6 +605,8 @@ public class MainActivity extends ActivityBase {
             }
         });
     }
+
+    SearchSupport searchSupport = new SearchSupport();
 
     @Override
     protected void onPause() {
@@ -599,6 +629,11 @@ public class MainActivity extends ActivityBase {
 
             @Override
             public boolean select(Cursor cursor) {
+
+                String itemName = cursor.getString(nameColumnIndex);
+                if (!searchSupport.isMatch(itemName)) {
+                    return false;
+                }
 
                 if (!showOldItemsWithoutValues
                         && isOldDate()
@@ -656,6 +691,7 @@ public class MainActivity extends ActivityBase {
 
     ListView mainList;
     Cursor cachedCursor;
+    int nameColumnIndex;
     int valueIdColumnIndex;
     int itemIdColumnIndex;
 
@@ -685,6 +721,7 @@ public class MainActivity extends ActivityBase {
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
         cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(sameTimeGmt(date), showPrivate, SimpleLookup.ALL_ID));
 
+        nameColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
         descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
@@ -694,7 +731,8 @@ public class MainActivity extends ActivityBase {
 //        startManagingCursor(cachedCursor);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
 
-        String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
+        String[] from = new String[]{
+                DoableItemValueTableAdapter.ColItemName,
                 DoableItemValueTableAdapter.ColUnitType,
                 DoableItemValueTableAdapter.ColAmount,
                 DoableItemValueTableAdapter.ColTeaspoons,
@@ -1443,6 +1481,10 @@ public class MainActivity extends ActivityBase {
         tv.setShadowLayer(3, 3, 3, Color.GREEN);
 
         usesAltFocusMap.put(GetValueIds(v).ItemId, AltFocus.Time2);
+    }
+
+    public void clearSearchClick(View v) {
+        binding.searchItemEditor.setText(SearchSupport.BLANK);
     }
 
     public void add_click(View v) throws ParseException {

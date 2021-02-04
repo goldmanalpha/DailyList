@@ -7,8 +7,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_weight="1"
-
-    >
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -79,6 +79,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/inlineCheckBox" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/all_category_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dip"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/BigText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search for: "
+            android:layout_marginEnd="4dp" />
+
+        <EditText
+            android:id="@+id/search_item_editor"
+            style="@style/InputBox"
+            android:layout_width="wrap_content"
+
+            android:singleLine="true"
+            android:drawableEnd="@android:drawable/ic_menu_search"
+            android:layout_weight="1"
+            android:height="55dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dip" />
+
+        <ImageButton
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:onClick="clearSearchClick" />
+
     </LinearLayout>
 
     <ListView

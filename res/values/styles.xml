@@ -22,6 +22,11 @@
         <item name="android:textSize">10dip</item>
     </style>
 
+    <style name="InputBox" parent="BigText">
+        <item name="android:layout_height">30dip</item>
+        <item name="android:paddingStart">8dip</item>
+    </style>
+
     <style name="ClickableText" parent="BigText">
         <item name="android:clickable">true</item>
     </style>
