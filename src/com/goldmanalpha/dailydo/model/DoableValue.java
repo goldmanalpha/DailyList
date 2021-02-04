@@ -59,29 +59,33 @@ public class DoableValue extends DoableBase {
     public String valueDisplayString() {
         UnitType unitType = this.getItem().unitType;
 
-        switch (unitType) {
+        try {
+            switch (unitType) {
 
-            case unset:
-                return "unset unit!";
+                case unset:
+                    return "unset unit!";
 
-            case drops:
-                return String.format("%d @ p%d", this.amount, this.potency.intValue());
+                case drops:
+                    return String.format("%.0f @ p%d", this.amount, this.potency.intValue());
 
-            case tsp:
-                return String.format("%d %s tsp", this.amount.intValue(), TeaspoonHelper.shortName(this.teaspoons));
+                case tsp:
+                    return String.format("%d %s tsp", this.amount.intValue(), TeaspoonHelper.shortName(this.teaspoons));
 
-            case time:
-                return String.format("%s", short24TimeFormat.format(this.fromTime));
+                case time:
+                    return String.format("%s", short24TimeFormat.format(this.fromTime));
 
-            case timeSpan:
-                return String.format("%s - %s", short24TimeFormat.format(this.fromTime), short24TimeFormat.format(this.toTime));
+                case timeSpan:
+                    return String.format("%s - %s", short24TimeFormat.format(this.fromTime), short24TimeFormat.format(this.toTime));
 
-            case check:
-                return String.format("%b", this.amount.intValue() != 0);
+                case check:
+                    return String.format("%b (%d)", this.amount.intValue() != 0, this.amount.intValue());
 
-            case count:
-            case relativeAmount:
-                return String.format("%d @ ", this.amount.intValue());
+                case count:
+                case relativeAmount:
+                    return String.format("%d", this.amount.intValue());
+            }
+        } catch (Exception ex) {
+            return ex.getClass().getSimpleName();
         }
 
         return "unhandled unit!";
