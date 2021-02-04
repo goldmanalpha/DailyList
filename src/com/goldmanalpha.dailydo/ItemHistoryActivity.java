@@ -252,6 +252,7 @@ public class ItemHistoryActivity extends ActivityBase {
                 R.id.single_history_item_name
         };
 
+        final int amountColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAmount);
         final int teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
         final int potencyColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPotency);
 
@@ -279,6 +280,13 @@ public class ItemHistoryActivity extends ActivityBase {
                 new SimpleCursorAdapter.ViewBinder() {
                     @Override
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+
+                        if (columnIndex == amountColIdx) {
+                            boolean isDateNoAmount = cursorHelper.timesToShowDate(cursor) > 0;
+
+                            TextView tv = (TextView) view;
+                            tv.setVisibility(isDateNoAmount ? View.GONE : View.VISIBLE);
+                        }
 
                         if (columnIndex == itemNameColIdx) {
                             TextView tv = (TextView) view;

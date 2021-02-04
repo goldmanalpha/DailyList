@@ -24,8 +24,8 @@
 
         <TextView
             android:id="@+id/single_history_item_date"
-            style="@style/MedText"
-            android:width="76dp"
+            style="@style/BigText"
+            android:width="110dp"
             tools:text="@tools:sample/date/ddmmyy"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp" />
