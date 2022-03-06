@@ -1246,6 +1246,10 @@ public class MainActivity extends ActivityBase {
 
         intent.putExtra(PickOneList.Choices, choices);
 
+        Toast.makeText(MainActivity.this,
+                "settings => BackupFolder",
+                choices.length > 0 ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
+
         startActivityForResult(intent, IntentRequestCodes.RestoreDBSelection);
     }
 
