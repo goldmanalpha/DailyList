@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primaryBackground">@android:color/black</color>
+    <color name="listInlineHeaderBackground">@color/MidnightBlue</color>
+    <color name="listInlineHeader">@color/Goldenrod</color>
+    <color name="spinnerText">@color/DarkBlue</color>
+    <color name="popupBackground">@android:color/darker_gray</color>
+
+    <color name="transparent">@android:color/transparent</color>
+
     <color name="colorPrimary">@color/White</color>
     <color name="colorPrimaryDark">@color/Blue</color>
     <color name="colorAccent">@color/Green</color>

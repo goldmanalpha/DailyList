@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="WrapStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="inlineCheckBox" parent="WrapStyle">
+        <item name="android:scaleY">.5</item>
+        <item name="android:scaleX">.5</item>
+        <item name="android:layout_height">32dp</item>
+        <!--        <item name="android:layout_width">26dp</item>-->
+    </style>
+
     <style name="BigText" parent="WrapStyle">
         <item name="android:textSize">16dip</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MedText" parent="WrapStyle">
+        <item name="android:textSize">10dip</item>
+    </style>
+
+    <style name="InputBox" parent="BigText">
+        <item name="android:layout_height">30dip</item>
+        <item name="android:paddingStart">8dip</item>
     </style>
 
     <style name="ClickableText" parent="BigText">
@@ -24,7 +41,5 @@
         <item name="android:textStyle">bold</item>
         <item name="android:clickable">true</item>
     </style>
-
-
 
 </resources>

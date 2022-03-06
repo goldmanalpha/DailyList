@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public abstract class DatabaseRoot {
     protected static Context context;
 
@@ -14,8 +11,8 @@ public abstract class DatabaseRoot {
     static DailyDoDatabaseHelper dbHelper;
     private static boolean opened;
 
-    protected SQLiteDatabase getDb(){
-        if (db.isOpen()){
+    protected SQLiteDatabase getDb() {
+        if (db.isOpen()) {
             return db;
         }
 
@@ -41,14 +38,5 @@ public abstract class DatabaseRoot {
 
     public static void setContext(Context contextIn) {
         context = contextIn;
-
-
     }
-
-    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    public static String DateToTimeStamp(Date d) {
-        return simpleDateFormat.format(d);
-    }
-
 }

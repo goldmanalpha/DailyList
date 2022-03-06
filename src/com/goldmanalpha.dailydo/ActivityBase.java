@@ -1,17 +1,15 @@
 package com.goldmanalpha.dailydo;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import com.goldmanalpha.androidutility.DateHelper;
 import com.goldmanalpha.androidutility.DayOnlyDate;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ActivityBase extends Activity {
@@ -28,9 +26,9 @@ public class ActivityBase extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.title_bar);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
-        TextView customTitleText = (TextView) findViewById(R.id.title_bar_text_view);
-        TextView rightTitle = (TextView) findViewById(R.id.title_bar_right_text_view);
-        viewRoot = (ViewGroup) findViewById(R.id.title_bar_layout_root);
+        TextView customTitleText = findViewById(R.id.title_bar_text_view);
+        TextView rightTitle = findViewById(R.id.title_bar_right_text_view);
+        viewRoot = findViewById(R.id.title_bar_layout_root);
 
         customTitleText.setText(this.getString(R.string.app_name));
 
@@ -38,43 +36,21 @@ public class ActivityBase extends Activity {
         setWindowState(WindowState.DEFAULT);
     }
 
-    protected String RightTitle()
-    {
+    protected String RightTitle() {
         return "";
     }
 
-    protected void setWindowState(Date date)
-    {
+    protected void setWindowState(Date date) {
         DayOnlyDate today = new DayOnlyDate();
         DayOnlyDate inputDay = new DayOnlyDate(date);
-        if (new DayOnlyDate().equals(inputDay))
-        {
+        if (new DayOnlyDate().equals(inputDay)) {
             setWindowState(WindowState.TODAY);
-        }
-        else if(addDays(today, -1).equals(inputDay))
-        {
+        } else if (DateHelper.addDays(today, -1).equals(inputDay)) {
             setWindowState(WindowState.YESTERDAY);
-        }
-        else
-        {
+        } else {
             setWindowState(WindowState.OUT_OF_RANGE);
         }
     }
-
-
-    //todo: move to dateHelper:
-    protected Date addDays(Date date, int days) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, days);  // number of days to add
-        return c.getTime();  // dt is now the new date
-    }
-
-    protected String DateToString(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
-        return format.format(date);
-    }
-
 
     @Override
     protected void onResume() {
@@ -85,8 +61,7 @@ public class ActivityBase extends Activity {
 
     private WindowState lastState = WindowState.DEFAULT;
 
-    protected WindowState getLastWindowState()
-    {
+    protected WindowState getLastWindowState() {
         return lastState;
     }
 

@@ -1,80 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-        >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/item_group_header"
+        style="@style/BigText"
+        android:layout_width="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/listInlineHeaderBackground"
+        android:gravity="center"
+        android:minHeight="24dp"
+        android:textColor="@color/listInlineHeader"
+        tools:text="@tools:sample/date/mmddyy" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/single_history_item_date"
             style="@style/BigText"
-            android:id="@+id/single_history_item_group_date"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/DarkGoldenrod"
-            android:textColor="@color/Black"
-            android:width="5000dp"
-            android:gravity="center"
+            android:width="110dp"
+            tools:text="@tools:sample/date/ddmmyy"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp" />
+
+        <TextView
+            android:id="@+id/single_history_item_value"
+            style="@style/BigText"
+            android:width="40dp"
+            android:gravity="right" />
+
+        <TextView
+            style="@style/BigText"
+            android:id="@+id/single_history_item_name"
+            android:layout_marginLeft="8dp" />
+
+        <TextView
+            style="@style/BigText"
+            android:id="@+id/single_history_item_time_value"
+            android:layout_marginLeft="10dp"
+
             />
 
-
-    <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-            >
-
         <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_date"
-                android:width="80dp"
-                />
+            style="@style/BigText"
+            android:id="@+id/single_history_item_tsp"
+            android:layout_marginLeft="8dp" />
 
         <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_value"
-                android:width="40dp"
-                android:gravity="right"
-                />
-        <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_name"
-                android:layout_marginLeft="8dp"
-                android:textColor="@color/White"
-                />
+            style="@style/BigText"
+            android:id="@+id/single_history_item_potency"
+            android:layout_marginLeft="15dp" />
 
         <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_time_value"
-                android:layout_marginLeft="10dp"
-                />
-
-        <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_tsp"
-                android:layout_marginLeft="8dp"
-                />
-
-        <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_potency"
-                android:layout_marginLeft="15dp"
-                />
-
-        <TextView
-                style="@style/BigText"
-                android:id="@+id/single_history_item_applies_to_time"
-                android:layout_marginLeft="8dp"
-                />
+            style="@style/BigText"
+            android:id="@+id/single_history_item_applies_to_time"
+            android:layout_marginLeft="8dp" />
 
     </LinearLayout>
 
     <TextView
-                style="@style/ClickableText"
-                android:id="@+id/single_history_item_description"
-                android:layout_marginLeft="8dp"
-                android:singleLine="false"
-                android:textStyle="normal"
-                android:onClick="single_history_item_description_click"
-                />
-
+        android:id="@+id/single_history_item_description"
+        style="@style/ClickableText"
+        android:layout_marginLeft="8dp"
+        android:singleLine="false"
+        android:textStyle="normal"
+        android:onClick="single_history_item_description_click" />
 
 </LinearLayout>

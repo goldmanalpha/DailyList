@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
 
     android:id="@+id/mainFrame"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_weight="1"
-
-        >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp">
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
-        <TextView
-                android:id="@+id/dateDisplay"
-                android:text="Date"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                style="@style/ClickableText"
-                android:onClick="main_date_click"
-                />
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/dateDisplay"
+            android:text="Date"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            style="@style/ClickableText"
+            android:onClick="main_date_click" />
 
         <ImageButton
             android:id="@+id/mainOptionsMenuButton"
@@ -34,42 +31,97 @@
             android:layout_weight="1"
             android:onClick="onShowOptionsMenu"
             android:src="@drawable/baseline_more_vert_white_18dp"
-            android:background="@color/Black"
-            />
+            android:background="@color/Black" />
 
-        <Spinner android:id="@+id/categorySpinner"
-                 android:layout_width="wrap_content"
-                 android:layout_height="36dp"
-                 android:layout_weight="1"
-                 />
-
-        <TextView
-                android:id="@+id/prevDate"
-                android:text="  &lt; &lt;  "
-                android:clickable="true"
-                android:onClick="prevDayClick"
-                android:layout_gravity="right"
-                style="@style/ClickableText"
-
-                />
-
-        <TextView
-                android:id="@+id/nextDate"
-                android:layout_gravity="right"
-                android:text="  &gt; &gt;  "
-                android:clickable="true"
-                android:onClick="nextDayClick"
-
-                style="@style/ClickableText"
-
-                />
-    </LinearLayout>
-    <ListView
-            android:id="@+id/main_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/popupBackground"
+            android:padding="0dp"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/prevDate"
+            android:text="  &lt; &lt;  "
+            android:clickable="true"
+            android:onClick="prevDayClick"
+            android:layout_gravity="right"
+            style="@style/ClickableText"
+
             />
+
+        <TextView
+            android:id="@+id/nextDate"
+            android:layout_gravity="right"
+            android:text="  &gt; &gt;  "
+            android:clickable="true"
+            android:onClick="nextDayClick"
+
+            style="@style/ClickableText"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/old_date_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Show all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/show_all_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/inlineCheckBox" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/all_category_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dip"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/BigText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search for: "
+            android:layout_marginEnd="4dp" />
+
+        <EditText
+            android:id="@+id/search_item_editor"
+            style="@style/InputBox"
+            android:layout_width="wrap_content"
+
+            android:singleLine="true"
+            android:drawableEnd="@android:drawable/ic_menu_search"
+            android:layout_weight="1"
+            android:height="55dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dip" />
+
+        <ImageButton
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:onClick="clearSearchClick" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/main_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" />
 
 </LinearLayout>
 

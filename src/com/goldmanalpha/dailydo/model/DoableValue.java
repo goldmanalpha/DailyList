@@ -1,13 +1,17 @@
 package com.goldmanalpha.dailydo.model;
 
-import android.content.Context;
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
-import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
 
 import java.sql.Time;
-import java.text.ParseException;
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import static com.goldmanalpha.androidutility.DateHelper.short24TimeFormat;
+
+@Getter
+@Setter
 public class DoableValue extends DoableBase {
     private String description;
 
@@ -18,10 +22,29 @@ public class DoableValue extends DoableBase {
     private Float amount = 0f;
 
     private Date appliesToDate;
-    private Integer doableItemId = 0;
+    private int doableItemId = 0;
+
+    /* if there's more than one instance in the same day, show the time to differentiate
+     *  sibling categories will reduce but not eliminate the use of this
+     * */
     private boolean hasAnotherDayInstance = false;
     private Integer potency = 0;
 
+    private TeaSpoons teaspoons = TeaSpoons.unset;
+    private DoableItem item;
+
+    private int category = 0;
+
+    /**
+     * can be null,
+     * in which case caller might want to default to
+     * crDate
+     * <p>
+     * when showing duplicates show time
+     * TODO: rename - dupShowTime
+     *
+     * @return
+     */
     private Time appliesToTime;
 
     public DoableValue(DoableValue copyItem) {
@@ -33,100 +56,47 @@ public class DoableValue extends DoableBase {
         this.setDoableItemId(copyItem.getItem().getId());
     }
 
+    public String valueDisplayString() {
+        UnitType unitType = this.getItem().unitType;
+
+        try {
+            switch (unitType) {
+
+                case unset:
+                    return "unset unit!";
+
+                case drops:
+                    return String.format("%.0f @ p%d", this.amount, this.potency.intValue());
+
+                case tsp:
+                    return String.format("%d %s tsp", this.amount.intValue(), TeaspoonHelper.shortName(this.teaspoons));
+
+                case time:
+                    return String.format("%s", short24TimeFormat.format(this.fromTime));
+
+                case timeSpan:
+                    return String.format("%s - %s", short24TimeFormat.format(this.fromTime), short24TimeFormat.format(this.toTime));
+
+                case check:
+                    return String.format("%b (%d)", this.amount.intValue() != 0, this.amount.intValue());
+
+                case count:
+                case relativeAmount:
+                    return String.format("%d", this.amount.intValue());
+            }
+        } catch (Exception ex) {
+            return ex.getClass().getSimpleName();
+        }
+
+        return "unhandled unit!";
+    }
 
     public DoableValue(int id) {
         super(id);
     }
 
-
     public DoableValue() {
     }
-
-
-
-    public boolean getHasAnotherDayInstance() {
-        return hasAnotherDayInstance;
-    }
-
-    public void setHasAnotherDayInstance(boolean hasAnotherDayInstance) {
-        this.hasAnotherDayInstance = hasAnotherDayInstance;
-    }
-
-    /**
-     * can be null,
-     * in which case caller might want to default to
-     * crDate
-     * @return
-     */
-    public Time getAppliesToTime() {
-        return appliesToTime;
-    }
-
-    public void setAppliesToTime(Time appliesToTime) {
-        this.appliesToTime = appliesToTime;
-    }
-    public TeaSpoons getTeaspoons() {
-        return teaspoons;
-    }
-
-    public void setTeaspoons(TeaSpoons teaspoons) {
-        this.teaspoons = teaspoons;
-    }
-
-    private TeaSpoons teaspoons = TeaSpoons.unset;
-
-    public Date getAppliesToDate() {
-        return appliesToDate;
-    }
-
-    public void setAppliesToDate(Date appliesToDate) {
-        this.appliesToDate = new Date(appliesToDate.getYear(), appliesToDate.getMonth(), appliesToDate.getDate());
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public Time getFromTime() {
-
-        return fromTime;
-    }
-
-    public void setFromTime(Time fromTime) {
-        this.fromTime = fromTime;
-    }
-
-    public Time getToTime() {
-        return toTime;
-    }
-
-    public void setToTime(Time toTime) {
-        this.toTime = toTime;
-    }
-
-    public Float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Float amount) {
-        this.amount = amount;
-    }
-
-    public Integer getDoableItemId() {
-        return doableItemId;
-    }
-
-    public void setDoableItemId(Integer doableItemId) {
-        this.doableItemId = doableItemId;
-    }
-
-
-    DoableItem item;
 
     public DoableItem getItem() {
         if (item == null) {
@@ -134,13 +104,5 @@ public class DoableValue extends DoableBase {
         }
 
         return item;
-    }
-
-    public Integer getPotency() {
-        return potency;
-    }
-
-    public void setPotency(Integer potency) {
-        this.potency = potency;
     }
 }

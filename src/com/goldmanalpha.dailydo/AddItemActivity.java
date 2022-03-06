@@ -1,6 +1,5 @@
 package com.goldmanalpha.dailydo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,8 +7,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import java.util.function.Predicate;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.com.goldmanalpha.dailydo.db.DoableItemTableAdapter;
 import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
 import com.goldmanalpha.androidutility.ArrayHelper;
@@ -19,12 +26,14 @@ import com.goldmanalpha.dailydo.model.SimpleLookup;
 import com.goldmanalpha.dailydo.model.UnitType;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class AddItemActivity extends ActivityBase {
 
     DoableItem doableItem;
     DoableItemTableAdapter doableItemTableAdapter;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -42,12 +51,13 @@ public class AddItemActivity extends ActivityBase {
 
         unitTypeField.setAdapter(adapter);
 
+        isPrivateCheckbox.setChecked(true);
+
         if (getIntent().hasExtra("itemId")) {
             loadItem(getIntent().getIntExtra("itemId", 0));
         }
 
         setupCategories();
-
     }
 
     LookupTableAdapter categoryTableAdapter;
@@ -69,25 +79,24 @@ public class AddItemActivity extends ActivityBase {
         categories.add(addItem);
 
         ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
-                this, android.R.layout.simple_spinner_item,
+                this, R.layout.spinner_row,
                 categories);
 
         adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
 
         categoryField.setAdapter(adapter);
 
-
-        SimpleLookup [] lookupArray = new SimpleLookup[categories.size()];
+        SimpleLookup[] lookupArray = new SimpleLookup[categories.size()];
 
         int selectedPosition = ArrayHelper.IndexOfP(
-            categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
-            public boolean test(SimpleLookup simpleLookup) {
-                if (doableItem == null)
-                    return false;
+                categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
+                    public boolean test(SimpleLookup simpleLookup) {
+                        if (doableItem == null)
+                            return false;
 
-                return simpleLookup.getId() == doableItem.getCategoryId();  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
+                        return simpleLookup.getId() == doableItem.getCategoryId();  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+                });
 
         categoryField.setSelection(selectedPosition);
 
@@ -96,10 +105,9 @@ public class AddItemActivity extends ActivityBase {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
 
-                if (((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId() == -1) {
+                if (((SimpleLookup) parentView.getSelectedItem()).getId() == -1) {
                     initiatePopupWindow();
                 }
-
 
                 SimpleLookup lookup = categories.get(position);
 
@@ -112,7 +120,6 @@ public class AddItemActivity extends ActivityBase {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
-
         });
     }
 
@@ -122,7 +129,6 @@ public class AddItemActivity extends ActivityBase {
     }
 
     static final String[] unitTypes = EnumHelper.EnumNameToStringArray(UnitType.values());
-
 
     void loadItem(int itemId) {
         doableItem = doableItemTableAdapter.get(itemId);
@@ -136,8 +142,8 @@ public class AddItemActivity extends ActivityBase {
             unitTypeField.setSelection(index);
         }
 
-        isPrivateCheckbox.setChecked(doableItem.getPrivate());
-        alwaysShowAppliesToTimeCheckbox.setChecked(doableItem.getAlwaysShowAppliesToTime());
+        isPrivateCheckbox.setChecked(doableItem.isPrivate());
+        alwaysShowAppliesToTimeCheckbox.setChecked(doableItem.isAlwaysShowAppliesToTime());
     }
 
     EditText nameField;
@@ -147,34 +153,33 @@ public class AddItemActivity extends ActivityBase {
     CheckBox isPrivateCheckbox;
     Checkable alwaysShowAppliesToTimeCheckbox;
 
-
     void findFieldsInUi() {
-        nameField = (EditText) findViewById(R.id.name);
-        descriptionField = (EditText) findViewById(R.id.description);
-        unitTypeField = (Spinner) findViewById(R.id.UnitTypeSpinner);
-        categoryField = (Spinner) findViewById(R.id.categorySpinner);
-        isPrivateCheckbox = (CheckBox) findViewById(R.id.isPrivateCheckbox);
+        nameField = findViewById(R.id.name);
+        descriptionField = findViewById(R.id.description);
+        unitTypeField = findViewById(R.id.UnitTypeSpinner);
+        categoryField = findViewById(R.id.categorySpinner);
+        isPrivateCheckbox = findViewById(R.id.isPrivateCheckbox);
         alwaysShowAppliesToTimeCheckbox = (CheckBox) findViewById(R.id.addItemAlwaysShowAppliesToCheckbox);
 
-        Button okButton = (Button) findViewById(R.id.okButton);
-        Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        Button okButton = findViewById(R.id.okButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
 
         okButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                AddItemActivity.this.okClick(view);
-            }
-        }
+                                        @Override
+                                        public void onClick(View view) {
+                                            AddItemActivity.this.okClick(view);
+                                        }
+                                    }
         );
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                AddItemActivity.this.finish();
-            }
-        }
+                                            @Override
+                                            public void onClick(View view) {
+                                                AddItemActivity.this.finish();
+                                            }
+                                        }
         );
-
     }
-
 
     private PopupWindow pw;
 
@@ -186,52 +191,52 @@ public class AddItemActivity extends ActivityBase {
             //Inflate the view from a predefined XML layout
             final View layout = inflater.inflate(R.layout.edit_lookup,
                     (ViewGroup) findViewById(R.id.edit_lookup_root));
-            // create a 300px width and 470px height PopupWindow
-            pw = new PopupWindow(layout, 300, 470, true);
+            // this broke on new phones in 2019
+            // probably because it became too small for higher resolutions
+            // TODO: make as percent of width & height
+            pw = new PopupWindow(layout, 900, 1200, true);
             // display the popup in the center
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-
-            Button okButton = (Button) layout.findViewById(R.id.okButton);
-            Button cancelButton = (Button) layout.findViewById(R.id.cancelButton);
+            Button okButton = layout.findViewById(R.id.okButton);
+            Button cancelButton = layout.findViewById(R.id.cancelButton);
 
             okButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    //save:
-                    String name =
-                            ((EditText) layout.findViewById(R.id.name)).getText().toString();
+                                            @Override
+                                            public void onClick(View view) {
+                                                //save:
+                                                String name =
+                                                        ((EditText) layout.findViewById(R.id.name)).getText().toString();
 
-                    String description =
-                            ((EditText) layout.findViewById(R.id.description))
-                                    .getText().toString();
+                                                String description =
+                                                        ((EditText) layout.findViewById(R.id.description))
+                                                                .getText().toString();
 
+                                                if (("" + name).trim().length() > 0) {
+                                                    SimpleLookup lookup = new SimpleLookup();
 
-                    if (("" + name).trim().length() > 0) {
-                        SimpleLookup lookup = new SimpleLookup();
+                                                    lookup.setName(name);
+                                                    lookup.setDescription(description);
 
-                        lookup.setName(name);
-                        lookup.setDescription(description);
+                                                    categoryTableAdapter.save(lookup);
 
-                        categoryTableAdapter.save(lookup);
+                                                    setupCategories();
 
-                        setupCategories();
-
-                        pw.dismiss();
-                    } else {
-                        Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            }
+                                                    pw.dismiss();
+                                                } else {
+                                                    Toast.makeText(AddItemActivity.this, "name is required", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
             );
 
             cancelButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    pw.dismiss();
-                }
-            }
+                                                @Override
+                                                public void onClick(View view) {
+                                                    pw.dismiss();
+                                                }
+                                            }
             );
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -239,10 +244,8 @@ public class AddItemActivity extends ActivityBase {
 
     public void okClick(View view) {
 
-
         try {
             DoableItem item = doableItem;
-
 
             item.setName(nameField.getText().toString());
 
@@ -260,7 +263,6 @@ public class AddItemActivity extends ActivityBase {
                 doableItemTableAdapter.save(item);
                 //doableItemTableAdapter.close();
 
-
                 Toast toast = Toast.makeText(this, item.getName() + " saved.", Toast.LENGTH_SHORT);
                 toast.show();
 
@@ -270,8 +272,6 @@ public class AddItemActivity extends ActivityBase {
                 Toast toast = Toast.makeText(this, "Fill in name and unit type to save.", Toast.LENGTH_SHORT);
                 toast.show();
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 

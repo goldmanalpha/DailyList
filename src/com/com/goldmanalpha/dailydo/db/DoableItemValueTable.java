@@ -29,52 +29,41 @@ public class DoableItemValueTable extends TableBase {
             String sql4 = "CREATE INDEX idx_applies_to_date ON DoableItemValue (appliesToDate);"
                     + "CREATE INDEX idx_item_date ON DoableItemValue (itemId, appliesToDate desc, dateCreated desc, id);";
 
-            return new String[] {sql4};
+            return new String[]{sql4};
         }
 
-        if (newVersion == 7)
-        {
+        if (newVersion == 7) {
             //sad assumption that max(id) will be last id holds 99% of the time
-            String sql6= "CREATE VIEW ViewItemValueMax AS "
+            String sql6 = "CREATE VIEW ViewItemValueMax AS "
                     + " Select itemId, max(id) as valueId from " + TableName
-                    + " group by itemId; "  ;
-            return new String[] {sql6};
+                    + " group by itemId; ";
+            return new String[]{sql6};
         }
 
-
-        if (newVersion == 13)
-        {
+        if (newVersion == 13) {
             String sql13 =
                     "Alter Table " + TableName
-                            + " add column hasAnotherDayInstance int;"
-                    ;
+                            + " add column hasAnotherDayInstance int;";
 
-            return new String[] {sql13};
+            return new String[]{sql13};
         }
 
-        if (newVersion == 15)
-        {
+        if (newVersion == 15) {
             String sql14 =
                     "Alter Table " + TableName
-                            + " add column appliesToTime int;"
+                            + " add column appliesToTime int;";
 
-                    ;
-
-            return new String[] {sql14};
+            return new String[]{sql14};
         }
 
-        if (newVersion == 16)
-        {
+        if (newVersion == 16) {
             String sql16 =
                     "Alter Table " + TableName
-                            + " add column potency int;"
+                            + " add column potency int;";
 
-                    ;
-
-            return new String[] {sql16};
-
+            return new String[]{sql16};
         }
+
         return null;
     }
-
 }

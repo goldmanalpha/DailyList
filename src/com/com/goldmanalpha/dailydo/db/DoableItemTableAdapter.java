@@ -1,15 +1,10 @@
 package com.com.goldmanalpha.dailydo.db;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import com.goldmanalpha.dailydo.model.DoableItem;
-import com.goldmanalpha.dailydo.model.DoableValue;
-import com.goldmanalpha.dailydo.model.UnitType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.goldmanalpha.dailydo.model.DoableItem;
+import com.goldmanalpha.dailydo.model.UnitType;
 
 public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
@@ -46,15 +41,15 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
         values.put("unitType", object.getUnitType().name());
         values.put("description", object.getDescription());
         values.put("private",
-                object.getPrivate() ? 1 : 0);
+                object.isPrivate() ? 1 : 0);
 
         values.put("displayOrder", object.getDisplayOrder());
 
 
         values.put("categoryId", object.getCategoryId());
 
-        values.put("showAppliesToTime", object.getAlwaysShowAppliesToTime()
-                        ? 1 : 0);
+        values.put("showAppliesToTime", object.isAlwaysShowAppliesToTime()
+                ? 1 : 0);
 
         return values;
     }
@@ -102,8 +97,8 @@ public class DoableItemTableAdapter extends TableAdapterBase<DoableItem> {
 
             item.setDisplayOrder(c.getInt(c.getColumnIndex("displayOrder")));
             item.setCategoryId(c.getInt(c.getColumnIndex("categoryId")));
-            
-            item.setAlwaysShowAppliesToTime(c.getInt(c.getColumnIndex("showAppliesToTime")) == 1 ? true : false);
+
+            item.setAlwaysShowAppliesToTime(c.getInt(c.getColumnIndex("showAppliesToTime")) == 1);
         }
 
         c.close();

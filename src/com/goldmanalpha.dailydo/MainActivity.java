@@ -11,22 +11,49 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import android.provider.MediaStore;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.*;
-import android.widget.*;
-import java.util.function.Predicate;
-import com.com.goldmanalpha.dailydo.db.*;
-import com.goldmanalpha.androidutility.*;
-import com.goldmanalpha.dailydo.model.*;
+import com.com.goldmanalpha.dailydo.db.DailyDoDatabaseHelper;
+import com.com.goldmanalpha.dailydo.db.DatabaseRoot;
+import com.com.goldmanalpha.dailydo.db.DoableItemValueTableAdapter;
+import com.com.goldmanalpha.dailydo.db.DoableValueCursorHelper;
+import com.com.goldmanalpha.dailydo.db.LookupTableAdapter;
+import com.goldmanalpha.androidutility.ArrayHelper;
+import com.goldmanalpha.androidutility.BackupHelper;
+import com.goldmanalpha.androidutility.DateHelper;
+import com.goldmanalpha.androidutility.DayOnlyDate;
+import com.goldmanalpha.androidutility.EnumHelper;
+import com.goldmanalpha.androidutility.FileHelper;
+import com.goldmanalpha.androidutility.PickOneList;
+import com.goldmanalpha.dailydo.Main.SearchSupport;
+import com.goldmanalpha.dailydo.databinding.MainBinding;
+import com.goldmanalpha.dailydo.model.DoableValue;
+import com.goldmanalpha.dailydo.model.SimpleLookup;
+import com.goldmanalpha.dailydo.model.TeaSpoons;
+import com.goldmanalpha.dailydo.model.TeaspoonHelper;
+import com.goldmanalpha.dailydo.model.UnitType;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.nononsenseapps.filepicker.Utils;
 
@@ -34,10 +61,17 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
+
+import filteredcursor.android.FilteredCursorFactory;
+
+import static com.goldmanalpha.androidutility.DateHelper.gmtToLocalTime;
+import static com.goldmanalpha.androidutility.DateHelper.short24TimeFormat;
+import static com.goldmanalpha.androidutility.DateHelper.shortMonthDateFormat;
+import static com.goldmanalpha.androidutility.DateHelper.simpleDateFormatGmt;
 
 public class MainActivity extends ActivityBase {
 
@@ -45,9 +79,6 @@ public class MainActivity extends ActivityBase {
     private TextView mDateDisplay;
     Date mDisplayingDate;
     DoableItemValueTableAdapter doableItemValueTableAdapter;
-
-    private static final SimpleDateFormat shortMonthDateFormat = new SimpleDateFormat("MMM-dd");
-    private static final SimpleDateFormat short24TimeFormat = new SimpleDateFormat("HH:mm");
 
     HashMap<Integer, AltFocus> usesAltFocusMap = new HashMap<Integer, AltFocus>();
     public static String ExtraValueDateGetTimeLong = "dateToShow";
@@ -59,36 +90,36 @@ public class MainActivity extends ActivityBase {
     private static boolean instanceCreated;
     private boolean outOfRangeDateOK;
 
-
     public MainActivity() {
         this.isFirstInstance = !instanceCreated;
         instanceCreated = true;
-
-
     }
 
     static int instanceCount;
-    Boolean incrementedInstanceCount = false;
 
     @Override
     protected String RightTitle() {
 
         String suffix = Integer.toString(instanceCount);
-        if (!incrementedInstanceCount)
-            instanceCount++;
+        instanceCount++;
         return suffix;
     }
+
+    private MainBinding binding;
+    private boolean showOldItemsWithoutValues = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main);
+        binding = MainBinding.inflate(getLayoutInflater());
 
-        mainList = (ListView) findViewById(R.id.main_list);
+        setContentView(binding.getRoot());
+
+        mainList = binding.mainList;
         registerForContextMenu(mainList);
 
-        mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
+        mDateDisplay = findViewById(R.id.dateDisplay);
 
         Intent intent = getIntent();
         Long dateLong = intent.getLongExtra(ExtraValueDateGetTimeLong, new DayOnlyDate().getTime());
@@ -98,12 +129,41 @@ public class MainActivity extends ActivityBase {
         selectedCategoryId = intent.getIntExtra(ExtraValueCategoryId, selectedCategoryId);
 
         setupCategories();
+
+        binding.showAllItems.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                showOldItemsWithoutValues = isChecked;
+                SetupList2(mDisplayingDate);
+            }
+        });
+
+        setupSearchListener();
+    }
+
+    private void setupSearchListener() {
+        binding.searchItemEditor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchSupport.setSearchString(String.valueOf(s));
+                MainActivity.this.SetupList2(mDisplayingDate);
+            }
+        });
     }
 
     SharedPreferences Preferences() {
         return getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
     }
-
 
     boolean showPrivate = true;
 
@@ -116,7 +176,7 @@ public class MainActivity extends ActivityBase {
 
         public static final int PublicPrivateSwitch = 5;
 
-        public static final int DuplicateItem = 6;
+        public static final int AddSeparateValue = 6;
 
         public static final int BackupFolder = 7;
 
@@ -128,27 +188,20 @@ public class MainActivity extends ActivityBase {
         public static final int AllItemHistoryHighlightItem = 12;
         public static final int ThisCategoryItemHistoryHighlightItem = 13;
 
-        public static final int SetToPreviousValue = 14;
-
-
         public static final int RestoreFromBackup = 999912;
-
-
     }
 
-
-    public void onShowOptionsMenu(View v){
+    public void onShowOptionsMenu(View v) {
         this.openOptionsMenu();
     }
 
     MenuItem PublicPrivateMenuItem;
 
-    private SpannableString asSS(String s){
+    private SpannableString asSS(String s) {
         SpannableString ss = new SpannableString(s);
         ss.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, s.length(), 0);
         return ss;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,19 +210,18 @@ public class MainActivity extends ActivityBase {
 
         //group, item, order, title_bar
 
-
         PublicPrivateMenuItem =
                 menu.add(0, MenuItems.PublicPrivateSwitch, 0, asSS("Pub Only"));
+
+        menu.add(0, MenuItems.AddItem, 0, asSS("Add Item"));
+
+        menu.add(1, MenuItems.Backup, 0, asSS("Backup"));
 
         menu.add(0, MenuItems.Quit, 0, asSS("Quit"));
 
         menu.add(1, MenuItems.AllItemHistory, 0, asSS("Hstry"));
 
         menu.add(1, MenuItems.ThisCategoryItemHistory, 0, asSS("Cat Hstry"));
-
-        menu.add(1, MenuItems.Backup, 0, asSS("Backup"));
-
-        menu.add(0, MenuItems.AddItem, 0, asSS("Add Item"));
 
         menu.add(1, MenuItems.BackupFolder, 0, asSS("Backup Folder"));
 
@@ -182,7 +234,9 @@ public class MainActivity extends ActivityBase {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.main_list) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        if (v.getId() == binding.mainList.getId()) {
 
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
@@ -199,19 +253,10 @@ public class MainActivity extends ActivityBase {
             menu.add(Menu.NONE, MenuItems.ThisCategoryItemHistoryHighlightItem, 0, "Cat History");
             menu.add(Menu.NONE, MenuItems.AllItemHistoryHighlightItem, 0, "All History");
 
-            menu.add(Menu.NONE, MenuItems.DuplicateItem, 0, "Duplicate Item");
+            menu.add(Menu.NONE, MenuItems.AddSeparateValue, 0, "Add Separate Value");
             menu.add(Menu.NONE, MenuItems.DeleteItem, 0, "Delete Value");
-
-            if (this.cursorHelper.isNumeric(cachedCursor) && cachedCursor.getInt(
-                    cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAmount)) == 0)
-            {
-                menu.add(Menu.NONE, MenuItems.SetToPreviousValue, 0, "Set to Prev Value");
-            }
-
-
         }
     }
-
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -220,12 +265,11 @@ public class MainActivity extends ActivityBase {
         final String name = cachedCursor.getString(
                 cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName)
         );
-        ;
         boolean handled = false;
         SeriousConfirmationDialog dlg = null;
 
         switch (item.getItemId()) {
-            case MenuItems.DuplicateItem:
+            case MenuItems.AddSeparateValue:
 
                 if (ids == null || ids.ValueId == 0) {
                     Toast.makeText(this, "No value to duplicate", Toast.LENGTH_LONG).show();
@@ -235,7 +279,6 @@ public class MainActivity extends ActivityBase {
                 try {
                     MainActivity.this.
                             doableItemValueTableAdapter.createDuplicate(ids.ValueId);
-
                 } catch (ParseException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 
@@ -246,7 +289,6 @@ public class MainActivity extends ActivityBase {
                 SetupList2(mDisplayingDate);
 
                 handled = true;
-
 
                 break;
 
@@ -262,11 +304,11 @@ public class MainActivity extends ActivityBase {
                 if (description != null && (description).trim().length() != 0) {
                     Toast.makeText(this, "Can't delete value with description -- delete description first.",
                             Toast.LENGTH_LONG).show();
-
                 } else {
                     dlg = new SeriousConfirmationDialog(this,
                             name, "Delete item?",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     if (id == DialogInterface.BUTTON_POSITIVE) {
 
@@ -280,17 +322,13 @@ public class MainActivity extends ActivityBase {
                                         }
                                         SetupList2(mDisplayingDate);
                                     }
-
                                 }
                             });
 
                     dlg.show();
-
-
                 }
 
                 handled = true;
-
 
                 break;
 
@@ -324,23 +362,6 @@ public class MainActivity extends ActivityBase {
 
                 startActivity(intent);
                 break;
-
-            case MenuItems.SetToPreviousValue:
-                try {
-                    DoableValue value = getCurrentValue(ids);
-
-                    float lastAmount = cachedCursor.getInt(
-                            cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastAmount));
-                    value.setAmount(lastAmount);
-                    doableItemValueTableAdapter.save(value);
-                    SetupList2(mDisplayingDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-
-                    Toast.makeText(MainActivity.this, "Problem updating: " + e.getMessage(), Toast.LENGTH_LONG)
-                            .show();
-                }
-                break;
         }
 
         return handled;
@@ -350,20 +371,17 @@ public class MainActivity extends ActivityBase {
         updateDisplayDate(new DayOnlyDate());
     }
 
-
     public void list_description_click(View v) {
         ValueIdentifier ids = this.GetValueIds(v);
 
         if (ids.ValueId == 0) {
             Toast.makeText(this, "Need to set value before description", Toast.LENGTH_SHORT)
                     .show();
-
         } else {
             Intent intent = new Intent(this, EditDescriptionActivity.class);
 
             intent.putExtra(EditDescriptionActivity.ExtraValueId, ids.ValueId);
             intent.putExtra(EditDescriptionActivity.ExtraValueOutOfRangeDateOK, outOfRangeDateOK);
-
 
             startActivity(intent);
         }
@@ -372,8 +390,11 @@ public class MainActivity extends ActivityBase {
     void shareFile(String filePath) {
 
         Uri uri = FileProvider.getUriForFile(this,
-                this.getApplicationContext().getPackageName() + ".provider2",
-                new File(filePath));
+                this.getApplicationContext().getPackageName() + ".provider",
+                new File(filePath)
+                );
+
+        File f = new File(filePath);
 
         Intent intent = ShareCompat.IntentBuilder.from(this)
                 .getIntent()
@@ -381,12 +402,11 @@ public class MainActivity extends ActivityBase {
                 .putExtra(Intent.EXTRA_STREAM, uri)
                 .setDataAndType(uri, "application/octet-stream")
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                .putExtra(Intent.EXTRA_SUBJECT, "Upload File")
+                .putExtra(Intent.EXTRA_SUBJECT, f.getName())    // google drive uses this :(
                 .putExtra(Intent.EXTRA_TEXT, "Upload File");
 
-        startActivity(Intent.createChooser(intent, "Upload File") );
+        startActivity(Intent.createChooser(intent, "Upload File"));
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -404,13 +424,13 @@ public class MainActivity extends ActivityBase {
             case MenuItems.DeleteDb:
                 DeleteConfirmationDialog dlg = new DeleteConfirmationDialog(this,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
                                     //backup?!
 
                                     String localPath = "data/data/" + getPackageName() + "/databases/";
-
 
                                     SharedPreferences preferences =
                                             getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
@@ -429,8 +449,6 @@ public class MainActivity extends ActivityBase {
                                     f.delete();
 
                                     finish();
-
-
                                 }
                             }
                         });
@@ -465,14 +483,13 @@ public class MainActivity extends ActivityBase {
 
                 String targetPath1 = preferences1.getString("BackupFolder", path);
 
-                if(ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                     //ask for permission
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
                     }
                 }
-
 
                 String[] files = helper.BackupFiles(targetPath1);
 
@@ -483,7 +500,6 @@ public class MainActivity extends ActivityBase {
                 Toast.makeText(this, "Backing up", Toast.LENGTH_LONG).show();
 
                 BackupService backupService = new BackupService();
-
 
                 SharedPreferences preferences =
                         getSharedPreferences(getApplication().getPackageName(), MODE_PRIVATE);
@@ -505,26 +521,13 @@ public class MainActivity extends ActivityBase {
                     Intent selectDirectoyIntent = new Intent(this, FilePickerActivity.class);
                     selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
                     selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-//                    selectDirectoyIntent.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
                     startActivityForResult(selectDirectoyIntent, IntentRequestCodes.BackupFolder);
-
                 } catch (Exception e) {
                     Log.e(this.LogTag, "exception", e);
                     e.printStackTrace();
 
                     Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
-
-//                Intent browser = new Intent();
-//
-//                try {
-//                    browser.addCategory(Intent.ACTION_OPEN_DOCUMENT_TREE);
-//                    startActivityForResult(browser, IntentRequestCodes.BackupFolder);
-//                } catch (ActivityNotFoundException anfe) {
-//                    Log.w("DailyDo", "couldn't complete ACTION_OPEN_DOCUMENT, no activity found. falling back.");
-//
-//                    Toast.makeText(this, "No Doc Tree App Found.", Toast.LENGTH_SHORT).show();
-//                }
                 break;
 
             case (MenuItems.Quit):
@@ -543,10 +546,9 @@ public class MainActivity extends ActivityBase {
 
     LookupTableAdapter categoryTableAdapter;
     int selectedCategoryId = SimpleLookup.ALL_ID;
-    Spinner categoryField;
 
     private void setupCategories() {
-        categoryField = (Spinner) findViewById(R.id.categorySpinner);
+        Spinner categorySelector = findViewById(R.id.categorySpinner);
 
         categoryTableAdapter = LookupTableAdapter.getItemCategoryTableAdapter();
 
@@ -565,33 +567,35 @@ public class MainActivity extends ActivityBase {
         categories.add(2, addItem);
 
         ArrayAdapter<SimpleLookup> adapter = new ArrayAdapter<SimpleLookup>(
-                this, android.R.layout.simple_spinner_item,
+                this, R.layout.spinner_row,
                 categories);
-
         adapter.setDropDownViewResource(R.layout.short_spinner_dropdown_item);
 
-        categoryField.setAdapter(adapter);
+        categorySelector.setAdapter(adapter);
 
         SimpleLookup[] lookupArray = new SimpleLookup[categories.size()];
 
         int selectedPosition = ArrayHelper.IndexOfP(
                 categories.toArray(lookupArray), new Predicate<SimpleLookup>() {
-            public boolean test(SimpleLookup simpleLookup) {
-                return simpleLookup.getId() == MainActivity.this.selectedCategoryId;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        });
-
+                    @Override
+                    public boolean test(SimpleLookup simpleLookup) {
+                        return simpleLookup.getId() == MainActivity.this.selectedCategoryId;  //To change body of implemented methods use File | Settings | File Templates.
+                    }
+                });
 
         //todo: this reset to previous state doesn't exactly work
         //the display text in the spinner is wrong.
-        categoryField.setSelection(selectedPosition, true);
+        categorySelector.setSelection(selectedPosition, true);
 
-        categoryField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        categorySelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
                 selectedCategoryId =
-                        ((SimpleLookup) ((Spinner) parentView).getSelectedItem()).getId();
+                        ((SimpleLookup) parentView.getSelectedItem()).getId();
+
+                searchSupport.setCategory(selectedCategoryId);
+                binding.allCategoryOptions.setVisibility(searchSupport.isSearchMode() ? View.VISIBLE : View.GONE);
 
                 Preferences().edit().putInt(SelectedCategoryIdPrefKey, selectedCategoryId).commit();
 
@@ -602,13 +606,13 @@ public class MainActivity extends ActivityBase {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
-
         });
-
     }
 
+    SearchSupport searchSupport = new SearchSupport();
+
     @Override
-    protected void onPause(){
+    protected void onPause() {
         DatabaseRoot.close();
         super.onPause();
     }
@@ -623,36 +627,83 @@ public class MainActivity extends ActivityBase {
         super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    private Cursor filterCursor(Cursor cursorToFilter) {
+        return FilteredCursorFactory.createUsingSelector(cursorToFilter, new FilteredCursorFactory.Selector() {
+
+            @Override
+            public boolean select(Cursor cursor) {
+
+                String itemName = cursor.getString(nameColumnIndex);
+                if (!searchSupport.isMatch(itemName)) {
+                    return false;
+                }
+
+                if (!showOldItemsWithoutValues
+                        && isOldDate()
+                ) {
+
+                    int[] fieldIndices =
+                            {
+                                    amountColumnIndex, fromTimeColumnIndex, toTimeColumnIndex
+                            };
+
+                    for (int idx : fieldIndices) {
+                        if (cursor.getInt(idx) != 0) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+                return true;
+            }
+        });
+    }
+
     boolean setupDate = false;
     SimpleCursorAdapter listCursorAdapter;
 
     Date lastSetupList2Date;
+
+    private boolean isOldDate() {
+        boolean isOutOfRange = MainActivity.this.getLastWindowState().equals(WindowState.OUT_OF_RANGE);
+        boolean isHistory = new Date().after(mDisplayingDate);
+        return isHistory && isOutOfRange;
+    }
+
+    private void setDateOptions(Date date) {
+        setWindowState(date);
+
+        int visibility = isOldDate() ?
+                LinearLayout.VISIBLE : LinearLayout.GONE;
+        binding.oldDateOptions.setVisibility(visibility);
+    }
 
     public void SetupList2(Date date) {
 
         this.outOfRangeDateOK = this.outOfRangeDateOK && date.equals(lastSetupList2Date);
         lastSetupList2Date = date;
 
-        setWindowState(date);
+        setDateOptions(date);
 
         cachedCursor.close();
-        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, selectedCategoryId);
-//        startManagingCursor(cachedCursor);
-
+        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(gmtToLocalTime(date), showPrivate, selectedCategoryId));
         listCursorAdapter.changeCursor(cachedCursor);
     }
 
     ListView mainList;
     Cursor cachedCursor;
+    int nameColumnIndex;
     int valueIdColumnIndex;
     int itemIdColumnIndex;
-
 
     int fromTimeColumnIndex;
     int toTimeColumnIndex;
     int lastFromTimedColumnIndex;
     int lastToTimeColumnIndex;
     int descriptionColumnIndex;
+    int amountColumnIndex;
 
     int teaspoonColIdx;
     int lastTeaspoonColIdx;
@@ -667,23 +718,24 @@ public class MainActivity extends ActivityBase {
             return;
         }
 
-        setWindowState(date);
+        setDateOptions(date);
         setupDate = true;
 
         doableItemValueTableAdapter = new DoableItemValueTableAdapter();
-        cachedCursor = doableItemValueTableAdapter.getItems(date, showPrivate, SimpleLookup.ALL_ID);
+        cachedCursor = filterCursor(doableItemValueTableAdapter.getItems(gmtToLocalTime(date), showPrivate, SimpleLookup.ALL_ID));
 
+        nameColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemName);
         valueIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColId);
         itemIdColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColItemId);
         descriptionColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColDescription);
         final int nowColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPlaceHolder1);
         final int unitTypeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColUnitType);
 
-
 //        startManagingCursor(cachedCursor);
         cursorHelper = new DoableValueCursorHelper(cachedCursor);
 
-        String[] from = new String[]{DoableItemValueTableAdapter.ColItemName,
+        String[] from = new String[]{
+                DoableItemValueTableAdapter.ColItemName,
                 DoableItemValueTableAdapter.ColUnitType,
                 DoableItemValueTableAdapter.ColAmount,
                 DoableItemValueTableAdapter.ColTeaspoons,
@@ -713,7 +765,6 @@ public class MainActivity extends ActivityBase {
         teaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColTeaspoons);
         lastTeaspoonColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastTeaspoons);
 
-
         potencyColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColPotency);
         lastPotencyColIdx = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastPotency);
 
@@ -728,7 +779,7 @@ public class MainActivity extends ActivityBase {
         fromTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColFromTime);
         toTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColToTime);
         lastToTimeColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColLastToTime);
-
+        amountColumnIndex = cachedCursor.getColumnIndex(DoableItemValueTableAdapter.ColAmount);
 
         listCursorAdapter = new SimpleCursorAdapter(mainList.getContext(),
                 R.layout.main_list_item, cachedCursor, from, to);
@@ -737,6 +788,7 @@ public class MainActivity extends ActivityBase {
 
         listCursorAdapter.setViewBinder(
                 new SimpleCursorAdapter.ViewBinder() {
+                    @Override
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
                         boolean returnValue = false;
@@ -756,7 +808,6 @@ public class MainActivity extends ActivityBase {
                         }
 
                         if (appliesToTimeColIdx == columnIndex) {
-
 
                             int itemId = cursor.getInt(itemIdColumnIndex);
                             TextView tv = (TextView) view;
@@ -785,15 +836,13 @@ public class MainActivity extends ActivityBase {
                                         tv.setShadowLayer(6, 0, 0, Color.YELLOW);
 
                                     try {
-                                        Date crDate =
-                                                doableItemValueTableAdapter.TimeStampToDate(cursor.getString(createdDateColIdx));
-
-                                        t = new Time(crDate.getHours(), crDate.getMinutes(), crDate.getSeconds());
+                                        Date createdDate = DateHelper.TimeStampToDate(cursor.getString(createdDateColIdx), simpleDateFormatGmt);
+                                        t = DateHelper.getLocalTime(createdDate);
                                     } catch (ParseException e) {
                                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                                     }
                                 } else {
-                                    t = doableItemValueTableAdapter.IntToTime(cursor.getInt(appliesToTimeColIdx));
+                                    t = DateHelper.IntToTime(cursor.getInt(appliesToTimeColIdx));
                                 }
 
                                 tv.setText(short24TimeFormat.format(t));
@@ -812,7 +861,6 @@ public class MainActivity extends ActivityBase {
                             if (description != null && description.trim().length() > 0) {
                                 tv.setShadowLayer(6, 0, 0, Color.MAGENTA);
                                 tv.setText("|D|");
-
                             } else {
                                 int id = cursor.getInt(valueIdColumnIndex);
 
@@ -832,7 +880,7 @@ public class MainActivity extends ActivityBase {
                                 || columnIndex == lastFromTimedColumnIndex
                                 || columnIndex == toTimeColumnIndex
                                 || columnIndex == lastToTimeColumnIndex
-                                ) {
+                        ) {
 
                             returnValue = true;
 
@@ -849,13 +897,12 @@ public class MainActivity extends ActivityBase {
 
                                 if ((columnIndex == fromTimeColumnIndex && editFirstTime)
                                         || (columnIndex == toTimeColumnIndex && !editFirstTime)
-                                        )
+                                )
                                     tv.setShadowLayer(3, 3, 3, Color.GREEN);
                                 else
                                     tv.setShadowLayer(0, 0, 0, Color.BLACK);
                             } else
                                 tv.setShadowLayer(0, 0, 0, Color.BLACK);
-
 
                             //hide dash if we don't have 2 dates
                             int dashId = 0;
@@ -870,15 +917,13 @@ public class MainActivity extends ActivityBase {
 
                             if (dashId != 0) {
 
-                                TextView dashView = (TextView)
-                                        ((ViewGroup) tv.getParent()).findViewById(dashId);
+                                TextView dashView = ((ViewGroup) tv.getParent()).findViewById(dashId);
 
                                 if (timesToShowDate < 2)
                                     dashView.setText("");
                                 else
                                     dashView.setText(" - ");
                             }
-
 
                             boolean hasValue = hasValue(cursor);
                             boolean fromShows = (columnIndex == lastFromTimedColumnIndex
@@ -892,7 +937,7 @@ public class MainActivity extends ActivityBase {
                             if (fromShows || toShows) {
 
                                 int timeAsInt = cursor.getInt(columnIndex);
-                                Time t = doableItemValueTableAdapter
+                                Time t = DateHelper
                                         .IntToTime(timeAsInt);
 
                                 String totalHours = "";
@@ -908,13 +953,11 @@ public class MainActivity extends ActivityBase {
                                     }
 
                                     totalHours = " ("
-                                            + doableItemValueTableAdapter.totalHours(startTimeAsInt, timeAsInt)
+                                            + DateHelper.totalHours(doableItemValueTableAdapter, startTimeAsInt, timeAsInt)
                                             + ")";
                                 }
 
                                 tv.setText(short24TimeFormat.format(t) + totalHours);
-
-
                             } else {
                                 //stupid android seems to hold old values and apply them automatically when handled = true
                                 tv.setText("");
@@ -924,14 +967,12 @@ public class MainActivity extends ActivityBase {
                         if (columnIndex == teaspoonColIdx) {
                             TextView tv = ((TextView) view);
 
-                            if (!cursorHelper.isTeaspoons(cursor)) {
-                                tv.setText("");
-                                returnValue = true;
+                            if (cursorHelper.isTeaspoons(cursor)) {
+                                tv.setText(TeaspoonHelper.shortName(getTeaspoonsForCursorPosition(cursor)));
                             } else {
-
-                                tv.setText(getTeaspoonsForCursorPosition(cursor));
-                                returnValue = true;
+                                tv.setText("");
                             }
+                            returnValue = true;
                         }
 
                         if (columnIndex == lastTeaspoonsColIdx) {
@@ -960,7 +1001,6 @@ public class MainActivity extends ActivityBase {
                             }
                         }
 
-
                         if (columnIndex == lastAppliesToDateColIdx) {
                             returnValue = true;
 
@@ -987,6 +1027,7 @@ public class MainActivity extends ActivityBase {
         );
 
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
@@ -996,9 +1037,7 @@ public class MainActivity extends ActivityBase {
                     Toast.makeText(getApplicationContext(),
                             ((TextView) view).getText(),
                             Toast.LENGTH_SHORT).show();
-
                 }
-
             }
         });
     }
@@ -1013,18 +1052,15 @@ public class MainActivity extends ActivityBase {
         }
 
         try {
-            Date d = DoableItemValueTableAdapter.simpleDateFormat.parse(lastAppliesToDate);
+            Date d = DateHelper.simpleDateFormatLocal.parse(lastAppliesToDate);
 
-            TextView tv = (TextView) view;
+            TextView tv = view;
 
             tv.setText(shortMonthDateFormat.format(d));
-
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
     }
-
 
     public final static TeaSpoons defaultTeaspoons = TeaSpoons.eighth;
 
@@ -1110,6 +1146,7 @@ public class MainActivity extends ActivityBase {
             SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                     value.getItem().getName(), "Set " + whichTimeToSet + " to current time?",
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog, int id) {
 
                             if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -1122,7 +1159,6 @@ public class MainActivity extends ActivityBase {
 
             dlg.show();
         }
-
     }
 
     public void unit_type_click(View v) {
@@ -1131,7 +1167,6 @@ public class MainActivity extends ActivityBase {
         Toast.makeText(getApplicationContext(),
                 ids.toString() + " " + ((TextView) v).getText(),
                 Toast.LENGTH_SHORT).show();
-
     }
 
     DoableValue potencyClickValue;
@@ -1147,23 +1182,25 @@ public class MainActivity extends ActivityBase {
 
         Intent intent = new Intent(this, PickOneList.class);
 
-        intent.putExtra(PickOneList.Title, "Pick Log Value Vs. Usual Potency");
+        intent.putExtra(PickOneList.Title, "Pick Exp Value Vs. Std Potency");
 
         intent.putExtra(PickOneList.SelectedItem, this.potencyClickValue.getPotency().toString());
 
         //values from -1 to neg 30 should be sufficient:
-        String[] potencies = new String[29];
 
-        for (int i = -1; i > -30; i--) {
-            potencies[Math.abs(i) - 1] = String.valueOf(i);
+        final int start = 3;
+        final int end = -30;
+
+        String[] potencies = new String[Math.abs(end) + start + 1];
+
+        for (int i = start; i >= end; i--) {
+            potencies[Math.abs(i - start)] = String.valueOf(i);
         }
 
         intent.putExtra(PickOneList.Choices, potencies);
 
         startActivityForResult(intent, IntentRequestCodes.PotencySelection);
-
     }
-
 
     DoableValue teaspoonsClickValue;
 
@@ -1183,7 +1220,6 @@ public class MainActivity extends ActivityBase {
 
         intent.putExtra(PickOneList.Choices,
                 EnumHelper.EnumNameToStringArray(TeaSpoons.values(), 1));
-
 
         startActivityForResult(intent, IntentRequestCodes.TeaspoonSelection);
     }
@@ -1211,9 +1247,7 @@ public class MainActivity extends ActivityBase {
         intent.putExtra(PickOneList.Choices, choices);
 
         startActivityForResult(intent, IntentRequestCodes.RestoreDBSelection);
-
     }
-
 
     class IntentRequestCodes {
         public static final int TeaspoonSelection = 1;
@@ -1221,7 +1255,6 @@ public class MainActivity extends ActivityBase {
         public static final int BackupFolder = 2;
 
         public static final int NoOp = 0;
-
 
         public static final int RestoreDBSelection = 3;
 
@@ -1252,7 +1285,7 @@ public class MainActivity extends ActivityBase {
                 if (resultCode == RESULT_OK) {
 
                     List<Uri> files = Utils.getSelectedFilesFromResult(data);
-                    for (Uri uri: files) {
+                    for (Uri uri : files) {
                         File file = Utils.getFileForUri(uri);
                         // Do something with the result...
                         String path = file.getAbsolutePath();
@@ -1272,6 +1305,7 @@ public class MainActivity extends ActivityBase {
                     SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                             "Restore DB?!", "Restore db from: " + restoreFile,
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int id) {
 
                                     if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -1294,7 +1328,6 @@ public class MainActivity extends ActivityBase {
                                             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 
                                             Toast.makeText(MainActivity.this, "getCanonicalPath Err: " + e.getMessage(), Toast.LENGTH_LONG).show();
-
                                         }
 
                                         if (canContinue) {
@@ -1324,7 +1357,6 @@ public class MainActivity extends ActivityBase {
                             });
 
                     dlg.show();
-
                 }
                 break;
 
@@ -1342,12 +1374,8 @@ public class MainActivity extends ActivityBase {
                     SetupList(new DayOnlyDate(this.mDisplayingDate));
                 }
                 break;
-
         }
-
-
     }
-
 
     //for a new doable value, this will set defaults enough to save
     //need to have called GetIds prior to this call
@@ -1356,7 +1384,7 @@ public class MainActivity extends ActivityBase {
         if (value.getId() != 0)
             return;
 
-        value.setAppliesToDate(mDisplayingDate);
+        value.setAppliesToDate(gmtToLocalTime(mDisplayingDate));
 
         value.setDoableItemId(GetValueIds(null).ItemId);
 
@@ -1366,11 +1394,11 @@ public class MainActivity extends ActivityBase {
             if (timesToShow > 0) {
 
                 int sqlFromTime = cachedCursor.getInt(lastFromTimedColumnIndex);
-                value.setFromTime(doableItemValueTableAdapter.IntToTime(sqlFromTime));
+                value.setFromTime(DateHelper.IntToTime(sqlFromTime));
 
                 if (timesToShow > 1) {
                     int sqlToTime = cachedCursor.getInt(lastToTimeColumnIndex);
-                    value.setToTime(doableItemValueTableAdapter.IntToTime(sqlToTime));
+                    value.setToTime(DateHelper.IntToTime(sqlToTime));
                 }
             }
 
@@ -1383,8 +1411,6 @@ public class MainActivity extends ActivityBase {
                     TeaSpoons.valueOf(
                             this.getTeaspoonsForCursorPosition(cachedCursor)));
         }
-
-
     }
 
     String getTeaspoonsForCursorPosition(Cursor c) {
@@ -1397,7 +1423,6 @@ public class MainActivity extends ActivityBase {
         if (setTeaspoons == null || unset.equals(setTeaspoons)) {
             if (lastTeaspoons != null && !unset.equals(lastTeaspoons)) {
                 return lastTeaspoons;
-
             }
         } else {
             return setTeaspoons;
@@ -1411,7 +1436,7 @@ public class MainActivity extends ActivityBase {
         moveCursorToCurrentRow(v);
 
         if (cursorHelper.timesToShowDate(cachedCursor) > 1) {
-            TextView otherTv = (TextView) ((ViewGroup) v.getParent()).findViewById(R.id.list_time2_value);
+            TextView otherTv = ((ViewGroup) v.getParent()).findViewById(R.id.list_time2_value);
             otherTv.setShadowLayer(0, 0, 0, Color.RED);
 
             TextView tv = (TextView) v;
@@ -1419,7 +1444,6 @@ public class MainActivity extends ActivityBase {
 
             usesAltFocusMap.put(GetValueIds(v).ItemId, AltFocus.Time1OrValue);
         }
-
     }
 
     enum AltFocus {
@@ -1444,7 +1468,7 @@ public class MainActivity extends ActivityBase {
         usesAltFocusMap.remove(GetValueIds(v).ItemId);
 
         //brittle reliance on view composition here:
-        TextView otherTv = (TextView) ((ViewGroup) v.getParent().getParent()).findViewById(R.id.list_applies_to_time);
+        TextView otherTv = ((ViewGroup) v.getParent().getParent()).findViewById(R.id.list_applies_to_time);
         otherTv.setShadowLayer(0, 0, 0, Color.RED);
 
         TextView tv = (TextView) v;
@@ -1453,18 +1477,24 @@ public class MainActivity extends ActivityBase {
 
     public void time2_click(View v) {
 
-        TextView otherTv = (TextView) ((ViewGroup) v.getParent()).findViewById(R.id.list_time1_value);
+        TextView otherTv = ((ViewGroup) v.getParent()).findViewById(R.id.list_time1_value);
         otherTv.setShadowLayer(0, 0, 0, Color.RED);
-
 
         TextView tv = (TextView) v;
         tv.setShadowLayer(3, 3, 3, Color.GREEN);
 
         usesAltFocusMap.put(GetValueIds(v).ItemId, AltFocus.Time2);
+    }
 
+    public void clearSearchClick(View v) {
+        binding.searchItemEditor.setText(SearchSupport.BLANK);
     }
 
     public void add_click(View v) throws ParseException {
+
+        Toast.makeText(getApplicationContext(),
+                "ValueSet", Toast.LENGTH_LONG)
+                .show();
 
         ValueIdentifier ids = GetValueIds(v);
         TextView tv = (TextView) v;
@@ -1511,26 +1541,22 @@ public class MainActivity extends ActivityBase {
                 if (timesToShow > 0) {
 
                     int sqlFromTime = cachedCursor.getInt(lastFromTimedColumnIndex);
-                    value.setFromTime(doableItemValueTableAdapter.IntToTime(sqlFromTime));
+                    value.setFromTime(DateHelper.IntToTime(sqlFromTime));
 
                     if (timesToShow > 1) {
                         int sqlToTime = cachedCursor.getInt(lastToTimeColumnIndex);
-                        value.setToTime(doableItemValueTableAdapter.IntToTime(sqlToTime));
+                        value.setToTime(DateHelper.IntToTime(sqlToTime));
                     }
-
                 } else {
                     //its a new value, start with last value used
                     value.setAmount(cachedCursor.getFloat(cachedCursor.getColumnIndex(
                             DoableItemValueTableAdapter.ColLastAmount)));
                 }
-
-
             } else {
                 if (timesToShow > 0) {
 
                     Boolean usesTime1 = !usesAltFocusMap.containsKey(ids.ItemId)
                             || usesAltFocusMap.get(ids.ItemId) == AltFocus.Time1OrValue;
-
 
                     Time timeToChange = usesTime1 ? value.getFromTime() : value.getToTime();
 
@@ -1547,9 +1573,7 @@ public class MainActivity extends ActivityBase {
                         value.setFromTime(setToTime);
                     else
                         value.setToTime(setToTime);
-
                 } else {
-
 
                     if (!changeAppliesToTime) {
                         value.setAmount(value.getAmount() + addAmount);
@@ -1557,13 +1581,13 @@ public class MainActivity extends ActivityBase {
                         Time t = value.getAppliesToTime();
                         //only other current else is applies to time:
                         if (t == null) {
-                            t = new Time(value.getDateCreated().getTime());
+                            Date dateInLocalTime = DateHelper.gmtToLocalTime(value.getDateCreated());
+                            t = DateHelper.getLocalTime(dateInLocalTime);
                         }
 
                         Date updatedTime = DateHelper.addMinutes(t, addAmount);
 
                         value.setAppliesToTime(new Time(updatedTime.getTime()));
-
                     }
                 }
             }
@@ -1573,6 +1597,7 @@ public class MainActivity extends ActivityBase {
                 SeriousConfirmationDialog dlg = new SeriousConfirmationDialog(this,
                         value.getItem().getName(), "Change value on date: " + mDateDisplay.getText(),
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if (id == DialogInterface.BUTTON_POSITIVE) {
@@ -1584,21 +1609,18 @@ public class MainActivity extends ActivityBase {
                         });
 
                 dlg.show();
-
             } else {
                 doableItemValueTableAdapter.save(value);
                 SetupList2(mDisplayingDate);
             }
         }
-
-
     }
 
     private DoableValue getCurrentValue(ValueIdentifier ids) throws ParseException {
         DoableValue value = doableItemValueTableAdapter
                 .get(ids.ValueId);
 
-        value.setAppliesToDate(this.mDisplayingDate);
+        value.setAppliesToDate(DateHelper.gmtToLocalTime(this.mDisplayingDate));
 
         SetDefaultsForNewValue(value);
 
@@ -1610,17 +1632,15 @@ public class MainActivity extends ActivityBase {
                      v) {
 
         doableItemValueTableAdapter.recalcDisplayOrder();
-        updateDisplayDate(addDays(mDisplayingDate, 1));
+        updateDisplayDate(DateHelper.addDays(mDisplayingDate, 1));
     }
-
 
     public void prevDayClick
             (View
                      v) {
         doableItemValueTableAdapter.recalcDisplayOrder();
-        updateDisplayDate(addDays(mDisplayingDate, -1));
+        updateDisplayDate(DateHelper.addDays(mDisplayingDate, -1));
     }
-
 
     private void updateDisplayDate(Date date) {
 
@@ -1629,7 +1649,7 @@ public class MainActivity extends ActivityBase {
         }
 
         mDisplayingDate = date;
-        mDateDisplay.setText(DateToString(date));
+        mDateDisplay.setText(DateHelper.LongDateString(date));
 
         SetupList(new DayOnlyDate(date));
     }
@@ -1646,24 +1666,21 @@ public class MainActivity extends ActivityBase {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
-
                     })
                     .setNegativeButton("No", null)
                     .show();
-        }
-        else
-        {
+        } else {
             super.onBackPressed();
         }
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onDestroy();
 
         instanceCount--;
 
-        //done with cursors -- close db...
+        binding = null;
 
         if (this.isFirstInstance)
             DatabaseRoot.close();

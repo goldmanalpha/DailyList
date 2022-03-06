@@ -1,0 +1,100 @@
+Med
+
+    * backup doesn't set name in share
+
+Low Priority
+************************************************************
+
+Easy
+
+Med
+    *   change drops to exp
+
+	*    Highlight a group in history
+	        like all the ratings fields.
+	        For looking through history for good days
+
+	        maybe this goes with the filter idea -- might be simpler
+	        instead of single highlight, highlight several?
+    *   rename category
+
+    *    Right swipe to change day would be nice
+    *    show only has value in section for old dates
+
+    Note: Some input files use or override a deprecated API.
+    Note: Recompile with -Xlint:deprecation for details.
+
+    Holo theme:
+        <style name="MyTheme" parent="android:Theme.Holo">
+        need to change title: android.util.AndroidRuntimeException: You cannot combine custom titles with other title features
+
+	*    Category cutoff time. Warn for changes before hour or highlight color like history or both
+	        strong case: entering sleep time for current instead of previous day
+	        in that case before cutoff previous day would be current so don't warn
+	        although I don't think there's a warning for previous day
+
+    *    Weekly auto backup to last backup spot. naming, sharing?
+
+
+
+Hard
+
+	*    Support unit history and changing units
+
+	filter
+	    option: Include next and previous days
+	    Highlight good result days and include only
+            Filter. Pick fields gt 5...
+
+        work GT 7 and what? but Or's ... -- *** save search.
+	    maybe just filter?
+	    might not be so bad with iterating over cursor and doing it on Java side?
+
+    Sibling Categories?
+        Need to share items between categories or have items in 2 categories
+            main case: AM and Post Lunch
+
+        this is a bit of work... but duplicating items is painful too...
+        also, sometimes night vits become am vits -- what about that?
+        Options
+            from/to
+            
+        if no categoryId in value -- just show it everywhere if it has a value
+
+        Mid day and am share items
+
+        Does this make more sense than - Multiple categories for item?
+
+    	need directionality and has values or all?
+    	    cases:
+    	    1. show items to set in multiple categories
+    	    2. show item values because they're relevant in other sections
+
+
+	Need to history include some items in previous day
+	    needs full use case?
+	    Wake up Notes should be visible when browsing previous day?
+    	    Add a small notation to show it's the next day.
+    	        Maybe an icon that supports a toast explanation
+
+        In category and all item history
+
+        Maybe also previous categories same day
+            sleep trouble relates to am & noon vits
+
+    Category always show option
+        Will always be included in other categories. 
+        Or maybe <category> is sibling to am.pm vits
+
+
+Out of Scope?
+*    Per week goals with auto monitoring like twice for exercise
+
+
+
+****************************************************************************************************
+	*    Title history and headline sections with old titles in detail history and apply to group history
+
+	*    Need to hide things and show before making new?
+	*    Allow deletes. Keep a log of deletes and backups. Don't allow delete when something isn't backed up?
+	*    Allow hiding so an item doesn't close the list but can be seen in the right category with show all and also the hidden category
