@@ -390,8 +390,9 @@ public class MainActivity extends ActivityBase {
     void shareFile(String filePath) {
 
         Uri uri = FileProvider.getUriForFile(this,
-                this.getApplicationContext().getPackageName() + ".provider2",
-                new File(filePath));
+                this.getApplicationContext().getPackageName() + ".provider",
+                new File(filePath)
+                );
 
         File f = new File(filePath);
 
