@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/android-filteredcursor/src/main/res/layout/main.xml" value="0.1" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/add_item.xml" value="0.264" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/category_group_edit.xml" value="0.17755825734549138" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/edit_description.xml" value="0.17755825734549138" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/edit_lookup.xml" value="0.17755825734549138" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/main.xml" value="0.17755825734549138" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/short_spinner_dropdown_item.xml" value="0.17755825734549138" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/single_history.xml" value="0.17755825734549138" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/spinner_row.xml" value="0.17755825734549138" />
+        <entry key="..\:/Data/Dropbox/Prog/Android/DailyDo/res/layout/title_bar.xml" value="0.17755825734549138" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
 </project>

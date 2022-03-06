@@ -191,8 +191,10 @@ public class AddItemActivity extends ActivityBase {
             //Inflate the view from a predefined XML layout
             final View layout = inflater.inflate(R.layout.edit_lookup,
                     (ViewGroup) findViewById(R.id.edit_lookup_root));
-            // create a 300px width and 470px height PopupWindow
-            pw = new PopupWindow(layout, 300, 470, true);
+            // this broke on new phones in 2019
+            // probably because it became too small for higher resolutions
+            // TODO: make as percent of width & height
+            pw = new PopupWindow(layout, 900, 1200, true);
             // display the popup in the center
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 

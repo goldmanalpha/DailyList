@@ -14,7 +14,7 @@ buildscript {
      * of the Gradle plugin for the buildscript.
      */
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:7.1.2'
     }
 
 }
@@ -50,7 +50,7 @@ allprojects {
  * following line includes all the JAR files in the libs directory.
  */
 dependencies {
-    implementation project(path: ':android-filteredcursor')
+    // implementation project(path: ':android-filteredcursor')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.nononsenseapps:filepicker:4.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -68,7 +68,7 @@ android {
     defaultConfig {
         minSdkVersion 26 //local dates
         //noinspection OldTargetApi
-        targetSdkVersion 29 // Android 10 -- Note 10 2021
+        targetSdkVersion 32 // ide rec
         compileSdkVersion 30 // latest Jan 2021: avoids using deprecating apis
     }
 
@@ -109,12 +109,12 @@ android {
         viewBinding true
     }
 
-    lintOptions {
-        baseline file("lint-baseline.xml")
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lint {
+        baseline file('lint-baseline.xml')
     }
 }
